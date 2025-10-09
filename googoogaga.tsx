@@ -175,8 +175,9 @@ export default function CombinedGlossary() {
     const canvas = canvasRef.current;
     if (!canvas || nodes.length > 0) return;
 
-    const width = canvas.width;
-    const height = canvas.height;
+    const rect = canvas.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
 
     const initialNodes = glossaryData.map(() => ({
       x: width / 2 + (Math.random() - 0.5) * 400,
@@ -193,6 +194,13 @@ export default function CombinedGlossary() {
   useEffect(() => {
     if (view !== 'graph' || nodes.length === 0) return;
 
+    // ADJUST THESE VALUES TO CONTROL GRAPH BEHAVIOR:
+    const DAMPING = 0.85;              // Lower = slower movement (0.8-0.95)
+    const CENTER_FORCE = 0.0003;       // Strength of pull to center
+    const REPULSION = 2000;            // How much nodes push apart
+    const LINK_DISTANCE = 150;         // Ideal distance between connected nodes
+    const LINK_STRENGTH = 0.008;       // How strongly links pull nodes together
+
     const simulate = () => {
       setNodes(prevNodes => {
         const newNodes = prevNodes.map((node, i) => ({ 
@@ -205,10 +213,12 @@ export default function CombinedGlossary() {
           
           if (draggedNode && draggedNode.id === node.id) continue;
 
-          const centerX = canvasRef.current.width / 2;
-          const centerY = canvasRef.current.height / 2;
-          const toCenterX = (centerX - node.x) * 0.0005;
-          const toCenterY = (centerY - node.y) * 0.0005;
+          const canvas = canvasRef.current;
+          const rect = canvas.getBoundingClientRect();
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const toCenterX = (centerX - node.x) * CENTER_FORCE;
+          const toCenterY = (centerY - node.y) * CENTER_FORCE;
           node.vx += toCenterX;
           node.vy += toCenterY;
 
@@ -218,7 +228,7 @@ export default function CombinedGlossary() {
             const dx = node.x - other.x;
             const dy = node.y - other.y;
             const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-            const force = 2000 / (dist * dist);
+            const force = REPULSION / (dist * dist);
             node.vx += (dx / dist) * force;
             node.vy += (dy / dist) * force;
           }
@@ -230,15 +240,15 @@ export default function CombinedGlossary() {
                 const dx = linked.x - node.x;
                 const dy = linked.y - node.y;
                 const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                const force = (dist - 150) * 0.01;
+                const force = (dist - LINK_DISTANCE) * LINK_STRENGTH;
                 node.vx += (dx / dist) * force;
                 node.vy += (dy / dist) * force;
               }
             });
           }
 
-          node.vx *= 0.9;
-          node.vy *= 0.9;
+          node.vx *= DAMPING;
+          node.vy *= DAMPING;
           node.x += node.vx;
           node.y += node.vy;
         }
@@ -265,11 +275,29 @@ export default function CombinedGlossary() {
     const canvas = canvasRef.current;
     if (!canvas || nodes.length === 0) return;
 
-    const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
+    // Set canvas size to match display size
+    const updateCanvasSize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+    };
 
+    updateCanvasSize();
+    window.addEventListener('resize', updateCanvasSize);
+
+    const ctx = canvas.getContext('2d');
+    const getCanvasSize = () => {
+      const rect = canvas.getBoundingClientRect();
+      return { width: rect.width, height: rect.height };
+    };
+
+    let animationId;
     const draw = () => {
+      const { width, height } = getCanvasSize();
+      const dpr = window.devicePixelRatio || 1;
       ctx.clearRect(0, 0, width, height);
       
       ctx.save();
@@ -367,10 +395,17 @@ export default function CombinedGlossary() {
       });
 
       ctx.restore();
-      requestAnimationFrame(draw);
+      animationId = requestAnimationFrame(draw);
     };
 
     draw();
+
+    return () => {
+      window.removeEventListener('resize', updateCanvasSize);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
   }, [view, nodes, selectedNode, hoveredNode, zoom, pan, searchQuery, selectedTags]);
 
   // Graph mouse interactions
@@ -645,8 +680,6 @@ export default function CombinedGlossary() {
             <>
               <canvas
                 ref={canvasRef}
-                width={1200}
-                height={800}
                 className="w-full h-full cursor-grab active:cursor-grabbing"
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
