@@ -13,6 +13,9 @@ interface SearchOverlayProps {
     highlightedIndex: number;
     onSelectTerm: (term: GlossaryTerm) => void;
     view: 'graph' | 'list';
+    viewMode: 'explore' | 'viewAll';
+    searchOnlyDiscovered: boolean;
+    onToggleSearchMode: () => void;
 }
 
 export default function SearchOverlay({
@@ -23,15 +26,18 @@ export default function SearchOverlay({
   filteredResults,
   highlightedIndex,
   onSelectTerm,
-  view
+  view,
+  viewMode,
+  searchOnlyDiscovered,
+  onToggleSearchMode
 }: SearchOverlayProps) {
     const searchInputRef = useRef<HTMLInputElement>(null);
-    
-    const highlightMatch = (text, query) => {
+
+    const highlightMatch = (text: string, query: string) => {
     if (!query.trim() || view === 'list') return text;
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
-    return parts.map((part, i) => 
-      part.toLowerCase() === query.toLowerCase() 
+    return parts.map((part, i) =>
+      part.toLowerCase() === query.toLowerCase()
         ? <mark key={i} className="bg-yellow-200 text-gray-900">{part}</mark>
         : part
     );
@@ -71,6 +77,21 @@ export default function SearchOverlay({
                         </button>
                       )}
                     </div>
+
+                    {/* Search mode toggle (only in explore mode) */}
+                    {viewMode === 'explore' && (
+                      <div className="px-4 py-2 border-b border-slate-700 bg-slate-800/50">
+                        <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={searchOnlyDiscovered}
+                            onChange={onToggleSearchMode}
+                            className="w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-800"
+                          />
+                          <span>Search only discovered terms</span>
+                        </label>
+                      </div>
+                    )}
         
                     <div className="max-h-96 overflow-y-auto">
                       {searchQuery.trim() === '' ? (

@@ -6,7 +6,7 @@ import { GlossaryTerm, tagColors, tagColorClasses } from '@/data/glossaryData';
 
 interface GraphViewProps {
   nodes: any[];
-  setNodes: (nodes: any[]) => void;
+  setNodes: React.Dispatch<React.SetStateAction<any[]>>;
   selectedNode: GlossaryTerm | null;
   setSelectedNode: (node: GlossaryTerm | null) => void;
   hoveredNode: GlossaryTerm | null;
@@ -15,7 +15,7 @@ interface GraphViewProps {
   setDraggedNode: (node: any) => void;
   zoom: number;
   pan: { x: number; y: number };
-  setPan: (pan: { x: number; y: number }) => void;
+  setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
   searchQuery: string;
   selectedTags: string[];
   glossaryData: GlossaryTerm[];
@@ -42,25 +42,33 @@ export default function GraphView({
   const isPanning = useRef(false);
   const lastPanPos = useRef({ x: 0, y: 0 });
 
-  // Initialize nodes
+  // Initialize nodes when glossaryData changes
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || nodes.length > 0) return;
+    if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
 
-    const initialNodes = glossaryData.map(() => ({
-      x: width / 2 + (Math.random() - 0.5) * 400,
-      y: height / 2 + (Math.random() - 0.5) * 400,
-      vx: 0,
-      vy: 0,
-      radius: 8
-    }));
+    // Create nodes for all glossary items, merging with existing positions if available
+    const newNodes = glossaryData.map((term, i) => {
+      const existingNode = nodes.find(n => n.id === term.id);
+      return existingNode ? {
+        ...existingNode,
+        ...term
+      } : {
+        ...term,
+        x: width / 2 + (Math.random() - 0.5) * 400,
+        y: height / 2 + (Math.random() - 0.5) * 400,
+        vx: 0,
+        vy: 0,
+        radius: 8
+      };
+    });
 
-    setNodes(initialNodes);
-  }, [nodes.length, glossaryData, setNodes]);
+    setNodes(newNodes);
+  }, [glossaryData.length, setNodes]); // Only depend on length, not the whole array
 
   // Physics simulation
   useEffect(() => {
@@ -74,12 +82,10 @@ export default function GraphView({
     const LINK_STRENGTH = 0.008;       // How strongly links pull nodes together
 
     const simulate = () => {
-      setNodes(prevNodes => {
-        const newNodes = prevNodes.map((node, i) => ({ 
-          ...node,
-          ...glossaryData[i]
-        }));
-        
+      setNodes((prevNodes: any[]) => {
+        // Don't modify node data, just update physics
+        const newNodes = [...prevNodes];
+
         for (let i = 0; i < newNodes.length; i++) {
           const node = newNodes[i];
           
@@ -107,19 +113,23 @@ export default function GraphView({
             node.vy += (dy / dist) * force;
           }
 
-          if (node.links && Array.isArray(node.links)) {
-            node.links.forEach((linkId: string) => {
-              const linked = newNodes.find(n => n.id === linkId);
-              if (linked) {
-                const dx = linked.x - node.x;
-                const dy = linked.y - node.y;
-                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                const force = (dist - LINK_DISTANCE) * LINK_STRENGTH;
-                node.vx += (dx / dist) * force;
-                node.vy += (dy / dist) * force;
-              }
-            });
-          }
+          // Combine manual links and auto-detected links
+          const allLinks = [
+            ...(node.links || []),
+            ...(node.autoLinks || [])
+          ];
+
+          allLinks.forEach((linkId: string) => {
+            const linked = newNodes.find(n => n.id === linkId);
+            if (linked) {
+              const dx = linked.x - node.x;
+              const dy = linked.y - node.y;
+              const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+              const force = (dist - LINK_DISTANCE) * LINK_STRENGTH;
+              node.vx += (dx / dist) * force;
+              node.vy += (dy / dist) * force;
+            }
+          });
 
           node.vx *= DAMPING;
           node.vy *= DAMPING;
@@ -140,7 +150,7 @@ export default function GraphView({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [nodes.length, draggedNode, glossaryData, setNodes]);
+  }, [nodes.length, draggedNode, setNodes]);
 
   // Drawing
   useEffect(() => {
@@ -188,21 +198,25 @@ export default function GraphView({
         return matchesSearch && matchesTags;
       });
 
-      // Draw links
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.2)';
+      // Draw links (both manual and auto-detected)
       ctx.lineWidth = 1.5;
       filteredNodes.forEach(node => {
-        if (node.links && Array.isArray(node.links)) {
-          node.links.forEach((linkId: string) => {
-            const linked = nodes.find(n => n.id === linkId);
-            if (linked && filteredNodes.includes(linked)) {
-              ctx.beginPath();
-              ctx.moveTo(node.x, node.y);
-              ctx.lineTo(linked.x, linked.y);
-              ctx.stroke();
-            }
-          });
-        }
+        // Combine manual and auto links
+        const allLinks = [
+          ...(node.links || []),
+          ...(node.autoLinks || [])
+        ];
+
+        allLinks.forEach((linkId: string) => {
+          const linked = nodes.find(n => n.id === linkId);
+          if (linked && filteredNodes.includes(linked)) {
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.2)';
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(linked.x, linked.y);
+            ctx.stroke();
+          }
+        });
       });
 
       // Highlight selected node connections
@@ -210,8 +224,14 @@ export default function GraphView({
         ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
         ctx.lineWidth = 2.5;
         const selected = nodes.find(n => n.id === selectedNode.id);
-        if (selected && selected.links && Array.isArray(selected.links)) {
-          selected.links.forEach((linkId: string) => {
+        if (selected) {
+          // Combine manual and auto links for highlighting
+          const allLinks = [
+            ...(selected.links || []),
+            ...(selected.autoLinks || [])
+          ];
+
+          allLinks.forEach((linkId: string) => {
             const linked = nodes.find(n => n.id === linkId);
             if (linked) {
               ctx.beginPath();
@@ -330,7 +350,7 @@ export default function GraphView({
     } else if (isPanning.current) {
       const dx = e.clientX - lastPanPos.current.x;
       const dy = e.clientY - lastPanPos.current.y;
-      setPan(prev => ({ x: prev.x + dx, y: prev.y + dy }));
+      setPan((prev: { x: number; y: number }) => ({ x: prev.x + dx, y: prev.y + dy }));
       lastPanPos.current = { x: e.clientX, y: e.clientY };
     } else {
       const hovered = nodes.find(node => {

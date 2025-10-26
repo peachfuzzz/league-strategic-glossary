@@ -1,27 +1,91 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Menu } from 'lucide-react';
+import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Menu, Eye, BookOpen, RotateCcw, Shuffle, HelpCircle } from 'lucide-react';
 import { glossaryData, GlossaryTerm } from '@/data/glossaryData';
 import GraphView from './GraphView';
 import ListView from './ListView';
 import SearchOverlay from './SearchOverlay';
 import TagSidebar from './TagSidebar';
+import HelpCard from './HelpCard';
+
+// LocalStorage keys
+const STORAGE_KEYS = {
+  VIEW_MODE: 'glossary_viewMode',
+  DISCOVERED_TERMS: 'glossary_discoveredTerms',
+  STARTING_TERM: 'glossary_startingTerm',
+  SEARCH_MODE: 'glossary_searchOnlyDiscovered',
+  HAS_SEEN_HELP: 'glossary_hasSeenHelp'
+};
+
+// Utility functions for localStorage
+const loadFromStorage = <T,>(key: string, defaultValue: T): T => {
+  if (typeof window === 'undefined') return defaultValue;
+  try {
+    const item = window.localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch {
+    return defaultValue;
+  }
+};
+
+const saveToStorage = (key: string, value: any) => {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Ignore storage errors
+  }
+};
+
+const getRandomTerm = (): string => {
+  const randomIndex = Math.floor(Math.random() * glossaryData.length);
+  return glossaryData[randomIndex].id;
+};
 
 export default function GlossaryGraph() {
+  // Hydration-safe mounting state
+  const [mounted, setMounted] = useState(false);
+
   // View state
   const [view, setView] = useState<'graph' | 'list'>('graph');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  // Help card state
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+
+  // Discovery mode state (use defaults initially for SSR)
+  const [viewMode, setViewMode] = useState<'explore' | 'viewAll'>('explore');
+  const [startingTermId, setStartingTermId] = useState<string>('last-hit');
+  const [discoveredTerms, setDiscoveredTerms] = useState<Set<string>>(new Set(['last-hit']));
+  const [searchOnlyDiscovered, setSearchOnlyDiscovered] = useState(false);
+
+  // Load from storage after mount and show help if first visit
+  useEffect(() => {
+    setViewMode(loadFromStorage(STORAGE_KEYS.VIEW_MODE, 'explore'));
+    setStartingTermId(loadFromStorage(STORAGE_KEYS.STARTING_TERM, 'last-hit'));
+    const savedTerms = loadFromStorage<string[]>(STORAGE_KEYS.DISCOVERED_TERMS, ['last-hit']);
+    setDiscoveredTerms(new Set(savedTerms.length > 0 ? savedTerms : ['last-hit']));
+    setSearchOnlyDiscovered(loadFromStorage(STORAGE_KEYS.SEARCH_MODE, false));
+
+    // Show help on first visit
+    const hasSeenHelp = loadFromStorage(STORAGE_KEYS.HAS_SEEN_HELP, false);
+    if (!hasSeenHelp) {
+      setIsHelpOpen(true);
+    }
+
+    setMounted(true);
+  }, []);
+
   // Selection and interaction state
   const [selectedNode, setSelectedNode] = useState<GlossaryTerm | null>(null);
   const [hoveredNode, setHoveredNode] = useState<GlossaryTerm | null>(null);
-  
+
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
-  
+
   // Filter state
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -31,37 +95,105 @@ export default function GlossaryGraph() {
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
 
+  // Persist state to localStorage
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.VIEW_MODE, viewMode);
+  }, [viewMode]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.DISCOVERED_TERMS, Array.from(discoveredTerms));
+  }, [discoveredTerms]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.STARTING_TERM, startingTermId);
+  }, [startingTermId]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.SEARCH_MODE, searchOnlyDiscovered);
+  }, [searchOnlyDiscovered]);
+
   // Derived data
   const allTags = [...new Set(glossaryData.flatMap(term => term.tags))].sort();
 
-  const filteredSearchResults = searchQuery.trim() === '' 
-    ? [] 
-    : glossaryData.filter(term => 
+  // Base glossary data (filtered by discovery in explore mode)
+  const baseGlossaryData = viewMode === 'explore'
+    ? glossaryData.filter(term => discoveredTerms.has(term.id))
+    : glossaryData;
+
+  // Search results (respects searchOnlyDiscovered toggle in explore mode)
+  const searchPool = viewMode === 'explore' && searchOnlyDiscovered
+    ? baseGlossaryData
+    : glossaryData;
+
+  const filteredSearchResults = searchQuery.trim() === ''
+    ? []
+    : searchPool.filter(term =>
         term.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
         term.definition.toLowerCase().includes(searchQuery.toLowerCase()) ||
         term.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
       );
 
-  const filteredListTerms = glossaryData
+  const filteredListTerms = baseGlossaryData
     .filter(term => {
-      const matchesSearch = searchQuery === '' || 
+      const matchesSearch = searchQuery === '' ||
         term.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
         term.definition.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesTags = selectedTags.length === 0 || 
+      const matchesTags = selectedTags.length === 0 ||
         selectedTags.some(tag => term.tags.includes(tag));
       return matchesSearch && matchesTags;
     })
     .sort((a, b) => a.term.localeCompare(b.term));
 
+  // Discovery stats
+  const discoveryCount = discoveredTerms.size;
+  const totalCount = glossaryData.length;
+
   // Handlers
+  const handleDiscoverTerm = (termId: string) => {
+    if (viewMode === 'explore') {
+      setDiscoveredTerms(prev => new Set([...prev, termId]));
+      // Auto-select the newly discovered term
+      const term = glossaryData.find(t => t.id === termId);
+      if (term) setSelectedNode(term);
+    }
+  };
+
+  const handleResetDiscoveries = () => {
+    setDiscoveredTerms(new Set([startingTermId]));
+    setSelectedNode(null);
+    setNodes([]);
+  };
+
+  const handleRerollStartingTerm = () => {
+    const newStartingTerm = getRandomTerm();
+    setStartingTermId(newStartingTerm);
+    setDiscoveredTerms(new Set([newStartingTerm]));
+    setSelectedNode(null);
+    setNodes([]);
+  };
+
+  const toggleViewMode = () => {
+    setViewMode(prev => prev === 'explore' ? 'viewAll' : 'explore');
+  };
+
+  const handleCloseHelp = () => {
+    setIsHelpOpen(false);
+    saveToStorage(STORAGE_KEYS.HAS_SEEN_HELP, true);
+  };
+
   const toggleTag = (tag: string) => {
-    setSelectedTags(prev => 
+    setSelectedTags(prev =>
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     );
   };
 
   const handleSelectTerm = (term: GlossaryTerm) => {
-    setSelectedNode(term);
+    // In explore mode, discover term when selected via search
+    if (viewMode === 'explore' && !discoveredTerms.has(term.id)) {
+      handleDiscoverTerm(term.id);
+    } else {
+      setSelectedNode(term);
+    }
     setIsSearchOpen(false);
     setSearchQuery('');
     setHighlightedIndex(0);
@@ -116,7 +248,7 @@ export default function GlossaryGraph() {
   return (
     <div className="h-screen bg-slate-900 flex flex-col">
       {/* Header */}
-      <header className="bg-slate-800 border-b border-slate-700 px-4 py-3 flex items-center gap-4 flex-shrink-0">
+      <header className="bg-slate-800 border-b border-slate-700 px-4 py-3 flex items-center gap-3 flex-shrink-0 flex-wrap">
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors"
@@ -125,13 +257,61 @@ export default function GlossaryGraph() {
         </button>
 
         <h1 className="text-xl font-bold text-white">LoL Glossary</h1>
-        
+
+        {/* View Mode Toggle */}
+        <button
+          onClick={toggleViewMode}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+            viewMode === 'explore'
+              ? 'bg-blue-600 text-white hover:bg-blue-700'
+              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+          }`}
+          title={viewMode === 'explore' ? 'Switch to View All' : 'Switch to Explore Mode'}
+        >
+          {viewMode === 'explore' ? (
+            <>
+              <Eye size={16} />
+              <span className="hidden sm:inline">
+                Explore: {mounted ? `${discoveryCount}/${totalCount}` : '...'}
+              </span>
+              <span className="sm:hidden">
+                {mounted ? `${discoveryCount}/${totalCount}` : '...'}
+              </span>
+            </>
+          ) : (
+            <>
+              <BookOpen size={16} />
+              <span className="hidden sm:inline">View All</span>
+            </>
+          )}
+        </button>
+
+        {/* Discovery Controls (only in explore mode) */}
+        {viewMode === 'explore' && (
+          <>
+            <button
+              onClick={handleResetDiscoveries}
+              className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg transition-colors"
+              title="Reset discoveries (keep starting term)"
+            >
+              <RotateCcw size={16} />
+            </button>
+            <button
+              onClick={handleRerollStartingTerm}
+              className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg transition-colors"
+              title="Reroll starting term"
+            >
+              <Shuffle size={16} />
+            </button>
+          </>
+        )}
+
         <div className="flex items-center gap-2 bg-slate-700 rounded-lg p-1">
           <button
             onClick={() => setView('list')}
             className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-              view === 'list' 
-                ? 'bg-slate-600 text-white' 
+              view === 'list'
+                ? 'bg-slate-600 text-white'
                 : 'text-slate-300 hover:text-white'
             }`}
           >
@@ -141,8 +321,8 @@ export default function GlossaryGraph() {
           <button
             onClick={() => setView('graph')}
             className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-              view === 'graph' 
-                ? 'bg-slate-600 text-white' 
+              view === 'graph'
+                ? 'bg-slate-600 text-white'
                 : 'text-slate-300 hover:text-white'
             }`}
           >
@@ -160,6 +340,14 @@ export default function GlossaryGraph() {
           <kbd className="hidden md:inline-block px-2 py-0.5 text-xs bg-slate-600 rounded border border-slate-500">
             ⌘K
           </kbd>
+        </button>
+
+        <button
+          onClick={() => setIsHelpOpen(true)}
+          className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg transition-colors"
+          title="Help"
+        >
+          <HelpCircle size={18} />
         </button>
 
         {view === 'graph' && (
@@ -214,7 +402,7 @@ export default function GlossaryGraph() {
               setPan={setPan}
               searchQuery={searchQuery}
               selectedTags={selectedTags}
-              glossaryData={glossaryData}
+              glossaryData={baseGlossaryData}
             />
           ) : (
             <ListView
@@ -222,6 +410,9 @@ export default function GlossaryGraph() {
               selectedNode={selectedNode}
               setSelectedNode={setSelectedNode}
               glossaryData={glossaryData}
+              onDiscoverTerm={handleDiscoverTerm}
+              viewMode={viewMode}
+              discoveredTerms={discoveredTerms}
             />
           )}
         </div>
@@ -239,6 +430,15 @@ export default function GlossaryGraph() {
         filteredResults={filteredSearchResults}
         highlightedIndex={highlightedIndex}
         onSelectTerm={handleSelectTerm}
+        view={view}
+        viewMode={viewMode}
+        searchOnlyDiscovered={searchOnlyDiscovered}
+        onToggleSearchMode={() => setSearchOnlyDiscovered(!searchOnlyDiscovered)}
+      />
+
+      <HelpCard
+        isOpen={isHelpOpen}
+        onClose={handleCloseHelp}
       />
     </div>
   );
