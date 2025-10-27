@@ -88,6 +88,7 @@ export default function GlossaryGraph() {
 
   // Filter state
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [hoveredTag, setHoveredTag] = useState<string | null>(null);
 
   // Graph-specific state
   const [nodes, setNodes] = useState<any[]>([]);
@@ -139,7 +140,7 @@ export default function GlossaryGraph() {
         term.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
         term.definition.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesTags = selectedTags.length === 0 ||
-        selectedTags.some(tag => term.tags.includes(tag));
+        selectedTags.every(tag => term.tags.includes(tag));
       return matchesSearch && matchesTags;
     })
     .sort((a, b) => a.term.localeCompare(b.term));
@@ -384,6 +385,7 @@ export default function GlossaryGraph() {
           selectedTags={selectedTags}
           onToggleTag={toggleTag}
           onClearTags={() => setSelectedTags([])}
+          hoveredTag={hoveredTag}
         />
 
         <div className="flex-1 relative overflow-hidden">
@@ -407,6 +409,9 @@ export default function GlossaryGraph() {
               viewMode={viewMode}
               onDiscoverTerm={handleDiscoverTerm}
               discoveredTerms={discoveredTerms}
+              hoveredTag={hoveredTag}
+              setHoveredTag={setHoveredTag}
+              onToggleTag={toggleTag}
             />
           ) : (
             <ListView
@@ -417,6 +422,9 @@ export default function GlossaryGraph() {
               onDiscoverTerm={handleDiscoverTerm}
               viewMode={viewMode}
               discoveredTerms={discoveredTerms}
+              hoveredTag={hoveredTag}
+              setHoveredTag={setHoveredTag}
+              onToggleTag={toggleTag}
             />
           )}
         </div>

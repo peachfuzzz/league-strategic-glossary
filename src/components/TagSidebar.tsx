@@ -9,6 +9,7 @@ interface TagSidebarProps {
   selectedTags: string[];
   onToggleTag: (tag: string) => void;
   onClearTags: () => void;
+  hoveredTag: string | null;
 }
 
 export default function TagSidebar({
@@ -16,7 +17,8 @@ export default function TagSidebar({
   allTags,
   selectedTags,
   onToggleTag,
-  onClearTags
+  onClearTags,
+  hoveredTag
 }: TagSidebarProps) {
   return (
     <aside className={`${isOpen ? 'w-64' : 'w-0'} bg-slate-800 border-r border-slate-700 overflow-hidden transition-all duration-300 flex-shrink-0`}>
@@ -27,15 +29,17 @@ export default function TagSidebar({
             <button
               key={tag}
               onClick={() => onToggleTag(tag)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all ${
                 selectedTags.includes(tag)
                   ? 'bg-blue-600 text-white'
                   : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              } ${
+                hoveredTag === tag ? 'ring-2 ring-white' : ''
               }`}
             >
               <div className="flex items-center gap-2">
-                <div 
-                  className="w-3 h-3 rounded-full flex-shrink-0" 
+                <div
+                  className="w-3 h-3 rounded-full flex-shrink-0"
                   style={{ backgroundColor: tagColors[tag] || '#64748b' }}
                 />
                 <span className="truncate">{tag}</span>

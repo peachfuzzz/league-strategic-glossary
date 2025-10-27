@@ -23,6 +23,9 @@ interface GraphViewProps {
   viewMode: 'explore' | 'viewAll';
   onDiscoverTerm: (termId: string) => void;
   discoveredTerms: Set<string>;
+  hoveredTag: string | null;
+  setHoveredTag: (tag: string | null) => void;
+  onToggleTag: (tag: string) => void;
 }
 
 export default function GraphView({
@@ -43,7 +46,10 @@ export default function GraphView({
   allGlossaryData,
   viewMode,
   onDiscoverTerm,
-  discoveredTerms
+  discoveredTerms,
+  hoveredTag,
+  setHoveredTag,
+  onToggleTag
 }: GraphViewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
@@ -284,10 +290,10 @@ export default function GraphView({
 
       const filteredNodes = nodes.filter(node => {
         if (!node.term || !node.tags) return false;
-        const matchesSearch = searchQuery === '' || 
+        const matchesSearch = searchQuery === '' ||
           node.term.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesTags = selectedTags.length === 0 || 
-          selectedTags.some((tag: string) => node.tags.includes(tag));
+        const matchesTags = selectedTags.length === 0 ||
+          selectedTags.every((tag: string) => node.tags.includes(tag));
         return matchesSearch && matchesTags;
       });
 
@@ -557,8 +563,16 @@ export default function GraphView({
                   <div
                     key={tag}
                     title={tag}
-                    className="w-3 h-3 rounded-full cursor-help"
+                    className={`w-3 h-3 rounded-full cursor-pointer transition-all ${
+                      hoveredTag === tag ? 'ring-2 ring-white ring-offset-1 ring-offset-slate-800' : ''
+                    }`}
                     style={{ backgroundColor: tagColors[tag] || '#64748b' }}
+                    onMouseEnter={() => setHoveredTag(tag)}
+                    onMouseLeave={() => setHoveredTag(null)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleTag(tag);
+                    }}
                   />
                 ))}
               </div>

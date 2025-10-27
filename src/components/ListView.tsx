@@ -12,6 +12,9 @@ interface ListViewProps {
   onDiscoverTerm: (termId: string) => void;
   viewMode: 'explore' | 'viewAll';
   discoveredTerms?: Set<string>;
+  hoveredTag: string | null;
+  setHoveredTag: (tag: string | null) => void;
+  onToggleTag: (tag: string) => void;
 }
 
 export default function ListView({
@@ -21,7 +24,10 @@ export default function ListView({
   glossaryData,
   onDiscoverTerm,
   viewMode,
-  discoveredTerms = new Set()
+  discoveredTerms = new Set(),
+  hoveredTag,
+  setHoveredTag,
+  onToggleTag
 }: ListViewProps) {
   // Render definition with inline autolinks
   const renderDefinitionWithLinks = (term: GlossaryTerm) => {
@@ -130,7 +136,17 @@ export default function ListView({
                           {term.tags.map(tag => (
                             <span
                               key={tag}
-                              className={`px-2 py-0.5 text-xs rounded-full text-white ${tagColorClasses[tag] || 'bg-gray-600'}`}
+                              className={`px-2 py-0.5 text-xs rounded-full text-white cursor-pointer transition-all ${
+                                tagColorClasses[tag] || 'bg-gray-600'
+                              } ${
+                                hoveredTag === tag ? 'ring-2 ring-white ring-offset-1 ring-offset-slate-800' : ''
+                              }`}
+                              onMouseEnter={() => setHoveredTag(tag)}
+                              onMouseLeave={() => setHoveredTag(null)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onToggleTag(tag);
+                              }}
                             >
                               {tag}
                             </span>
