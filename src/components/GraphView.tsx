@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
-import { GlossaryTerm, tagColors, tagColorClasses } from '@/data/glossaryData';
+import { GlossaryTerm, tagColors } from '@/data/glossaryData';
 
 interface GraphViewProps {
   nodes: any[];
@@ -19,6 +19,10 @@ interface GraphViewProps {
   searchQuery: string;
   selectedTags: string[];
   glossaryData: GlossaryTerm[];
+  allGlossaryData: GlossaryTerm[];
+  viewMode: 'explore' | 'viewAll';
+  onDiscoverTerm: (termId: string) => void;
+  discoveredTerms: Set<string>;
 }
 
 export default function GraphView({
@@ -35,12 +39,101 @@ export default function GraphView({
   setPan,
   searchQuery,
   selectedTags,
-  glossaryData
+  glossaryData,
+  allGlossaryData,
+  viewMode,
+  onDiscoverTerm,
+  discoveredTerms
 }: GraphViewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
   const isPanning = useRef(false);
   const lastPanPos = useRef({ x: 0, y: 0 });
+
+  // Render definition with inline autolinks
+  const renderDefinitionWithLinks = (term: GlossaryTerm) => {
+    if (!term.autoLinks || term.autoLinks.length === 0) {
+      return <p className="text-slate-300 text-sm mb-3">{term.definition}</p>;
+    }
+
+    // Build a map of term IDs to their display names and positions in text
+    const linkMap = new Map<string, { term: GlossaryTerm; pattern: RegExp }>();
+    term.autoLinks.forEach(linkId => {
+      const linkedTerm = allGlossaryData.find(t => t.id === linkId);
+      if (linkedTerm) {
+        // Create regex that matches the term (case-insensitive, whole word)
+        const escapedTerm = linkedTerm.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const pattern = new RegExp(`\\b${escapedTerm}\\b`, 'gi');
+        linkMap.set(linkId, { term: linkedTerm, pattern });
+      }
+    });
+
+    // Find all matches and their positions
+    const matches: Array<{ start: number; end: number; linkId: string; text: string }> = [];
+    linkMap.forEach((value, linkId) => {
+      let match;
+      while ((match = value.pattern.exec(term.definition)) !== null) {
+        matches.push({
+          start: match.index,
+          end: match.index + match[0].length,
+          linkId,
+          text: match[0]
+        });
+      }
+    });
+
+    // Sort matches by position
+    matches.sort((a, b) => a.start - b.start);
+
+    // Build the JSX with links
+    const parts: React.ReactNode[] = [];
+    let lastIndex = 0;
+
+    matches.forEach((match, i) => {
+      // Skip overlapping matches
+      if (match.start < lastIndex) return;
+
+      // Add text before the match
+      if (match.start > lastIndex) {
+        parts.push(term.definition.substring(lastIndex, match.start));
+      }
+
+      // Add the link
+      const linkedTerm = linkMap.get(match.linkId)?.term;
+      if (linkedTerm) {
+        const isDiscovered = discoveredTerms.has(linkedTerm.id);
+        parts.push(
+          <button
+            key={`${match.linkId}-${i}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (viewMode === 'explore') {
+                onDiscoverTerm(linkedTerm.id);
+              } else {
+                setSelectedNode(linkedTerm);
+              }
+            }}
+            className={`underline decoration-2 underline-offset-2 hover:text-blue-400 transition-colors ${
+              isDiscovered
+                ? 'text-blue-300'
+                : 'text-slate-300'
+            }`}
+          >
+            {match.text}
+          </button>
+        );
+      }
+
+      lastIndex = match.end;
+    });
+
+    // Add remaining text
+    if (lastIndex < term.definition.length) {
+      parts.push(term.definition.substring(lastIndex));
+    }
+
+    return <p className="text-slate-300 text-sm mb-3">{parts}</p>;
+  };
 
   // Initialize nodes when glossaryData changes
   useEffect(() => {
@@ -75,7 +168,7 @@ export default function GraphView({
     if (nodes.length === 0) return;
 
     // ADJUST THESE VALUES TO CONTROL GRAPH BEHAVIOR:
-    const DAMPING = 0.85;              // Lower = slower movement (0.8-0.95)
+    const DAMPING = 0.80;              // Lower = slower movement (0.8-0.95)
     const CENTER_FORCE = 0.0003;       // Strength of pull to center
     const REPULSION = 2000;            // How much nodes push apart
     const LINK_DISTANCE = 150;         // Ideal distance between connected nodes
@@ -219,10 +312,44 @@ export default function GraphView({
         });
       });
 
+      // Draw "trail off" lines for undiscovered connections
+      filteredNodes.forEach(node => {
+        const allLinks = [
+          ...(node.links || []),
+          ...(node.autoLinks || [])
+        ];
+
+        // Find undiscovered links (links that don't have a node in filteredNodes)
+        const undiscoveredLinks = allLinks.filter(linkId => {
+          const linked = nodes.find(n => n.id === linkId);
+          return !linked || !filteredNodes.includes(linked);
+        });
+
+        if (undiscoveredLinks.length > 0) {
+          const trailLength = 40; // Length of the trail line
+          const angleStep = (Math.PI * 2) / undiscoveredLinks.length;
+
+          // Draw a trail line for each undiscovered connection
+          undiscoveredLinks.forEach((_linkId, index) => {
+            const angle = angleStep * index + (Math.PI / 4); // Offset for better distribution
+            const endX = node.x + Math.cos(angle) * trailLength;
+            const endY = node.y + Math.sin(angle) * trailLength;
+
+            // Draw faint dashed line
+            ctx.setLineDash([4, 4]);
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.30)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset dash pattern
+          });
+        }
+      });
+
       // Highlight selected node connections
       if (selectedNode) {
-        ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
-        ctx.lineWidth = 2.5;
         const selected = nodes.find(n => n.id === selectedNode.id);
         if (selected) {
           // Combine manual and auto links for highlighting
@@ -231,15 +358,45 @@ export default function GraphView({
             ...(selected.autoLinks || [])
           ];
 
+          // Draw discovered connections
+          ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
+          ctx.lineWidth = 2.5;
           allLinks.forEach((linkId: string) => {
             const linked = nodes.find(n => n.id === linkId);
-            if (linked) {
+            if (linked && filteredNodes.includes(linked)) {
               ctx.beginPath();
               ctx.moveTo(selected.x, selected.y);
               ctx.lineTo(linked.x, linked.y);
               ctx.stroke();
             }
           });
+
+          // Draw highlighted trail lines for undiscovered connections
+          const undiscoveredLinks = allLinks.filter(linkId => {
+            const linked = nodes.find(n => n.id === linkId);
+            return !linked || !filteredNodes.includes(linked);
+          });
+
+          if (undiscoveredLinks.length > 0) {
+            const trailLength = 50; // Slightly longer for selected node
+            const angleStep = (Math.PI * 2) / undiscoveredLinks.length;
+
+            undiscoveredLinks.forEach((_linkId, index) => {
+              const angle = angleStep * index + (Math.PI / 4);
+              const endX = selected.x + Math.cos(angle) * trailLength;
+              const endY = selected.y + Math.sin(angle) * trailLength;
+
+              // Draw more visible dashed line for selected node
+              ctx.setLineDash([5, 5]);
+              ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(selected.x, selected.y);
+              ctx.lineTo(endX, endY);
+              ctx.stroke();
+              ctx.setLineDash([]);
+            });
+          }
         }
       }
 
@@ -391,31 +548,62 @@ export default function GraphView({
       {/* Selected node info panel */}
       {selectedNode && (
         <div className="absolute bottom-4 right-4 bg-slate-800 border border-slate-700 rounded-lg p-4 max-w-sm shadow-xl">
-          <div className="flex items-start justify-between mb-2">
+          <div className="flex items-start justify-between gap-3 mb-2">
             <h3 className="text-lg font-bold text-white">{selectedNode.term}</h3>
-            <button
-              onClick={() => setSelectedNode(null)}
-              className="text-slate-400 hover:text-white transition-colors"
-            >
-              <X size={18} />
-            </button>
-          </div>
-          <p className="text-slate-300 text-sm mb-3">{selectedNode.definition}</p>
-          <div className="flex flex-wrap gap-1 mb-3">
-            {selectedNode.tags.map(tag => (
-              <span
-                key={tag}
-                className={`px-2 py-1 text-xs rounded-full text-white ${tagColorClasses[tag] || 'bg-gray-600'}`}
+            <div className="flex items-center gap-2">
+              {/* Tags as colored circles with tooltips */}
+              <div className="flex gap-1">
+                {selectedNode.tags.map(tag => (
+                  <div
+                    key={tag}
+                    title={tag}
+                    className="w-3 h-3 rounded-full cursor-help"
+                    style={{ backgroundColor: tagColors[tag] || '#64748b' }}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => setSelectedNode(null)}
+                className="text-slate-400 hover:text-white transition-colors"
               >
-                {tag}
-              </span>
-            ))}
+                <X size={18} />
+              </button>
+            </div>
           </div>
+
+          {/* Definition with inline autolinks */}
+          {renderDefinitionWithLinks(selectedNode)}
+
+          {/* Manual links (dashed border) */}
           {selectedNode.links.length > 0 && (
-            <div>
-              <h4 className="text-xs font-semibold text-slate-400 mb-1">
-                Connected to {selectedNode.links.length} terms
-              </h4>
+            <div className="flex flex-wrap gap-2 text-xs text-slate-400">
+              <span className="font-semibold">Also see:</span>
+              {selectedNode.links.map(linkId => {
+                const linkedTerm = allGlossaryData.find(t => t.id === linkId);
+                if (!linkedTerm) return null;
+
+                const isDiscovered = discoveredTerms.has(linkedTerm.id);
+                return (
+                  <span
+                    key={linkId}
+                    className={`px-2 py-0.5 rounded border-2 border-dashed transition-colors cursor-pointer ${
+                      isDiscovered
+                        ? 'bg-blue-700/30 border-blue-600 text-blue-300 hover:bg-blue-700/50'
+                        : 'bg-slate-700 border-slate-600 text-slate-300 hover:bg-slate-600'
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (viewMode === 'explore') {
+                        onDiscoverTerm(linkedTerm.id);
+                      } else {
+                        setSelectedNode(linkedTerm);
+                      }
+                    }}
+                  >
+                    {linkedTerm.term}
+                  </span>
+                );
+              })}
             </div>
           )}
         </div>

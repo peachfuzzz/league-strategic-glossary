@@ -403,6 +403,10 @@ export default function GlossaryGraph() {
               searchQuery={searchQuery}
               selectedTags={selectedTags}
               glossaryData={baseGlossaryData}
+              allGlossaryData={glossaryData}
+              viewMode={viewMode}
+              onDiscoverTerm={handleDiscoverTerm}
+              discoveredTerms={discoveredTerms}
             />
           ) : (
             <ListView
