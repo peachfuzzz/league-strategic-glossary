@@ -591,22 +591,29 @@ export default function GraphView({
             </div>
             <div className="flex items-center gap-2">
               {/* Tags as colored circles with tooltips */}
-              <div className="flex gap-1">
+              <div className="flex gap-1 relative">
                 {selectedNode.tags.map(tag => (
-                  <div
-                    key={tag}
-                    title={tag}
-                    className={`w-3 h-3 rounded-full cursor-pointer transition-all ${
-                      hoveredTag === tag ? 'ring-2 ring-white ring-offset-1 ring-offset-slate-800' : ''
-                    }`}
-                    style={{ backgroundColor: tagColors[tag] || '#64748b' }}
-                    onMouseEnter={() => setHoveredTag(tag)}
-                    onMouseLeave={() => setHoveredTag(null)}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onToggleTag(tag);
-                    }}
-                  />
+                  <div key={tag} className="relative">
+                    <div
+                      title={tag}
+                      className={`w-3 h-3 rounded-full cursor-pointer transition-all ${
+                        hoveredTag === tag ? 'ring-2 ring-white ring-offset-1 ring-offset-slate-800' : ''
+                      }`}
+                      style={{ backgroundColor: tagColors[tag] || '#64748b' }}
+                      onMouseEnter={() => setHoveredTag(tag)}
+                      onMouseLeave={() => setHoveredTag(null)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleTag(tag);
+                      }}
+                    />
+                    {/* Hover label */}
+                    {hoveredTag === tag && (
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 bg-slate-900 text-white text-xs rounded whitespace-nowrap pointer-events-none">
+                        {tag}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
               <button
