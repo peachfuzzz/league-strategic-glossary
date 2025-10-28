@@ -8,6 +8,7 @@ export interface GlossaryTerm {
   definition: string;
   tags: string[];
   links: string[];        // Manual links from frontmatter
+  alternates?: string[];  // Alternate names/forms (e.g., "OTP" for "one trick")
   autoLinks?: string[];   // Auto-detected links from definition text
   // Extensible for future additions
   extensions?: {
@@ -168,6 +169,20 @@ export const glossaryData: GlossaryTerm[] = [
       "cs",
       "lane",
       "wave"
+    ]
+  },
+  {
+    "id": "one-trick",
+    "term": "One-trick",
+    "definition": "A player who specializes in playing only one or a few champions at a very high level.",
+    "tags": [
+      "strategy",
+      "abstract-concept"
+    ],
+    "links": [],
+    "alternates": [
+      "OTP",
+      "one trick pony"
     ]
   },
   {

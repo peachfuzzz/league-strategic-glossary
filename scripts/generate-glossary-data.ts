@@ -16,6 +16,7 @@ interface TermData {
   definition: string;
   tags: string[];
   links: string[];
+  alternates?: string[];
   autoLinks?: string[];
   extensions?: Record<string, any>;
 }
@@ -50,6 +51,10 @@ function buildGlossaryData(): TermData[] {
       links: Array.isArray(data.links) ? data.links : [],
     };
 
+    if (data.alternates && Array.isArray(data.alternates)) {
+      term.alternates = data.alternates;
+    }
+
     if (data.extensions) {
       term.extensions = data.extensions;
     }
@@ -63,6 +68,7 @@ function buildGlossaryData(): TermData[] {
 /**
  * Detects mentions of other terms in each term's definition.
  * Uses whole-word, case-insensitive matching.
+ * Also checks for alternate forms (e.g., "OTP" for "one trick").
  */
 function detectAutoLinks(terms: TermData[]): void {
   console.log('🔍 Detecting automatic term links...');
@@ -78,12 +84,25 @@ function detectAutoLinks(terms: TermData[]): void {
       // Don't auto-link if already manually linked
       if (term.links.includes(otherTerm.id)) continue;
 
-      // Create a regex that matches the term as a whole word (case-insensitive)
-      // Escape special regex characters in the term
+      // Check the main term
       const escapedTerm = otherTerm.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const pattern = new RegExp(`\\b${escapedTerm}\\b`, 'i');
 
-      if (pattern.test(term.definition)) {
+      let found = pattern.test(term.definition);
+
+      // Also check alternate forms
+      if (!found && otherTerm.alternates && otherTerm.alternates.length > 0) {
+        for (const alternate of otherTerm.alternates) {
+          const escapedAlternate = alternate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const altPattern = new RegExp(`\\b${escapedAlternate}\\b`, 'i');
+          if (altPattern.test(term.definition)) {
+            found = true;
+            break;
+          }
+        }
+      }
+
+      if (found) {
         autoLinks.push(otherTerm.id);
       }
     }
@@ -108,6 +127,7 @@ export interface GlossaryTerm {
   definition: string;
   tags: string[];
   links: string[];        // Manual links from frontmatter
+  alternates?: string[];  // Alternate names/forms (e.g., "OTP" for "one trick")
   autoLinks?: string[];   // Auto-detected links from definition text
   // Extensible for future additions
   extensions?: {

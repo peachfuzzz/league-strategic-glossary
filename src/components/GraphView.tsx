@@ -62,30 +62,43 @@ export default function GraphView({
       return <p className="text-slate-300 text-sm mb-3">{term.definition}</p>;
     }
 
-    // Build a map of term IDs to their display names and positions in text
-    const linkMap = new Map<string, { term: GlossaryTerm; pattern: RegExp }>();
+    // Build a map of term IDs to their display names and patterns (including alternates)
+    const linkMap = new Map<string, { term: GlossaryTerm; patterns: RegExp[] }>();
     term.autoLinks.forEach(linkId => {
       const linkedTerm = allGlossaryData.find(t => t.id === linkId);
       if (linkedTerm) {
-        // Create regex that matches the term (case-insensitive, whole word)
+        const patterns: RegExp[] = [];
+
+        // Add pattern for main term
         const escapedTerm = linkedTerm.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const pattern = new RegExp(`\\b${escapedTerm}\\b`, 'gi');
-        linkMap.set(linkId, { term: linkedTerm, pattern });
+        patterns.push(new RegExp(`\\b${escapedTerm}\\b`, 'gi'));
+
+        // Add patterns for alternate forms
+        if (linkedTerm.alternates && linkedTerm.alternates.length > 0) {
+          linkedTerm.alternates.forEach(alternate => {
+            const escapedAlt = alternate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            patterns.push(new RegExp(`\\b${escapedAlt}\\b`, 'gi'));
+          });
+        }
+
+        linkMap.set(linkId, { term: linkedTerm, patterns });
       }
     });
 
     // Find all matches and their positions
     const matches: Array<{ start: number; end: number; linkId: string; text: string }> = [];
     linkMap.forEach((value, linkId) => {
-      let match;
-      while ((match = value.pattern.exec(term.definition)) !== null) {
-        matches.push({
-          start: match.index,
-          end: match.index + match[0].length,
-          linkId,
-          text: match[0]
-        });
-      }
+      value.patterns.forEach(pattern => {
+        let match;
+        while ((match = pattern.exec(term.definition)) !== null) {
+          matches.push({
+            start: match.index,
+            end: match.index + match[0].length,
+            linkId,
+            text: match[0]
+          });
+        }
+      });
     });
 
     // Sort matches by position
@@ -555,7 +568,14 @@ export default function GraphView({
       {selectedNode && (
         <div className="absolute bottom-4 right-4 bg-slate-800 border border-slate-700 rounded-lg p-4 max-w-sm shadow-xl">
           <div className="flex items-start justify-between gap-3 mb-2">
-            <h3 className="text-lg font-bold text-white">{selectedNode.term}</h3>
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-white">{selectedNode.term}</h3>
+              {selectedNode.alternates && selectedNode.alternates.length > 0 && (
+                <p className="text-xs text-slate-400 italic mt-1">
+                  Also known as: {selectedNode.alternates.join(', ')}
+                </p>
+              )}
+            </div>
             <div className="flex items-center gap-2">
               {/* Tags as colored circles with tooltips */}
               <div className="flex gap-1">
