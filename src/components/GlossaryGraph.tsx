@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Menu, Eye, BookOpen, RotateCcw, Shuffle, HelpCircle } from 'lucide-react';
-import { glossaryData, GlossaryTerm } from '@/data/glossaryData';
+import { glossaryData, GlossaryTerm, tagColors } from '@/data/glossaryData';
 import GraphView from './GraphView';
 import ListView from './ListView';
 import SearchOverlay from './SearchOverlay';
@@ -195,9 +195,9 @@ export default function GlossaryGraph() {
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     );
     // Show the sidebar when a tag is clicked
-    if (!isSidebarOpen) {
-      setIsSidebarOpen(true);
-    }
+    // if (!isSidebarOpen) {
+    //   setIsSidebarOpen(true);
+    // }
   };
 
   const handleSelectTerm = (term: GlossaryTerm) => {
@@ -400,6 +400,20 @@ export default function GlossaryGraph() {
           onClearTags={() => setSelectedTags([])}
           hoveredTag={hoveredTag}
         />
+
+        {/* Active Filters Bar - shows when sidebar is collapsed and filters are active */}
+        {!isSidebarOpen && selectedTags.length > 0 && (
+          <div className="w-4 bg-slate-800 border-r border-slate-700 flex flex-col gap-1.5 py-2 items-center flex-shrink-0">
+            {selectedTags.map(tag => (
+              <div
+                key={tag}
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ backgroundColor: tagColors[tag] || '#64748b' }}
+                title={tag}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="flex-1 relative overflow-hidden">
           {view === 'graph' ? (
