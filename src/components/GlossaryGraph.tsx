@@ -15,7 +15,8 @@ const STORAGE_KEYS = {
   DISCOVERED_TERMS: 'glossary_discoveredTerms',
   STARTING_TERM: 'glossary_startingTerm',
   SEARCH_MODE: 'glossary_searchOnlyDiscovered',
-  HAS_SEEN_HELP: 'glossary_hasSeenHelp'
+  HAS_SEEN_HELP: 'glossary_hasSeenHelp',
+  SIDEBAR_OPEN: 'glossary_sidebarOpen'
 };
 
 // Utility functions for localStorage
@@ -49,7 +50,7 @@ export default function GlossaryGraph() {
 
   // View state
   const [view, setView] = useState<'graph' | 'list'>('graph');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Help card state
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -67,6 +68,7 @@ export default function GlossaryGraph() {
     const savedTerms = loadFromStorage<string[]>(STORAGE_KEYS.DISCOVERED_TERMS, ['last-hit']);
     setDiscoveredTerms(new Set(savedTerms.length > 0 ? savedTerms : ['last-hit']));
     setSearchOnlyDiscovered(loadFromStorage(STORAGE_KEYS.SEARCH_MODE, false));
+    setIsSidebarOpen(loadFromStorage(STORAGE_KEYS.SIDEBAR_OPEN, false));
 
     // Show help on first visit
     const hasSeenHelp = loadFromStorage(STORAGE_KEYS.HAS_SEEN_HELP, false);
@@ -112,6 +114,10 @@ export default function GlossaryGraph() {
   useEffect(() => {
     saveToStorage(STORAGE_KEYS.SEARCH_MODE, searchOnlyDiscovered);
   }, [searchOnlyDiscovered]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.SIDEBAR_OPEN, isSidebarOpen);
+  }, [isSidebarOpen]);
 
   // Derived data
   const allTags = [...new Set(glossaryData.flatMap(term => term.tags))].sort();
@@ -186,6 +192,10 @@ export default function GlossaryGraph() {
     setSelectedTags(prev =>
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     );
+    // Show the sidebar when a tag is clicked
+    if (!isSidebarOpen) {
+      setIsSidebarOpen(true);
+    }
   };
 
   const handleSelectTerm = (term: GlossaryTerm) => {
@@ -252,7 +262,8 @@ export default function GlossaryGraph() {
       <header className="bg-slate-800 border-b border-slate-700 px-4 py-3 flex items-center gap-3 flex-shrink-0 flex-wrap">
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors"
+          className="p-2 text-slate-400 hover:text-white transition-colors"
+          title={isSidebarOpen ? 'Hide filter bar' : 'Show filter bar'}
         >
           <Menu size={20} />
         </button>

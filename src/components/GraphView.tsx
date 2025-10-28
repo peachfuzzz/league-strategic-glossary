@@ -423,11 +423,16 @@ export default function GraphView({
       filteredNodes.forEach(node => {
         const isSelected = selectedNode && selectedNode.id === node.id;
         const isHovered = hoveredNode && hoveredNode.id === node.id;
-        const isConnected = selectedNode && selectedNode.links && selectedNode.links.includes(node.id);
-        
+
+        // Check if node is connected to selected node (both manual and auto links)
+        const isConnected = selectedNode && (
+          (selectedNode.links && selectedNode.links.includes(node.id)) ||
+          (selectedNode.autoLinks && selectedNode.autoLinks.includes(node.id))
+        );
+
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        
+
         if (isSelected) {
           ctx.fillStyle = '#3b82f6';
           ctx.shadowColor = '#3b82f6';
@@ -445,7 +450,7 @@ export default function GraphView({
           ctx.fillStyle = color;
           ctx.shadowBlur = 0;
         }
-        
+
         ctx.fill();
         ctx.shadowBlur = 0;
 
@@ -454,17 +459,25 @@ export default function GraphView({
         ctx.stroke();
 
         // Draw labels
-        if (isSelected || isHovered || zoom > 1.2) {
+        // Case 1: No node selected - show all labels with transparency
+        // Case 2: Node selected - show label for selected node and connected nodes
+        const shouldShowLabel = !selectedNode || isSelected || isConnected || isHovered;
+
+        if (shouldShowLabel) {
           ctx.font = isSelected ? 'bold 14px sans-serif' : '12px sans-serif';
-          ctx.fillStyle = '#fff';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
-          
+
           const textWidth = ctx.measureText(node.term).width;
-          ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+
+          // Use reduced opacity when no node is selected
+          const bgOpacity = !selectedNode ? 0.4 : 0.8;
+          const textOpacity = !selectedNode ? 0.5 : 1.0;
+
+          ctx.fillStyle = `rgba(15, 23, 42, ${bgOpacity})`;
           ctx.fillRect(node.x - textWidth / 2 - 4, node.y + node.radius + 4, textWidth + 8, 20);
-          
-          ctx.fillStyle = '#fff';
+
+          ctx.fillStyle = `rgba(255, 255, 255, ${textOpacity})`;
           ctx.fillText(node.term, node.x, node.y + node.radius + 8);
         }
       });
