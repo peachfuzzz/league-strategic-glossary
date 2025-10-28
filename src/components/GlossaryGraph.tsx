@@ -137,14 +137,16 @@ export default function GlossaryGraph() {
     : searchPool.filter(term =>
         term.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
         term.definition.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        term.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        term.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (term.alternates && term.alternates.some(alt => alt.toLowerCase().includes(searchQuery.toLowerCase())))
       );
 
   const filteredListTerms = baseGlossaryData
     .filter(term => {
       const matchesSearch = searchQuery === '' ||
         term.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        term.definition.toLowerCase().includes(searchQuery.toLowerCase());
+        term.definition.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (term.alternates && term.alternates.some(alt => alt.toLowerCase().includes(searchQuery.toLowerCase())));
       const matchesTags = selectedTags.length === 0 ||
         selectedTags.every(tag => term.tags.includes(tag));
       return matchesSearch && matchesTags;
