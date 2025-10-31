@@ -31,8 +31,11 @@ export default function ListView({
 }: ListViewProps) {
   // Render definition with inline autolinks
   const renderDefinitionWithLinks = (term: GlossaryTerm) => {
+    // Strip backticks from the definition for display
+    const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
+
     if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-slate-300 text-sm mb-3">{term.definition}</p>;
+      return <p className="text-slate-300 text-sm mb-3">{displayDefinition}</p>;
     }
 
     // Build a map of term IDs to their display names and patterns (including alternates)
@@ -58,12 +61,12 @@ export default function ListView({
       }
     });
 
-    // Find all matches and their positions
+    // Find all matches and their positions (use displayDefinition for matching)
     const matches: Array<{ start: number; end: number; linkId: string; text: string }> = [];
     linkMap.forEach((value, linkId) => {
       value.patterns.forEach(pattern => {
         let match;
-        while ((match = pattern.exec(term.definition)) !== null) {
+        while ((match = pattern.exec(displayDefinition)) !== null) {
           matches.push({
             start: match.index,
             end: match.index + match[0].length,
@@ -87,7 +90,7 @@ export default function ListView({
 
       // Add text before the match
       if (match.start > lastIndex) {
-        parts.push(term.definition.substring(lastIndex, match.start));
+        parts.push(displayDefinition.substring(lastIndex, match.start));
       }
 
       // Add the link
@@ -120,8 +123,8 @@ export default function ListView({
     });
 
     // Add remaining text
-    if (lastIndex < term.definition.length) {
-      parts.push(term.definition.substring(lastIndex));
+    if (lastIndex < displayDefinition.length) {
+      parts.push(displayDefinition.substring(lastIndex));
     }
 
     return <p className="text-slate-300 text-sm mb-3">{parts}</p>;

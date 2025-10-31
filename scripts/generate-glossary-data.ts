@@ -66,16 +66,26 @@ function buildGlossaryData(): TermData[] {
 }
 
 /**
+ * Removes text wrapped in backticks (escape mechanism for autolinking).
+ * Example: "This is `not linked` text" -> "This is  text"
+ */
+function stripBacktickContent(text: string): string {
+  return text.replace(/`[^`]+`/g, '');
+}
+
+/**
  * Detects mentions of other terms in each term's definition.
  * Uses whole-word, case-insensitive matching.
  * Also checks for alternate forms (e.g., "OTP" for "one trick").
+ * Terms wrapped in backticks are excluded from autolinking.
  */
 function detectAutoLinks(terms: TermData[]): void {
   console.log('🔍 Detecting automatic term links...');
 
   for (const term of terms) {
     const autoLinks: string[] = [];
-    const lowerDefinition = term.definition.toLowerCase();
+    // Strip backtick-wrapped content to exclude it from autolinking
+    const definitionWithoutEscapes = stripBacktickContent(term.definition);
 
     for (const otherTerm of terms) {
       // Don't link a term to itself
@@ -88,14 +98,14 @@ function detectAutoLinks(terms: TermData[]): void {
       const escapedTerm = otherTerm.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const pattern = new RegExp(`\\b${escapedTerm}\\b`, 'i');
 
-      let found = pattern.test(term.definition);
+      let found = pattern.test(definitionWithoutEscapes);
 
       // Also check alternate forms
       if (!found && otherTerm.alternates && otherTerm.alternates.length > 0) {
         for (const alternate of otherTerm.alternates) {
           const escapedAlternate = alternate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
           const altPattern = new RegExp(`\\b${escapedAlternate}\\b`, 'i');
-          if (altPattern.test(term.definition)) {
+          if (altPattern.test(definitionWithoutEscapes)) {
             found = true;
             break;
           }
