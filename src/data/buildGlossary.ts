@@ -32,7 +32,7 @@ export function buildGlossaryData(): GlossaryTerm[] {
     const { data, content } = matter(fileContent);
 
     // Validate required fields
-    if (!data.id || !data.term || !data.tags || !data.links) {
+    if (!data.id || !data.term || !data.tags) {
       throw new Error(`Invalid term file: ${filename}. Missing required frontmatter fields.`);
     }
 
@@ -44,6 +44,11 @@ export function buildGlossaryData(): GlossaryTerm[] {
       tags: Array.isArray(data.tags) ? data.tags : [],
       links: Array.isArray(data.links) ? data.links : [],
     };
+
+    // Add alternates if present
+    if (data.alternates && Array.isArray(data.alternates)) {
+      term.alternates = data.alternates;
+    }
 
     // Add extensions if present
     if (data.extensions) {

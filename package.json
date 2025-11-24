@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate-glossary": "tsx scripts/generate-glossary-data.ts",
+    "import-terms": "bash scripts/auto-import.sh",
+    "generate-glossary": "npm run import-terms && tsx scripts/generate-glossary-data.ts",
     "dev": "npm run generate-glossary && next dev --turbopack",
     "build": "npm run generate-glossary && next build --turbopack",
     "start": "next start",

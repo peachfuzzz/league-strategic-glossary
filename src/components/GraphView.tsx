@@ -265,7 +265,7 @@ export default function GraphView({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [nodes.length, draggedNode, setNodes]);
+  }, [nodes.length, draggedNode]);
 
   // Drawing
   useEffect(() => {
@@ -533,8 +533,8 @@ export default function GraphView({
     const y = (e.clientY - rect.top - pan.y) / zoom;
 
     if (draggedNode) {
-      setNodes(prev => prev.map((node, i) => 
-        glossaryData[i].id === draggedNode.id 
+      setNodes(prev => prev.map(node =>
+        node.id === draggedNode.id
           ? { ...node, x, y, vx: 0, vy: 0 }
           : node
       ));

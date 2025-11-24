@@ -39,7 +39,7 @@ function buildGlossaryData(): TermData[] {
     const fileContent = fs.readFileSync(filepath, 'utf-8');
     const { data, content } = matter(fileContent);
 
-    if (!data.id || !data.term || !data.tags || !data.links) {
+    if (!data.id || !data.term || !data.tags) {
       throw new Error(`Invalid term file: ${filename}. Missing required frontmatter fields.`);
     }
 

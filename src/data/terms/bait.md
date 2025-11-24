@@ -1,7 +1,7 @@
 ---
 id: bait
 term: Bait
-tags: [Strategy]
+tags: [strategy]
 links: [overextend]
 ---
 

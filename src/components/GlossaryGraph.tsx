@@ -40,8 +40,16 @@ const saveToStorage = (key: string, value: any) => {
 };
 
 const getRandomTerm = (): string => {
+  if (glossaryData.length === 0) return '';
   const randomIndex = Math.floor(Math.random() * glossaryData.length);
   return glossaryData[randomIndex].id;
+};
+
+const getDefaultStartingTerm = (): string => {
+  // Try to use 'last-hit' if it exists, otherwise use first term
+  const lastHit = glossaryData.find(t => t.id === 'last-hit');
+  if (lastHit) return 'last-hit';
+  return glossaryData.length > 0 ? glossaryData[0].id : '';
 };
 
 export default function GlossaryGraph() {
@@ -56,17 +64,26 @@ export default function GlossaryGraph() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   // Discovery mode state (use defaults initially for SSR)
+  const defaultTerm = getDefaultStartingTerm();
   const [viewMode, setViewMode] = useState<'explore' | 'viewAll'>('explore');
-  const [startingTermId, setStartingTermId] = useState<string>('last-hit');
-  const [discoveredTerms, setDiscoveredTerms] = useState<Set<string>>(new Set(['last-hit']));
+  const [startingTermId, setStartingTermId] = useState<string>(defaultTerm);
+  const [discoveredTerms, setDiscoveredTerms] = useState<Set<string>>(new Set([defaultTerm]));
   const [searchOnlyDiscovered, setSearchOnlyDiscovered] = useState(false);
 
   // Load from storage after mount and show help if first visit
   useEffect(() => {
     setViewMode(loadFromStorage(STORAGE_KEYS.VIEW_MODE, 'explore'));
-    setStartingTermId(loadFromStorage(STORAGE_KEYS.STARTING_TERM, 'last-hit'));
-    const savedTerms = loadFromStorage<string[]>(STORAGE_KEYS.DISCOVERED_TERMS, ['last-hit']);
-    setDiscoveredTerms(new Set(savedTerms.length > 0 ? savedTerms : ['last-hit']));
+
+    // Load starting term, but validate it exists
+    const savedStartingTerm = loadFromStorage(STORAGE_KEYS.STARTING_TERM, defaultTerm);
+    const validStartingTerm = glossaryData.find(t => t.id === savedStartingTerm) ? savedStartingTerm : defaultTerm;
+    setStartingTermId(validStartingTerm);
+
+    // Load discovered terms, but filter out any that no longer exist
+    const savedTerms = loadFromStorage<string[]>(STORAGE_KEYS.DISCOVERED_TERMS, [defaultTerm]);
+    const validTerms = savedTerms.filter(id => glossaryData.find(t => t.id === id));
+    setDiscoveredTerms(new Set(validTerms.length > 0 ? validTerms : [validStartingTerm]));
+
     setSearchOnlyDiscovered(loadFromStorage(STORAGE_KEYS.SEARCH_MODE, false));
     setIsSidebarOpen(loadFromStorage(STORAGE_KEYS.SIDEBAR_OPEN, false));
 
