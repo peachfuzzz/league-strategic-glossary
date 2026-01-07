@@ -1,7 +1,7 @@
 ---
 id: object
 term: Object
-tags: [abstract]
+tags: [abstract-concepts]
 ---
 
 Something or someone being acted upon, usually by an actor.

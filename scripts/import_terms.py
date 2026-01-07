@@ -3,6 +3,8 @@
 Import terms from CSV and create markdown files.
 
 Usage: python scripts/import_terms.py <csv_file_path>
+
+DEPRECATED: Using the Google Docs API directly is preferred. See sync_glossary.py
 """
 
 import csv

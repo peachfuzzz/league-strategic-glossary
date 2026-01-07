@@ -42,3 +42,10 @@ next-env.d.ts
 
 # CSV exports
 src/data/terms_export.csv
+
+# Google API credentials
+scripts/credentials.json
+scripts/token.json
+
+# Python venv
+.venv/

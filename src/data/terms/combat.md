@@ -1,8 +1,8 @@
 ---
 id: combat
 term: Combat
-tags: [abstract]
-alternates: [in-combat]
+tags: [abstract-concepts]
+alternates: ["in-combat"]
 ---
 
-The state of exchanging damage or crowd control with enemy champion(s). Combat can happen at several scales depending on the duration of the encounter and the number of champions involved. In combat, a player realizes threat as the actor or the object. Being “in-combat” also has mechanical effects, with some items, abilities, and passives having different functions in and out of combat.
+The state of exchanging damage or crowd control with an enemy unit. Combat is the main interface for interaction in League since most champion outputs revolve around dealing, preventing, and receiving damage. Being “in-combat” also has mechanical effects. Some items, abilities, and passives function differently in and out of combat.

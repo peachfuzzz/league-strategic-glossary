@@ -3,7 +3,6 @@ id: cc-buffer
 term: CC Buffer
 tags: [game-mechanics]
 alternates: ["buffering through CC"]
-links: [buffer]
 ---
 
 Casting an ability immediately before falling under hard crowd control to overlap moments of inactionability. Most abilities are uncancelable and have an animation during which a champion is inactionable. A player can time the cast of an ability to begin right before hard CC is applied, which results in the CC duration sharing significant overlap with the champion’s existing animation inactionability. 

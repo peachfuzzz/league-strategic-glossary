@@ -5,4 +5,4 @@ tags: [vernacular]
 links: [tanky]
 ---
 
-The quality of being easy to kill. Squishy is most commonly used in reference to champion durability, where champions who have inherently low defenses are often referred to as “squishies.”
+The quality of being easy to kill. Squishy is most commonly used as an analogy for champion durability. Champions who have inherently low defenses are called “squishies.”
