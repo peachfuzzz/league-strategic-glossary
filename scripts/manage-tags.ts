@@ -13,7 +13,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
 
-const TAGS_CONFIG_FILE = path.join(process.cwd(), 'src/data/tags.config.ts');
+const TAGS_CONFIG_FILE = path.join(process.cwd(), 'src/config/tags.config.ts');
 const TERMS_DIR = path.join(process.cwd(), 'src/data/terms');
 
 interface TagConfig {
@@ -183,7 +183,7 @@ function showUndefined() {
     });
     console.log('\n' + '═'.repeat(80));
     console.log(`Total: ${undefined.length} undefined tags\n`);
-    console.log('Add these tags to src/data/tags.config.ts\n');
+    console.log('Add these tags to src/config/tags.config.ts\n');
   }
 }
 

@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED
 // Do not edit directly. Edit files in src/data/terms/ instead.
 // Run 'npm run generate-glossary' to regenerate this file.
-// Tag colors are sourced from src/data/tags.config.ts
+// Tag colors are sourced from src/config/tags.config.ts
 
 export interface GlossaryTerm {
   id: string;

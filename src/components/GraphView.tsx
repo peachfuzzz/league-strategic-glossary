@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { GlossaryTerm, tagColors } from '@/data/glossaryData';
+import { GRAPH_PHYSICS_CONFIG } from '@/config/graph.config';
 
 interface GraphViewProps {
   nodes: any[];
@@ -207,12 +208,12 @@ export default function GraphView({
       return;
     }
 
-    // ADJUST THESE VALUES TO CONTROL GRAPH BEHAVIOR:
-    const DAMPING = 0.80;              // Lower = slower movement (0.8-0.95)
-    const CENTER_FORCE = 0.0003;       // Strength of pull to center
-    const REPULSION = 2000;            // How much nodes push apart
-    const LINK_DISTANCE = 150;         // Ideal distance between connected nodes
-    const LINK_STRENGTH = 0.008;       // How strongly links pull nodes together
+    // Physics constants from config (edit src/config/graph.config.ts to adjust)
+    const DAMPING = GRAPH_PHYSICS_CONFIG.damping;
+    const CENTER_FORCE = GRAPH_PHYSICS_CONFIG.centerForce;
+    const REPULSION = GRAPH_PHYSICS_CONFIG.repulsion;
+    const LINK_DISTANCE = GRAPH_PHYSICS_CONFIG.linkDistance;
+    const LINK_STRENGTH = GRAPH_PHYSICS_CONFIG.linkStrength;
 
     const simulate = () => {
       setNodes((prevNodes: any[]) => {

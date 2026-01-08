@@ -13,7 +13,7 @@ Tags are used to categorize glossary terms and provide visual organization in bo
 
 ## Tag Configuration File
 
-**Location:** [`src/data/tags.config.ts`](../src/data/tags.config.ts)
+**Location:** [`src/config/tags.config.ts`](../src/config/tags.config.ts)
 
 This is the **single source of truth** for all tags. Every tag used in the glossary must be defined here.
 
@@ -31,7 +31,7 @@ This is the **single source of truth** for all tags. Every tag used in the gloss
 
 ### Adding a New Tag
 
-1. Open [`src/data/tags.config.ts`](../src/data/tags.config.ts)
+1. Open [`src/config/tags.config.ts`](../src/config/tags.config.ts)
 2. Add your tag to the `TAGS` array:
 
 ```typescript
@@ -141,7 +141,7 @@ If any undefined tags are found, you'll see warnings:
    - "unknown-tag"
    - "typo-tag"
 
-   Add missing tags to src/data/tags.config.ts
+   Add missing tags to src/config/tags.config.ts
 ```
 
 **Important:** The build will complete successfully even with undefined tags, but they won't have proper colors or metadata.
@@ -243,7 +243,7 @@ If you have existing tags that aren't in the config:
 ## Troubleshooting
 
 ### "Unknown tag" warnings during build
-**Solution:** Add the tag to `src/data/tags.config.ts` and rebuild.
+**Solution:** Add the tag to `src/config/tags.config.ts` and rebuild.
 
 ### Tag colors not updating
 **Solution:** Run `npm run generate-glossary` to regenerate `glossaryData.ts`.
@@ -270,5 +270,5 @@ Potential future features for tag management:
 
 If you have questions about tag management, check:
 - The [main CLAUDE.md](../CLAUDE.md) for overall architecture
-- The [tags.config.ts](../src/data/tags.config.ts) source code
+- The [tags.config.ts](../src/config/tags.config.ts) source code
 - Run `npm run manage-tags` for CLI help

@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
 import { GlossaryTerm } from './glossaryData';
-import { isValidTag, getAllTagIds } from './tags.config';
+import { isValidTag, getAllTagIds } from '@/config/tags.config';
 
 /**
  * Reads all markdown files from src/data/terms/ and builds

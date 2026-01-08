@@ -9,7 +9,7 @@ import matter from 'gray-matter';
 
 const TERMS_DIR = path.join(process.cwd(), 'src/data/terms');
 const OUTPUT_FILE = path.join(process.cwd(), 'src/data/glossaryData.ts');
-const TAGS_CONFIG_FILE = path.join(process.cwd(), 'src/data/tags.config.ts');
+const TAGS_CONFIG_FILE = path.join(process.cwd(), 'src/config/tags.config.ts');
 
 interface TermData {
   id: string;
@@ -117,7 +117,7 @@ function buildGlossaryData(validTagIds: Set<string>): TermData[] {
   if (invalidTags.size > 0) {
     console.warn(`\n⚠️  Found ${invalidTags.size} undefined tag(s):`);
     invalidTags.forEach(tag => console.warn(`   - "${tag}"`));
-    console.warn(`\n   Add missing tags to src/data/tags.config.ts\n`);
+    console.warn(`\n   Add missing tags to src/config/tags.config.ts\n`);
   }
 
   return terms;
@@ -193,7 +193,7 @@ function generateTypeScriptFile(terms: TermData[], tagConfigs: TagConfig[]): str
   return `// THIS FILE IS AUTO-GENERATED
 // Do not edit directly. Edit files in src/data/terms/ instead.
 // Run 'npm run generate-glossary' to regenerate this file.
-// Tag colors are sourced from src/data/tags.config.ts
+// Tag colors are sourced from src/config/tags.config.ts
 
 export interface GlossaryTerm {
   id: string;
