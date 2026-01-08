@@ -1,7 +1,7 @@
 ---
 id: slow-push
 term: Slow Push
-tags: [minions]
+tags: [strategy, minions]
 links: [shove]
 ---
 

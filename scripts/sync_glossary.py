@@ -22,9 +22,15 @@ Google Doc Format:
     - Optional metadata lines immediately after term name:
         - "Also known as: alt1, alt2" -> alternates field
         - "Tags: tag1, tag2" -> appends to section-based tag
-        - "See also: term1, term2" -> links field
+        - "See also: term1, term2" -> links field (automatically normalized to IDs)
     - First blank line separates metadata from definition body
     - "(IN PROGRESS)" or "(IN PROG)" in term name -> skipped
+
+Link Normalization:
+    - "See also" can use human-readable names (e.g., "Last Hit", "Wave Management")
+    - Script automatically converts to proper IDs (e.g., "last-hit", "wave-management")
+    - Validates all links and reports any that can't be resolved
+    - Works with term names, alternate names, and existing IDs
 """
 
 import argparse
@@ -71,7 +77,7 @@ CONFIG = {
 
 class Term:
     """Represents a parsed glossary term."""
-    
+
     def __init__(self, name: str, section: str):
         self.name = name
         self.section = section
@@ -81,21 +87,29 @@ class Term:
         self.definition_lines: list[str] = []
         self.is_completed = False
         self.is_in_progress = False
-    
-    @property
-    def id(self) -> str:
-        """Generate URL-safe ID from term name."""
+
+    @staticmethod
+    def normalize_to_id(text: str) -> str:
+        """
+        Normalize any text to an ID format.
+        This is used for both term names and "See also" links.
+        """
         # Remove status markers and clean up
-        clean_name = self.name.replace("✓", "").strip()
-        clean_name = re.sub(r"\s*\(IN PROGRESS\)\s*", "", clean_name, flags=re.IGNORECASE)
-        clean_name = re.sub(r"\s*\(IN PROG\)\s*", "", clean_name, flags=re.IGNORECASE)
-        
+        clean_text = text.replace("✓", "").strip()
+        clean_text = re.sub(r"\s*\(IN PROGRESS\)\s*", "", clean_text, flags=re.IGNORECASE)
+        clean_text = re.sub(r"\s*\(IN PROG\)\s*", "", clean_text, flags=re.IGNORECASE)
+
         # Convert to lowercase, replace spaces with hyphens
-        slug = clean_name.lower()
+        slug = clean_text.lower()
         slug = re.sub(r"[^\w\s-]", "", slug)  # Remove special chars except hyphens
         slug = re.sub(r"\s+", "-", slug)      # Spaces to hyphens
         slug = re.sub(r"-+", "-", slug)       # Collapse multiple hyphens
         return slug.strip("-")
+
+    @property
+    def id(self) -> str:
+        """Generate URL-safe ID from term name."""
+        return self.normalize_to_id(self.name)
     
     @property
     def filename(self) -> str:
@@ -356,14 +370,83 @@ def get_google_credentials(scripts_dir: Path) -> "Credentials":
 def fetch_document(creds: Credentials, doc_id: str) -> dict:
     """Fetch document content from Google Docs API."""
     service = build("docs", "v1", credentials=creds)
-    
+
     # Use includeTabsContent to get all tabs
     document = service.documents().get(
         documentId=doc_id,
         includeTabsContent=True
     ).execute()
-    
+
     return document
+
+
+def normalize_and_validate_links(terms: list[Term], verbose: bool = False) -> dict[str, list[str]]:
+    """
+    Normalize "See also" links from human-readable names to term IDs.
+    Returns a dict of invalid links for reporting.
+    """
+    # Build lookup maps
+    term_id_map = {term.id: term for term in terms}
+    term_name_map = {term.clean_name.lower(): term for term in terms}
+
+    # Also map alternates to terms
+    for term in terms:
+        for alt in term.alternates:
+            term_name_map[alt.lower()] = term
+
+    invalid_links: dict[str, list[str]] = {}  # term_id -> [invalid_link_texts]
+    normalized_count = 0
+
+    for term in terms:
+        if not term.links:
+            continue
+
+        normalized_links = []
+        term_invalid_links = []
+
+        for link_text in term.links:
+            # First, try as-is (might already be an ID)
+            if link_text in term_id_map:
+                normalized_links.append(link_text)
+                continue
+
+            # Try normalizing to ID format
+            normalized_id = Term.normalize_to_id(link_text)
+
+            if normalized_id in term_id_map:
+                # Successfully normalized
+                if normalized_id != link_text:
+                    normalized_count += 1
+                    if verbose:
+                        print(f"  ✓ Normalized '{link_text}' → '{normalized_id}' in {term.clean_name}")
+                normalized_links.append(normalized_id)
+                continue
+
+            # Try case-insensitive name lookup
+            link_lower = link_text.lower()
+            if link_lower in term_name_map:
+                target_term = term_name_map[link_lower]
+                if target_term.id != link_text:
+                    normalized_count += 1
+                    if verbose:
+                        print(f"  ✓ Normalized '{link_text}' → '{target_term.id}' in {term.clean_name}")
+                normalized_links.append(target_term.id)
+                continue
+
+            # Could not resolve - mark as invalid
+            term_invalid_links.append(link_text)
+
+        # Update term's links with normalized versions
+        term.links = normalized_links
+
+        # Track invalid links
+        if term_invalid_links:
+            invalid_links[term.id] = term_invalid_links
+
+    if normalized_count > 0:
+        print(f"  ✓ Normalized {normalized_count} link(s) to proper IDs")
+
+    return invalid_links
 
 
 def sync_glossary(dry_run: bool = False, verbose: bool = False):
@@ -415,28 +498,45 @@ def sync_glossary(dry_run: bool = False, verbose: bool = False):
     print(f"  ✓ Fetched: {title}")
     
     # Parse terms
-    print("\n[3/4] Parsing terms...")
+    print("\n[3/5] Parsing terms...")
     parser = GoogleDocsParser(verbose=verbose)
     terms = parser.parse_document(doc, CONFIG["tab_name"])
-    
+
     completed = [t for t in terms if t.is_completed]
     in_progress = [t for t in terms if t.is_in_progress]
     no_status = [t for t in terms if not t.is_completed and not t.is_in_progress]
-    
+
     print(f"  Found {len(terms)} total terms:")
     print(f"    - {len(completed)} completed (will sync)")
     print(f"    - {len(in_progress)} in progress (skipped)")
     print(f"    - {len(no_status)} no status (skipped)")
-    
+
     if no_status and verbose:
         print(f"  Terms without status marker:")
         for t in no_status[:5]:
             print(f"    - {t.clean_name}")
         if len(no_status) > 5:
             print(f"    ... and {len(no_status) - 5} more")
-    
+
+    # Normalize and validate links
+    print("\n[4/5] Normalizing and validating links...")
+    # Only normalize links for completed terms (the ones we'll sync)
+    invalid_links = normalize_and_validate_links(completed, verbose=verbose)
+
+    if invalid_links:
+        print(f"\n  ⚠️  Warning: Found {len(invalid_links)} term(s) with invalid links:")
+        for term_id, bad_links in invalid_links.items():
+            term = next(t for t in completed if t.id == term_id)
+            print(f"    • {term.clean_name}:")
+            for bad_link in bad_links:
+                print(f"      - '{bad_link}' (not found)")
+        print(f"\n  These links will be excluded from the synced files.")
+        print(f"  Check spelling or ensure the linked terms are marked as completed (✓).")
+    else:
+        print("  ✓ All links are valid")
+
     # Write files
-    print("\n[4/4] Writing markdown files...")
+    print("\n[5/5] Writing markdown files...")
     written = 0
     errors = []
     
@@ -463,12 +563,15 @@ def sync_glossary(dry_run: bool = False, verbose: bool = False):
     print(f"  Written: {written} files")
     print(f"  Skipped: {len(in_progress) + len(no_status)} (not completed)")
     print(f"  Errors: {len(errors)}")
-    
+
+    if invalid_links:
+        print(f"  Invalid links: {len(invalid_links)} terms affected")
+
     if errors:
         print("\nErrors:")
         for error in errors:
             print(f"  ✗ {error}")
-    
+
     if dry_run:
         print("\n[DRY RUN] No files were actually written.")
         print("Run without --dry-run to sync files.")

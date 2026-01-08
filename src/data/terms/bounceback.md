@@ -1,7 +1,7 @@
 ---
 id: bounceback
 term: Bounceback
-tags: [minions]
+tags: [game-mechanics, minions]
 alternates: ["bounce"]
 ---
 

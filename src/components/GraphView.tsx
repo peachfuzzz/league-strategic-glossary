@@ -455,30 +455,67 @@ export default function GraphView({
           (selectedNode.autoLinks && selectedNode.autoLinks.includes(node.id))
         );
 
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        // Draw node as pie chart if it has multiple tags
+        const nodeTags = node.tags || [];
+        const hasMultipleTags = nodeTags.length > 1;
 
         if (isSelected) {
+          // Selected nodes: solid blue
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
           ctx.fillStyle = '#3b82f6';
           ctx.shadowColor = '#3b82f6';
           ctx.shadowBlur = 20;
+          ctx.fill();
+          ctx.shadowBlur = 0;
         } else if (isConnected) {
+          // Connected nodes: solid light blue
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
           ctx.fillStyle = '#60a5fa';
           ctx.shadowColor = '#60a5fa';
           ctx.shadowBlur = 10;
+          ctx.fill();
+          ctx.shadowBlur = 0;
         } else if (isHovered) {
+          // Hovered nodes: solid gray
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
           ctx.fillStyle = '#94a3b8';
           ctx.shadowColor = '#94a3b8';
           ctx.shadowBlur = 10;
-        } else {
-          const color = (node.tags && node.tags[0]) ? (tagColors[node.tags[0]] || '#64748b') : '#64748b';
-          ctx.fillStyle = color;
+          ctx.fill();
           ctx.shadowBlur = 0;
+        } else if (hasMultipleTags) {
+          // Multi-tagged nodes: draw as pie chart
+          const angleStep = (Math.PI * 2) / nodeTags.length;
+          let startAngle = -Math.PI / 2; // Start at top
+
+          nodeTags.forEach((tag: string) => {
+            const endAngle = startAngle + angleStep;
+            const color = tagColors[tag] || '#64748b';
+
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.arc(node.x, node.y, node.radius, startAngle, endAngle);
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+
+            startAngle = endAngle;
+          });
+        } else {
+          // Single-tagged nodes: solid color
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+          const color = nodeTags[0] ? (tagColors[nodeTags[0]] || '#64748b') : '#64748b';
+          ctx.fillStyle = color;
+          ctx.fill();
         }
 
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
+        // Draw border (applies to all node types)
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
         ctx.strokeStyle = isSelected || isHovered ? '#fff' : 'rgba(255, 255, 255, 0.3)';
         ctx.lineWidth = isSelected ? 3 : 1.5;
         ctx.stroke();

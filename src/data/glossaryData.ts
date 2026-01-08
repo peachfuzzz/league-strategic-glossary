@@ -117,6 +117,7 @@ export const glossaryData: GlossaryTerm[] = [
     "term": "Bounceback",
     "definition": "The phase of a minion wave that occurs after a wave crashes into the opposing team’s tower. During a bounceback, the opposing minions will outnumber the allied minions, forcing the wave to push back towards the allied tower. Bouncebacks are a period of higher tension during the lane phase because a death from either side results in more lost minions than an even wave. Bouncebacks can result in a freeze.",
     "tags": [
+      "game-mechanics",
       "minions"
     ],
     "links": [],
@@ -136,8 +137,7 @@ export const glossaryData: GlossaryTerm[] = [
       "game-mechanics"
     ],
     "links": [
-      "cast time",
-      "CC buffer"
+      "cc-buffer"
     ],
     "alternates": [
       "input buffer",
@@ -214,6 +214,7 @@ export const glossaryData: GlossaryTerm[] = [
     "term": "Crash",
     "definition": "When a wave of minions enters the opposing team’s tower range. Crashes are classified by “completeness,” determined by the location at which opposing waves meet relative to the tower. A crash is “full/complete” when the allied minions directly attack the enemy tower. A crash is considered “partial” when the enemy melee minions are in tower range, but not the ranged minions, resulting in a wave stalling just outside of tower range.\n\nCrashes are strategically desirable because a crash and the following bounceback create a period of time in which few, if any, enemy minions die. A crash opens a window for an allied player to spend time outside of the lane—such as to roam or recall—without fear of losing excess gold and experience.",
     "tags": [
+      "game-mechanics",
       "minions"
     ],
     "links": [],
@@ -325,7 +326,7 @@ export const glossaryData: GlossaryTerm[] = [
       "game-mechanics"
     ],
     "links": [
-      "flash buffer"
+      "flash-buffer"
     ]
   },
   {
@@ -333,6 +334,7 @@ export const glossaryData: GlossaryTerm[] = [
     "term": "Freeze",
     "definition": "Keeping a larger enemy minion wave near, but not within range of, an allied tower. A freeze forms when a large enemy wave can kill an allied wave before the allied minions can build up fast enough to reverse wave direction, while also not being allowed to crash into the allied tower. Freezing can allow an actor to deny the opposing laner(s) of minion gold or even experience for an extended period of time, since the wave will not initiate a bounceback until the freeze is broken. A freeze breaks when the enemy minions cannot kill enough allied minions to prevent a buildup, and can happen intentionally or naturally. Within a large enough difference of ranged minions (usually 3+), a freeze can last indefinitely, sometimes referred to as a true freeze.",
     "tags": [
+      "strategy",
       "minions"
     ],
     "links": [],
@@ -511,10 +513,11 @@ export const glossaryData: GlossaryTerm[] = [
     "term": "Shove",
     "definition": "Killing all the minions in a wave as fast as possible. Shoving is a short-term wave tactic primarily used when a player has a short window for manipulating a wave, but cannot be responded to by the opponent. During the lane phase, the goal of shoving is to crash a wave into the opposing tower completely. Outside of the laning phase, shoving refers to the general act of pushing a wave as quickly as possible.\n\nShoving is commonly performed immediately after a player kills their lane opponent. By pushing their wave into the opposing tower, the player forces their lane opponent to miss the gold and experience of any minions killed by the tower while minimizing any gold or experience lost from their own recall.",
     "tags": [
+      "strategy",
       "minions"
     ],
     "links": [
-      "slow push"
+      "slow-push"
     ],
     "alternates": [
       "hard push",
@@ -555,6 +558,7 @@ export const glossaryData: GlossaryTerm[] = [
     "term": "Slow Push",
     "definition": "Killing minions as slowly as possible while an actor’s wave pushes toward the enemy tower. Slow pushing is a medium-term wave tactic primarily used when a player has a longer window for manipulating a wave. Slow pushing is a common default tactic because minions naturally tend to slow push if left mostly undisturbed. Slow pushes happen over 2-4 waves and result in a large buildup of allied minions before eventually crashing. The eventual large crash gives the actor a timer to make a bigger play, such as a dive, a roam, or a recall.",
     "tags": [
+      "strategy",
       "minions"
     ],
     "links": [
@@ -724,6 +728,7 @@ export const glossaryData: GlossaryTerm[] = [
     "term": "Wave Thinning",
     "definition": "Killing a few minions in an incoming wave without eliminating the entire wave. Thinning a wave is used to slow down a push or lower the possible incoming minion damage. Successfully thinning a wave preserves the wave direction while slowing the wave’s speed and the damage taken from minions. Commonly performed to maintain a freeze, contest a crash, or stall a dive.",
     "tags": [
+      "strategy",
       "minions"
     ],
     "links": [],

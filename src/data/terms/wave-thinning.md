@@ -1,7 +1,7 @@
 ---
 id: wave-thinning
 term: Wave Thinning
-tags: [minions]
+tags: [strategy, minions]
 alternates: ["trimming"]
 ---
 
