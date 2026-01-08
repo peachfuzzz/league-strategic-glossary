@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Search } from 'lucide-react';
-import { GlossaryTerm, tagColorClasses } from '@/data/glossaryData';
+import { GlossaryTerm, tagColors } from '@/data/glossaryData';
 
 interface ListViewProps {
   filteredTerms: GlossaryTerm[];
@@ -160,10 +160,9 @@ export default function ListView({
                             <span
                               key={tag}
                               className={`px-2 py-0.5 text-xs rounded-full text-white cursor-pointer transition-all ${
-                                tagColorClasses[tag] || 'bg-gray-600'
-                              } ${
                                 hoveredTag === tag ? 'ring-2 ring-white ring-offset-1 ring-offset-slate-800' : ''
                               }`}
+                              style={{ backgroundColor: tagColors[tag] || '#64748b' }}
                               onMouseEnter={() => setHoveredTag(tag)}
                               onMouseLeave={() => setHoveredTag(null)}
                               onClick={(e) => {

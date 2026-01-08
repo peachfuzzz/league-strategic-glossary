@@ -1,6 +1,7 @@
 // THIS FILE IS AUTO-GENERATED
 // Do not edit directly. Edit files in src/data/terms/ instead.
 // Run 'npm run generate-glossary' to regenerate this file.
+// Tag colors are sourced from src/data/tags.config.ts
 
 export interface GlossaryTerm {
   id: string;
@@ -750,32 +751,15 @@ export const glossaryData: GlossaryTerm[] = [
   }
 ];
 
+// Tag colors imported from tags.config.ts
 export const tagColors: Record<string, string> = {
-  'minion': '#a855f7',
+  'abstract-concepts': '#ec4899',
+  'vernacular': '#8b5cf6',
   'strategy': '#3b82f6',
-  'fundamentals': '#10b981',
-  'stat': '#eab308',
+  'game-mechanics': '#06b6d4',
   'economy': '#f59e0b',
-  'jungle': '#059669',
-  'abstract-concept': '#ec4899',
-  'item': '#f97316',
   'vision': '#6366f1',
-  'role': '#06b6d4',
-  'map': '#14b8a6',
-  'summoner-spell': '#d946ef'
-};
-
-export const tagColorClasses: Record<string, string> = {
-  'minion': 'bg-purple-600',
-  'strategy': 'bg-blue-600',
-  'fundamentals': 'bg-green-600',
-  'stat': 'bg-yellow-600',
-  'economy': 'bg-amber-600',
-  'jungle': 'bg-emerald-600',
-  'abstract-concept': 'bg-pink-600',
-  'item': 'bg-orange-600',
-  'vision': 'bg-indigo-600',
-  'role': 'bg-cyan-600',
-  'map': 'bg-teal-600',
-  'summoner-spell': 'bg-fuchsia-600'
+  'minions': '#a855f7',
+  'jungle': '#059669',
+  'item': '#f97316'
 };

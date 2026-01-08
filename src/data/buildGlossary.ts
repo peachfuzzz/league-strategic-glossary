@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
 import { GlossaryTerm } from './glossaryData';
+import { isValidTag, getAllTagIds } from './tags.config';
 
 /**
  * Reads all markdown files from src/data/terms/ and builds
@@ -24,6 +25,10 @@ export function buildGlossaryData(): GlossaryTerm[] {
     return [];
   }
 
+  // Track invalid tags for reporting
+  const invalidTags = new Set<string>();
+  const validTagIds = getAllTagIds();
+
   const terms: GlossaryTerm[] = files.map(filename => {
     const filepath = path.join(termsDir, filename);
     const fileContent = fs.readFileSync(filepath, 'utf-8');
@@ -36,12 +41,21 @@ export function buildGlossaryData(): GlossaryTerm[] {
       throw new Error(`Invalid term file: ${filename}. Missing required frontmatter fields.`);
     }
 
+    // Validate tags
+    const tags = Array.isArray(data.tags) ? data.tags : [];
+    tags.forEach((tag: string) => {
+      if (!isValidTag(tag)) {
+        invalidTags.add(tag);
+        console.warn(`⚠️  Unknown tag "${tag}" in ${filename}`);
+      }
+    });
+
     // Build the term object
     const term: GlossaryTerm = {
       id: data.id,
       term: data.term,
       definition: content.trim(),
-      tags: Array.isArray(data.tags) ? data.tags : [],
+      tags,
       links: Array.isArray(data.links) ? data.links : [],
     };
 
@@ -59,5 +73,14 @@ export function buildGlossaryData(): GlossaryTerm[] {
   });
 
   console.log(`✓ Loaded ${terms.length} terms from markdown files`);
+
+  // Report tag validation results
+  if (invalidTags.size > 0) {
+    console.warn(`\n⚠️  Found ${invalidTags.size} undefined tag(s):`);
+    invalidTags.forEach(tag => console.warn(`   - "${tag}"`));
+    console.warn(`\n   Defined tags: ${validTagIds.join(', ')}`);
+    console.warn(`   Add missing tags to src/data/tags.config.ts\n`);
+  }
+
   return terms;
 }

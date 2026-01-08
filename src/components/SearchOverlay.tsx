@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import { Search, X } from 'lucide-react';
-import { GlossaryTerm, tagColorClasses } from '@/data/glossaryData';
+import { GlossaryTerm, tagColors } from '@/data/glossaryData';
 
 interface SearchOverlayProps {
     isOpen: boolean;
@@ -124,7 +124,8 @@ export default function SearchOverlay({
                                 {term.tags.slice(0, 2).map(tag => (
                                   <span
                                     key={tag}
-                                    className={`px-2 py-0.5 text-xs rounded-full text-white flex-shrink-0 ${tagColorClasses[tag] || 'bg-gray-600'}`}
+                                    className="px-2 py-0.5 text-xs rounded-full text-white flex-shrink-0"
+                                    style={{ backgroundColor: tagColors[tag] || '#64748b' }}
                                   >
                                     {tag}
                                   </span>

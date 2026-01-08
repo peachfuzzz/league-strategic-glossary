@@ -9,6 +9,7 @@ import matter from 'gray-matter';
 
 const TERMS_DIR = path.join(process.cwd(), 'src/data/terms');
 const OUTPUT_FILE = path.join(process.cwd(), 'src/data/glossaryData.ts');
+const TAGS_CONFIG_FILE = path.join(process.cwd(), 'src/data/tags.config.ts');
 
 interface TermData {
   id: string;
@@ -21,7 +22,47 @@ interface TermData {
   extensions?: Record<string, any>;
 }
 
-function buildGlossaryData(): TermData[] {
+interface TagConfig {
+  id: string;
+  label: string;
+  color: string;
+  description?: string;
+  category?: string;
+}
+
+/**
+ * Load tag configurations from tags.config.ts
+ * We need to dynamically import and parse the TypeScript file.
+ */
+function loadTagConfigs(): TagConfig[] {
+  if (!fs.existsSync(TAGS_CONFIG_FILE)) {
+    console.warn('⚠️  Tags config file not found:', TAGS_CONFIG_FILE);
+    return [];
+  }
+
+  const configContent = fs.readFileSync(TAGS_CONFIG_FILE, 'utf-8');
+
+  // Extract the TAGS array using regex (simple parsing)
+  // This works because we control the format of tags.config.ts
+  const tagsMatch = configContent.match(/export const TAGS: TagConfig\[\] = (\[[\s\S]*?\n\]);/);
+
+  if (!tagsMatch) {
+    console.warn('⚠️  Could not parse TAGS array from config file');
+    return [];
+  }
+
+  try {
+    // Use eval to parse the array (safe since we control the file)
+    // eslint-disable-next-line no-eval
+    const tags = eval(tagsMatch[1]) as TagConfig[];
+    return tags;
+  } catch (error) {
+    console.error('❌ Error parsing tags config:', error);
+    return [];
+  }
+}
+
+function buildGlossaryData(validTagIds: Set<string>): TermData[] {
   if (!fs.existsSync(TERMS_DIR)) {
     console.error('❌ Terms directory not found:', TERMS_DIR);
     process.exit(1);
@@ -34,6 +75,8 @@ function buildGlossaryData(): TermData[] {
     process.exit(1);
   }
 
+  const invalidTags = new Set<string>();
+
   const terms: TermData[] = files.map(filename => {
     const filepath = path.join(TERMS_DIR, filename);
     const fileContent = fs.readFileSync(filepath, 'utf-8');
@@ -43,11 +86,19 @@ function buildGlossaryData(): TermData[] {
       throw new Error(`Invalid term file: ${filename}. Missing required frontmatter fields.`);
     }
 
+    // Validate tags
+    const tags = Array.isArray(data.tags) ? data.tags : [];
+    tags.forEach((tag: string) => {
+      if (!validTagIds.has(tag)) {
+        invalidTags.add(tag);
+      }
+    });
+
     const term: TermData = {
       id: data.id,
       term: data.term,
       definition: content.trim(),
-      tags: Array.isArray(data.tags) ? data.tags : [],
+      tags,
       links: Array.isArray(data.links) ? data.links : [],
     };
 
@@ -61,6 +112,13 @@ function buildGlossaryData(): TermData[] {
 
     return term;
   });
+
+  // Report invalid tags
+  if (invalidTags.size > 0) {
+    console.warn(`\n⚠️  Found ${invalidTags.size} undefined tag(s):`);
+    invalidTags.forEach(tag => console.warn(`   - "${tag}"`));
+    console.warn(`\n   Add missing tags to src/data/tags.config.ts\n`);
+  }
 
   return terms;
 }
@@ -124,12 +182,18 @@ function detectAutoLinks(terms: TermData[]): void {
   }
 }
 
-function generateTypeScriptFile(terms: TermData[]): string {
+function generateTypeScriptFile(terms: TermData[], tagConfigs: TagConfig[]): string {
   const termsJson = JSON.stringify(terms, null, 2);
+
+  // Generate tagColors from config
+  const tagColorsEntries = tagConfigs
+    .map(tag => `  '${tag.id}': '${tag.color}'`)
+    .join(',\n');
 
   return `// THIS FILE IS AUTO-GENERATED
 // Do not edit directly. Edit files in src/data/terms/ instead.
 // Run 'npm run generate-glossary' to regenerate this file.
+// Tag colors are sourced from src/data/tags.config.ts
 
 export interface GlossaryTerm {
   id: string;
@@ -150,34 +214,9 @@ export interface GlossaryTerm {
 
 export const glossaryData: GlossaryTerm[] = ${termsJson};
 
+// Tag colors imported from tags.config.ts
 export const tagColors: Record<string, string> = {
-  'minion': '#a855f7',
-  'strategy': '#3b82f6',
-  'fundamentals': '#10b981',
-  'stat': '#eab308',
-  'economy': '#f59e0b',
-  'jungle': '#059669',
-  'abstract-concept': '#ec4899',
-  'item': '#f97316',
-  'vision': '#6366f1',
-  'role': '#06b6d4',
-  'map': '#14b8a6',
-  'summoner-spell': '#d946ef'
-};
-
-export const tagColorClasses: Record<string, string> = {
-  'minion': 'bg-purple-600',
-  'strategy': 'bg-blue-600',
-  'fundamentals': 'bg-green-600',
-  'stat': 'bg-yellow-600',
-  'economy': 'bg-amber-600',
-  'jungle': 'bg-emerald-600',
-  'abstract-concept': 'bg-pink-600',
-  'item': 'bg-orange-600',
-  'vision': 'bg-indigo-600',
-  'role': 'bg-cyan-600',
-  'map': 'bg-teal-600',
-  'summoner-spell': 'bg-fuchsia-600'
+${tagColorsEntries}
 };
 `;
 }
@@ -185,13 +224,22 @@ export const tagColorClasses: Record<string, string> = {
 // Main execution
 try {
   console.log('🔨 Building glossary data from markdown files...');
-  const terms = buildGlossaryData();
+
+  // Load tag configurations
+  console.log('📋 Loading tag configurations...');
+  const tagConfigs = loadTagConfigs();
+  console.log(`✓ Loaded ${tagConfigs.length} tag configurations`);
+
+  const validTagIds = new Set(tagConfigs.map(t => t.id));
+
+  // Build glossary data with tag validation
+  const terms = buildGlossaryData(validTagIds);
   console.log(`✓ Loaded ${terms.length} terms`);
 
   // Detect automatic links
   detectAutoLinks(terms);
 
-  const tsContent = generateTypeScriptFile(terms);
+  const tsContent = generateTypeScriptFile(terms, tagConfigs);
   fs.writeFileSync(OUTPUT_FILE, tsContent, 'utf-8');
   console.log(`✓ Generated ${OUTPUT_FILE}`);
 
