@@ -461,34 +461,20 @@ export default function GraphView({
         const nodeTags = node.tags || [];
         const hasMultipleTags = nodeTags.length > 1;
 
+        // Set glow effect for selected, connected, or hovered nodes
         if (isSelected) {
-          // Selected nodes: solid blue
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-          ctx.fillStyle = '#3b82f6';
           ctx.shadowColor = '#3b82f6';
           ctx.shadowBlur = 20;
-          ctx.fill();
-          ctx.shadowBlur = 0;
         } else if (isConnected) {
-          // Connected nodes: solid light blue
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-          ctx.fillStyle = '#60a5fa';
           ctx.shadowColor = '#60a5fa';
           ctx.shadowBlur = 10;
-          ctx.fill();
-          ctx.shadowBlur = 0;
         } else if (isHovered) {
-          // Hovered nodes: solid gray
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-          ctx.fillStyle = '#94a3b8';
           ctx.shadowColor = '#94a3b8';
           ctx.shadowBlur = 10;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        } else if (hasMultipleTags) {
+        }
+
+        // Draw node with its actual tag colors
+        if (hasMultipleTags) {
           // Multi-tagged nodes: draw as pie chart
           const angleStep = (Math.PI * 2) / nodeTags.length;
           let startAngle = -Math.PI / 2; // Start at top
@@ -514,6 +500,9 @@ export default function GraphView({
           ctx.fillStyle = color;
           ctx.fill();
         }
+
+        // Clear glow effect
+        ctx.shadowBlur = 0;
 
         // Draw border (applies to all node types)
         ctx.beginPath();
