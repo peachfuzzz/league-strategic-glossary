@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Menu, Eye, BookOpen, RotateCcw, Shuffle, HelpCircle } from 'lucide-react';
 import { glossaryData, GlossaryTerm, tagColors } from '@/data/glossaryData';
+import { SHUFFLE_CONFIG } from '@/config/shuffle.config';
 import GraphView from './GraphView';
 import ListView from './ListView';
 import SearchOverlay from './SearchOverlay';
@@ -41,8 +42,18 @@ const saveToStorage = (key: string, value: any) => {
 
 const getRandomTerm = (): string => {
   if (glossaryData.length === 0) return '';
-  const randomIndex = Math.floor(Math.random() * glossaryData.length);
-  return glossaryData[randomIndex].id;
+
+  // Filter terms based on minimum connection requirement
+  const eligibleTerms = glossaryData.filter(term => {
+    const totalConnections = (term.links?.length || 0) + (term.autoLinks?.length || 0);
+    return totalConnections >= SHUFFLE_CONFIG.minConnections;
+  });
+
+  // Fallback to all terms if no terms meet the criteria
+  const termsToChooseFrom = eligibleTerms.length > 0 ? eligibleTerms : glossaryData;
+
+  const randomIndex = Math.floor(Math.random() * termsToChooseFrom.length);
+  return termsToChooseFrom[randomIndex].id;
 };
 
 const getDefaultStartingTerm = (): string => {
