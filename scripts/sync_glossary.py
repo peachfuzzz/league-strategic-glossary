@@ -21,7 +21,7 @@ Google Doc Format:
     - Heading 2: Term names (append ✓ to mark as completed, e.g., "CC Buffer ✓")
     - Optional metadata lines immediately after term name:
         - "Also known as: alt1, alt2" -> alternates field
-        - "Tags: tag1, tag2" -> overrides section-based tag
+        - "Tags: tag1, tag2" -> appends to section-based tag
         - "See also: term1, term2" -> links field
     - First blank line separates metadata from definition body
     - "(IN PROGRESS)" or "(IN PROG)" in term name -> skipped
@@ -112,11 +112,13 @@ class Term:
     
     @property
     def effective_tags(self) -> list[str]:
-        """Get tags - explicit tags override section-based default."""
+        """Get tags - explicit tags append to section-based default."""
+        # Always include section tag as base
+        tags = [self._section_to_tag(self.section)]
+        # Append any explicit tags
         if self.tags:
-            return self.tags
-        # Convert section name to tag format
-        return [self._section_to_tag(self.section)]
+            tags.extend(self.tags)
+        return tags
     
     def _section_to_tag(self, section: str) -> str:
         """Convert section header to tag format."""
@@ -295,7 +297,7 @@ class GoogleDocsParser:
         if text_lower.startswith("tags:"):
             value = text[len("tags:"):].strip()
             term.tags = [tag.strip() for tag in value.split(",") if tag.strip()]
-            self.log(f"  Tags (override): {term.tags}")
+            self.log(f"  Tags (additional): {term.tags}")
             return True
         
         # See also:
