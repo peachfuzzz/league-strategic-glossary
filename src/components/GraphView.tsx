@@ -14,6 +14,7 @@ interface GraphViewProps {
   draggedNode: any;
   setDraggedNode: (node: any) => void;
   zoom: number;
+  setZoom: React.Dispatch<React.SetStateAction<number>>;
   pan: { x: number; y: number };
   setPan: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
   searchQuery: string;
@@ -38,6 +39,7 @@ export default function GraphView({
   draggedNode,
   setDraggedNode,
   zoom,
+  setZoom,
   pan,
   setPan,
   searchQuery,
@@ -620,11 +622,30 @@ export default function GraphView({
 
   const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
     e.preventDefault();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Get mouse position relative to canvas
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Convert mouse position to world coordinates (before zoom)
+    const worldX = (mouseX - pan.x) / zoom;
+    const worldY = (mouseY - pan.y) / zoom;
+
+    // Calculate new zoom
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
     const newZoom = Math.max(0.5, Math.min(3, zoom * delta));
-    
-    // You could add zoom-to-cursor here if desired
-    // For now, just update zoom directly
+
+    // Calculate new pan to keep the world point under the cursor
+    const newPan = {
+      x: mouseX - worldX * newZoom,
+      y: mouseY - worldY * newZoom
+    };
+
+    setZoom(newZoom);
+    setPan(newPan);
   };
 
   return (

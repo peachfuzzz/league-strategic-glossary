@@ -444,6 +444,7 @@ export default function GlossaryGraph() {
               draggedNode={draggedNode}
               setDraggedNode={setDraggedNode}
               zoom={zoom}
+              setZoom={setZoom}
               pan={pan}
               setPan={setPan}
               searchQuery={searchQuery}
