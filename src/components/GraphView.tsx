@@ -162,6 +162,15 @@ export default function GraphView({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Check if we need to initialize or update nodes
+    // We need to update if:
+    // 1. glossaryData changed (different terms available)
+    // 2. Number of nodes doesn't match glossaryData length
+    const needsUpdate = nodes.length !== glossaryData.length ||
+      glossaryData.some(term => !nodes.find(n => n.id === term.id));
+
+    if (!needsUpdate) return;
+
     const rect = canvas.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -183,11 +192,18 @@ export default function GraphView({
     });
 
     setNodes(newNodes);
-  }, [glossaryData.length, setNodes]); // Only depend on length, not the whole array
+  }, [glossaryData, nodes, setNodes]);
 
   // Physics simulation
   useEffect(() => {
-    if (nodes.length === 0) return;
+    if (nodes.length === 0) {
+      // Clean up animation frame if nodes are cleared
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+      return;
+    }
 
     // ADJUST THESE VALUES TO CONTROL GRAPH BEHAVIOR:
     const DAMPING = 0.80;              // Lower = slower movement (0.8-0.95)
@@ -198,17 +214,22 @@ export default function GraphView({
 
     const simulate = () => {
       setNodes((prevNodes: any[]) => {
+        // Safety check: if nodes array is empty, stop simulation
+        if (prevNodes.length === 0) {
+          return prevNodes;
+        }
+
         // Don't modify node data, just update physics
         const newNodes = [...prevNodes];
 
         for (let i = 0; i < newNodes.length; i++) {
           const node = newNodes[i];
-          
+
           if (draggedNode && draggedNode.id === node.id) continue;
 
           const canvas = canvasRef.current;
           if (!canvas) continue;
-          
+
           const rect = canvas.getBoundingClientRect();
           const centerX = rect.width / 2;
           const centerY = rect.height / 2;
@@ -263,9 +284,10 @@ export default function GraphView({
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
       }
     };
-  }, [nodes.length, draggedNode]);
+  }, [nodes.length, draggedNode, setNodes]);
 
   // Drawing
   useEffect(() => {

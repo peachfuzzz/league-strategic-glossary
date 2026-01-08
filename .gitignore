@@ -49,3 +49,6 @@ scripts/token.json
 
 # Python venv
 .venv/
+
+# Claude context
+CLAUDE.md
