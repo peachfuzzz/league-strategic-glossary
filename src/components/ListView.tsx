@@ -35,7 +35,7 @@ export default function ListView({
     const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
     if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-slate-300 text-sm mb-3">{displayDefinition}</p>;
+      return <p className="text-[#2C2C2C] text-sm leading-relaxed font-serif">{displayDefinition}</p>;
     }
 
     // Build a map of term IDs to their display names and patterns (including alternates)
@@ -108,10 +108,10 @@ export default function ListView({
                 setSelectedNode(linkedTerm);
               }
             }}
-            className={`underline decoration-2 underline-offset-2 hover:text-blue-400 transition-colors ${
+            className={`underline decoration-1 underline-offset-2 transition-colors ${
               isDiscovered
-                ? 'text-blue-300'
-                : 'text-slate-300'
+                ? 'text-[#E07A5F] hover:text-[#D66A4F]'
+                : 'text-[#6B6B6B] hover:text-[#E07A5F]'
             }`}
           >
             {match.text}
@@ -127,90 +127,103 @@ export default function ListView({
       parts.push(displayDefinition.substring(lastIndex));
     }
 
-    return <p className="text-slate-300 text-sm mb-3">{parts}</p>;
+    return <p className="text-[#2C2C2C] text-sm leading-relaxed font-serif">{parts}</p>;
   };
+
   return (
     <div className="h-full overflow-y-auto p-6">
       <div className="max-w-4xl mx-auto space-y-3">
         {filteredTerms.length === 0 ? (
           <div className="text-center py-16">
-            <Search size={48} className="mx-auto text-slate-600 mb-3" />
-            <p className="text-slate-400">No terms match your filters</p>
+            <Search size={48} className="mx-auto text-[#A0A0A0] mb-3" />
+            <p className="text-[#6B6B6B]">No terms match your filters</p>
           </div>
         ) : (
           filteredTerms.map(term => (
             <div
               key={term.id}
               onClick={() => setSelectedNode(term)}
-              className={`bg-slate-800 border rounded-lg p-4 cursor-pointer transition-all hover:border-blue-500 ${
-                selectedNode?.id === term.id ? 'border-blue-500 ring-2 ring-blue-500/20' : 'border-slate-700'
+              className={`bg-[#FFFCF7] border rounded p-4 cursor-pointer transition-all hover:border-[#E07A5F] ${
+                selectedNode?.id === term.id ? 'border-[#E07A5F] ring-2 ring-[#E07A5F]/20' : 'border-[#E5E5E5]'
               }`}
             >
-              <div className="flex items-start justify-between gap-3 mb-2">
-                        <div className="flex-1">
-                          <h3 className="text-lg font-bold text-white">{term.term}</h3>
-                          {term.alternates && term.alternates.length > 0 && (
-                            <p className="text-xs text-slate-400 italic mt-1">
-                              Also known as: {term.alternates.join(', ')}
-                            </p>
-                          )}
-                        </div>
-                        <div className="flex flex-wrap gap-1 justify-end">
-                          {term.tags.map(tag => (
-                            <span
-                              key={tag}
-                              className={`px-2 py-0.5 text-xs rounded-full text-white cursor-pointer transition-all ${
-                                hoveredTag === tag ? 'ring-2 ring-white ring-offset-1 ring-offset-slate-800' : ''
-                              }`}
-                              style={{ backgroundColor: tagColors[tag] || '#64748b' }}
-                              onMouseEnter={() => setHoveredTag(tag)}
-                              onMouseLeave={() => setHoveredTag(null)}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onToggleTag(tag);
-                              }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="flex-1">
+                  <h3 className="text-lg font-serif font-semibold text-[#2C2C2C]">{term.term}</h3>
+                  {term.alternates && term.alternates.length > 0 && (
+                    <p className="text-xs text-[#6B6B6B] italic mt-1">
+                      Also: {term.alternates.join(', ')}
+                    </p>
+                  )}
+                </div>
 
-                      {/* Definition with inline autolinks */}
-                      {renderDefinitionWithLinks(term)}
+                {/* Tags - dots instead of pills */}
+                <div className="flex flex-wrap gap-2 justify-end">
+                  {term.tags.map(tag => (
+                    <button
+                      key={tag}
+                      className={`flex items-center gap-1.5 hover:opacity-70 transition-opacity ${
+                        hoveredTag === tag ? 'opacity-70' : ''
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleTag(tag);
+                      }}
+                      onMouseEnter={() => setHoveredTag(tag)}
+                      onMouseLeave={() => setHoveredTag(null)}
+                      title={`Filter by ${tag}`}
+                    >
+                      <div
+                        className="w-2.5 h-2.5 rounded-full"
+                        style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
+                      />
+                      <span className="text-xs text-[#6B6B6B]">{tag}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-                      {/* Manual links (dashed border) */}
-                      {term.links.length > 0 && (
-                        <div className="flex flex-wrap gap-2 text-xs text-slate-400">
-                          <span className="font-semibold">Also see:</span>
-                          {term.links.map(linkId => {
-                            const linkedTerm = glossaryData.find(t => t.id === linkId);
-                            if (!linkedTerm) return null;
+              {/* Definition with inline autolinks */}
+              <div className="border-t border-[#F0F0F0] pt-3 mb-3">
+                {renderDefinitionWithLinks(term)}
+              </div>
 
-                            const isDiscovered = discoveredTerms.has(linkedTerm.id);
-                            return (
-                              <span
-                                key={linkId}
-                                className={`px-2 py-0.5 rounded border-2 border-dashed transition-colors cursor-pointer ${
-                                  isDiscovered
-                                    ? 'bg-blue-700/30 border-blue-600 text-blue-300 hover:bg-blue-700/50'
-                                    : 'bg-slate-700 border-slate-600 text-slate-300 hover:bg-slate-600'
-                                }`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (viewMode === 'explore') {
-                                    onDiscoverTerm(linkedTerm.id);
-                                  } else {
-                                    setSelectedNode(linkedTerm);
-                                  }
-                                }}
-                              >
-                                {linkedTerm.term}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      )}
+              {/* Manual links */}
+              {term.links.length > 0 && (
+                <div className="border-t border-[#F0F0F0] pt-3">
+                  <p className="text-xs text-[#A0A0A0] mb-2 uppercase tracking-wide">
+                    See Also
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {term.links.map(linkId => {
+                      const linkedTerm = glossaryData.find(t => t.id === linkId);
+                      if (!linkedTerm) return null;
+
+                      const isDiscovered = discoveredTerms.has(linkedTerm.id);
+                      return (
+                        <button
+                          key={linkId}
+                          className={`text-sm transition-colors ${
+                            isDiscovered
+                              ? 'text-[#E07A5F] hover:underline'
+                              : 'text-[#A0A0A0] hover:text-[#6B6B6B]'
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (viewMode === 'explore') {
+                              onDiscoverTerm(linkedTerm.id);
+                            } else {
+                              setSelectedNode(linkedTerm);
+                            }
+                          }}
+                        >
+                          {linkedTerm.term}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           ))
         )}

@@ -52,7 +52,7 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "all-in",
     "term": "All-in",
-    "definition": "Combat between opposing laners with the intention to kill. An all-in is taken either when one lane has sufficient kill pressure, either via a calculation of lethal, or as a natural consequence of prior combat.  All-ins often assume the possibility of expending every resource and cooldown available to all champions involved.",
+    "definition": "A fight between opposing players with the intention to kill. An all-in is taken either when an actor has sufficient kill pressure, either via a calculation of lethal, or as a natural consequence of prior combat.  All-ins often expend every resource and cooldown available to all champions involved.",
     "tags": [
       "strategy"
     ],
@@ -60,7 +60,9 @@ export const glossaryData: GlossaryTerm[] = [
       "trade"
     ],
     "autoLinks": [
+      "actor",
       "combat",
+      "fight",
       "kill-pressure",
       "pressure"
     ]
@@ -302,20 +304,13 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "flash-buffer",
     "term": "Flash Buffer",
-    "definition": "Buffering an action on a target or location before flashing into range to perform it instantly. A special case of the regular buffer system. Flash buffering can be done with some spells that are cast based on location, and is affected by the clamp cast setting.\n\nAll-in✓\nSee also: trade\nA fight between opposing players with the intention to kill. An all-in is taken either when an actor has sufficient kill pressure, either via a calculation of lethal, or as a natural consequence of prior combat.  All-ins often expend every resource and cooldown available to all champions involved.",
+    "definition": "Buffering an action on a target or location before flashing into range to perform it instantly. A special case of the regular buffer system. Flash buffering can be done with some spells that are cast based on location, and is affected by the clamp cast setting.",
     "tags": [
       "game-mechanics"
     ],
     "links": [],
     "autoLinks": [
-      "actor",
-      "all-in",
-      "buffer",
-      "combat",
-      "fight",
-      "kill-pressure",
-      "pressure",
-      "trade"
+      "buffer"
     ]
   },
   {

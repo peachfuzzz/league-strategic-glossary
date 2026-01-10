@@ -21,41 +21,55 @@ export default function TagSidebar({
   hoveredTag
 }: TagSidebarProps) {
   return (
-    <aside className={`${isOpen ? 'w-64' : 'w-0'} bg-slate-800 border-r border-slate-700 overflow-hidden transition-all duration-300 flex-shrink-0`}>
+    <aside className={`${isOpen ? 'w-64' : 'w-0'} bg-[#FAF9F6] border-r border-[#E5E5E5] overflow-hidden transition-all duration-300 flex-shrink-0`}>
       <div className="p-4 h-full overflow-y-auto">
-        <h2 className="text-sm font-semibold text-slate-400 mb-3">Filter by Tags</h2>
-        <div className="space-y-2">
-          {allTags.map(tag => (
+        <div className="mb-4">
+          <h2 className="text-base font-serif font-semibold text-[#2C2C2C] mb-1">
+            Filter by Tag
+          </h2>
+          {selectedTags.length > 0 && (
             <button
-              key={tag}
-              onClick={() => onToggleTag(tag)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all ${
-                selectedTags.includes(tag)
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              } ${
-                hoveredTag === tag ? 'ring-2 ring-white' : ''
-              }`}
+              onClick={onClearTags}
+              className="text-xs text-[#E07A5F] hover:underline mt-1"
             >
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-3 h-3 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: tagColors[tag] || '#64748b' }}
-                />
-                <span className="truncate">{tag}</span>
-              </div>
+              Clear all ({selectedTags.length})
             </button>
-          ))}
+          )}
         </div>
 
-        {selectedTags.length > 0 && (
-          <button
-            onClick={onClearTags}
-            className="w-full mt-4 px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg text-sm transition-colors"
-          >
-            Clear Filters
-          </button>
-        )}
+        <div className="space-y-1.5">
+          {allTags.map(tag => {
+            const isSelected = selectedTags.includes(tag);
+            const isHovered = hoveredTag === tag;
+
+            return (
+              <button
+                key={tag}
+                onClick={() => onToggleTag(tag)}
+                className={`w-full flex items-center gap-2 px-2 py-1.5 rounded hover:bg-[#F5F5F5] transition-colors text-left group ${
+                  isHovered ? 'bg-[#F5F5F5]' : ''
+                }`}
+              >
+                {/* Colored dot */}
+                <div
+                  className={`w-3 h-3 rounded-full transition-all flex-shrink-0 ${
+                    isSelected ? 'ring-2 ring-[#E07A5F] ring-offset-1' : ''
+                  }`}
+                  style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
+                />
+
+                {/* Label */}
+                <span className={`text-sm flex-1 truncate ${
+                  isSelected
+                    ? 'text-[#2C2C2C] font-medium'
+                    : 'text-[#6B6B6B] group-hover:text-[#2C2C2C]'
+                }`}>
+                  {tag}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </aside>
   );

@@ -65,7 +65,7 @@ export default function GraphView({
     const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
     if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-slate-300 text-sm mb-3">{displayDefinition}</p>;
+      return <p className="text-[#2C2C2C] text-sm leading-relaxed font-serif">{displayDefinition}</p>;
     }
 
     // Build a map of term IDs to their display names and patterns (including alternates)
@@ -138,10 +138,10 @@ export default function GraphView({
                 setSelectedNode(linkedTerm);
               }
             }}
-            className={`underline decoration-2 underline-offset-2 hover:text-blue-400 transition-colors ${
+            className={`underline decoration-1 underline-offset-2 transition-colors ${
               isDiscovered
-                ? 'text-blue-300'
-                : 'text-slate-300'
+                ? 'text-[#E07A5F] hover:text-[#D66A4F]'
+                : 'text-[#6B6B6B] hover:text-[#E07A5F]'
             }`}
           >
             {match.text}
@@ -157,7 +157,7 @@ export default function GraphView({
       parts.push(displayDefinition.substring(lastIndex));
     }
 
-    return <p className="text-slate-300 text-sm mb-3">{parts}</p>;
+    return <p className="text-[#2C2C2C] text-sm leading-relaxed font-serif">{parts}</p>;
   };
 
   // Initialize nodes when glossaryData changes
@@ -323,8 +323,11 @@ export default function GraphView({
     let drawAnimationId: number;
     const draw = () => {
       const { width, height } = getCanvasSize();
-      ctx.clearRect(0, 0, width, height);
-      
+
+      // Draw parchment background
+      ctx.fillStyle = '#FFFCF7';
+      ctx.fillRect(0, 0, width, height);
+
       ctx.save();
       ctx.translate(pan.x, pan.y);
       ctx.scale(zoom, zoom);
@@ -350,7 +353,8 @@ export default function GraphView({
         allLinks.forEach((linkId: string) => {
           const linked = nodes.find(n => n.id === linkId);
           if (linked && filteredNodes.includes(linked)) {
-            ctx.strokeStyle = 'rgba(148, 163, 184, 0.2)';
+            ctx.strokeStyle = 'rgba(107, 107, 107, 0.3)';
+            ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(linked.x, linked.y);
@@ -383,8 +387,8 @@ export default function GraphView({
             const endY = node.y + Math.sin(angle) * trailLength;
 
             // Draw faint dashed line
-            ctx.setLineDash([4, 4]);
-            ctx.strokeStyle = 'rgba(148, 163, 184, 0.30)';
+            ctx.setLineDash([3, 3]);
+            ctx.strokeStyle = 'rgba(107, 107, 107, 0.15)';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
@@ -406,7 +410,7 @@ export default function GraphView({
           ];
 
           // Draw discovered connections
-          ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
+          ctx.strokeStyle = 'rgba(224, 122, 95, 0.6)';
           ctx.lineWidth = 2.5;
           allLinks.forEach((linkId: string) => {
             const linked = nodes.find(n => n.id === linkId);
@@ -435,7 +439,7 @@ export default function GraphView({
 
               // Draw more visible dashed line for selected node
               ctx.setLineDash([5, 5]);
-              ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
+              ctx.strokeStyle = 'rgba(224, 122, 95, 0.3)';
               ctx.lineWidth = 2;
               ctx.beginPath();
               ctx.moveTo(selected.x, selected.y);
@@ -464,13 +468,13 @@ export default function GraphView({
 
         // Set glow effect for selected, connected, or hovered nodes
         if (isSelected) {
-          ctx.shadowColor = '#3b82f6';
+          ctx.shadowColor = '#E07A5F';
           ctx.shadowBlur = 20;
         } else if (isConnected) {
-          ctx.shadowColor = '#60a5fa';
+          ctx.shadowColor = '#F0A896';
           ctx.shadowBlur = 10;
         } else if (isHovered) {
-          ctx.shadowColor = '#94a3b8';
+          ctx.shadowColor = '#A0A0A0';
           ctx.shadowBlur = 10;
         }
 
@@ -508,7 +512,7 @@ export default function GraphView({
         // Draw border (applies to all node types)
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = isSelected || isHovered ? '#fff' : 'rgba(255, 255, 255, 0.3)';
+        ctx.strokeStyle = isSelected || isHovered ? '#E07A5F' : 'rgba(160, 160, 160, 0.4)';
         ctx.lineWidth = isSelected ? 3 : 1.5;
         ctx.stroke();
 
@@ -518,20 +522,20 @@ export default function GraphView({
         const shouldShowLabel = !selectedNode || isSelected || isConnected || isHovered;
 
         if (shouldShowLabel) {
-          ctx.font = isSelected ? 'bold 14px sans-serif' : '12px sans-serif';
+          ctx.font = isSelected ? 'bold 14px Georgia, serif' : '12px Georgia, serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
 
           const textWidth = ctx.measureText(node.term).width;
 
           // Use reduced opacity when no node is selected
-          const bgOpacity = !selectedNode ? 0.4 : 0.8;
-          const textOpacity = !selectedNode ? 0.5 : 1.0;
+          const bgOpacity = !selectedNode ? 0.6 : 0.9;
+          const textOpacity = !selectedNode ? 0.6 : 1.0;
 
-          ctx.fillStyle = `rgba(15, 23, 42, ${bgOpacity})`;
+          ctx.fillStyle = `rgba(255, 252, 247, ${bgOpacity})`;
           ctx.fillRect(node.x - textWidth / 2 - 4, node.y + node.radius + 4, textWidth + 8, 20);
 
-          ctx.fillStyle = `rgba(255, 255, 255, ${textOpacity})`;
+          ctx.fillStyle = `rgba(44, 44, 44, ${textOpacity})`;
           ctx.fillText(node.term, node.x, node.y + node.radius + 8);
         }
       });
@@ -652,92 +656,93 @@ export default function GraphView({
 
       {/* Selected node info panel */}
       {selectedNode && (
-        <div className="absolute bottom-4 right-4 bg-slate-800 border border-slate-700 rounded-lg p-4 max-w-sm shadow-xl">
-          <div className="flex items-start justify-between gap-3 mb-2">
+        <div className="absolute bottom-6 right-6 bg-[#FFFCF7] border border-[#E5E5E5] rounded shadow-lg p-5 max-w-sm">
+          <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-white">{selectedNode.term}</h3>
+              <h3 className="text-xl font-serif font-semibold text-[#2C2C2C] leading-tight">
+                {selectedNode.term}
+              </h3>
               {selectedNode.alternates && selectedNode.alternates.length > 0 && (
-                <p className="text-xs text-slate-400 italic mt-1">
-                  Also known as: {selectedNode.alternates.join(', ')}
+                <p className="text-xs text-[#6B6B6B] italic mt-1">
+                  Also: {selectedNode.alternates.join(', ')}
                 </p>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              {/* Tags as colored circles with tooltips */}
-              <div className="flex gap-1 relative">
-                {selectedNode.tags.map(tag => (
-                  <div key={tag} className="relative">
-                    <div
-                      title={tag}
-                      className={`w-3 h-3 rounded-full cursor-pointer transition-all ${
-                        hoveredTag === tag ? 'ring-2 ring-white ring-offset-1 ring-offset-slate-800' : ''
-                      }`}
-                      style={{ backgroundColor: tagColors[tag] || '#64748b' }}
-                      onMouseEnter={() => setHoveredTag(tag)}
-                      onMouseLeave={() => setHoveredTag(null)}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleTag(tag);
-                      }}
-                    />
-                    {/* Hover label */}
-                    {hoveredTag === tag && (
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 bg-slate-900 text-white text-xs rounded whitespace-nowrap pointer-events-none">
-                        {tag}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+            <button
+              onClick={() => setSelectedNode(null)}
+              className="p-1 text-[#A0A0A0] hover:text-[#E07A5F] transition-colors flex-shrink-0"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* Tags - dots instead of pills */}
+          <div className="flex gap-2 mb-3 flex-wrap">
+            {selectedNode.tags.map(tag => (
               <button
-                onClick={() => setSelectedNode(null)}
-                className="text-slate-400 hover:text-white transition-colors"
+                key={tag}
+                className="flex items-center gap-1.5 hover:opacity-70 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleTag(tag);
+                }}
+                title={`Filter by ${tag}`}
               >
-                <X size={18} />
+                <div
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
+                />
+                <span className="text-xs text-[#6B6B6B]">{tag}</span>
               </button>
-            </div>
+            ))}
           </div>
 
           {/* Definition with inline autolinks */}
-          {renderDefinitionWithLinks(selectedNode)}
+          <div className="border-t border-[#F0F0F0] pt-3">
+            {renderDefinitionWithLinks(selectedNode)}
+          </div>
 
-          {/* Manual links (dashed border) */}
+          {/* Manual links */}
           {selectedNode.links.length > 0 && (
-            <div className="flex flex-wrap gap-2 text-xs text-slate-400">
-              <span className="font-semibold">Also see:</span>
-              {selectedNode.links.map(linkId => {
-                const linkedTerm = allGlossaryData.find(t => t.id === linkId);
-                if (!linkedTerm) return null;
+            <div className="border-t border-[#F0F0F0] pt-3 mt-3">
+              <p className="text-xs text-[#A0A0A0] mb-2 uppercase tracking-wide">
+                See Also
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {selectedNode.links.map(linkId => {
+                  const linkedTerm = allGlossaryData.find(t => t.id === linkId);
+                  if (!linkedTerm) return null;
 
-                const isDiscovered = discoveredTerms.has(linkedTerm.id);
-                return (
-                  <span
-                    key={linkId}
-                    className={`px-2 py-0.5 rounded border-2 border-dashed transition-colors cursor-pointer ${
-                      isDiscovered
-                        ? 'bg-blue-700/30 border-blue-600 text-blue-300 hover:bg-blue-700/50'
-                        : 'bg-slate-700 border-slate-600 text-slate-300 hover:bg-slate-600'
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (viewMode === 'explore') {
-                        onDiscoverTerm(linkedTerm.id);
-                      } else {
-                        setSelectedNode(linkedTerm);
-                      }
-                    }}
-                  >
-                    {linkedTerm.term}
-                  </span>
-                );
-              })}
+                  const isDiscovered = discoveredTerms.has(linkedTerm.id);
+                  return (
+                    <button
+                      key={linkId}
+                      className={`text-sm transition-colors ${
+                        isDiscovered
+                          ? 'text-[#E07A5F] hover:underline'
+                          : 'text-[#A0A0A0] hover:text-[#6B6B6B]'
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (viewMode === 'explore') {
+                          onDiscoverTerm(linkedTerm.id);
+                        } else {
+                          setSelectedNode(linkedTerm);
+                        }
+                      }}
+                    >
+                      {linkedTerm.term}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
       )}
 
       {/* Instructions overlay */}
-      <div className="absolute top-4 left-4 bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-300">
+      <div className="absolute top-4 left-4 bg-[#FFFCF7]/95 border border-[#E5E5E5] rounded px-3 py-2 text-xs text-[#6B6B6B]">
         <div>Click & drag nodes • Scroll to zoom • Drag background to pan</div>
       </div>
     </>

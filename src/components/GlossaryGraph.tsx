@@ -287,44 +287,29 @@ export default function GlossaryGraph() {
   }, [searchQuery]);
 
   return (
-    <div className="h-screen bg-slate-900 flex flex-col">
+    <div className="h-screen bg-[#FAF9F6] flex flex-col">
       {/* Header */}
-      <header className="bg-slate-800 border-b border-slate-700 px-4 py-3 flex items-center gap-3 flex-shrink-0 flex-wrap">
+      <header className="bg-[#FAF9F6] border-b border-[#E5E5E5] px-6 py-4 flex items-center gap-4 flex-shrink-0 flex-wrap">
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 text-slate-400 hover:text-white transition-colors"
+          className="p-1 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
           title={isSidebarOpen ? 'Hide filter bar' : 'Show filter bar'}
         >
-          <Menu size={20} />
+          <Menu size={18} />
         </button>
 
-        <h1 className="text-xl font-bold text-white">LoL Glossary</h1>
+        <h1 className="text-xl font-serif text-[#2C2C2C] mr-4">League Strategic Glossary</h1>
 
         {/* View Mode Toggle */}
         <button
           onClick={toggleViewMode}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-            viewMode === 'explore'
-              ? 'bg-blue-600 text-white hover:bg-blue-700'
-              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-          }`}
+          className="px-3 py-1.5 text-sm border border-[#E5E5E5] rounded hover:border-[#E07A5F] hover:text-[#E07A5F] transition-colors text-[#2C2C2C]"
           title={viewMode === 'explore' ? 'Switch to View All' : 'Switch to Explore Mode'}
         >
           {viewMode === 'explore' ? (
-            <>
-              <Eye size={16} />
-              <span className="hidden sm:inline">
-                Explore: {mounted ? `${discoveryCount}/${totalCount}` : '...'}
-              </span>
-              <span className="sm:hidden">
-                {mounted ? `${discoveryCount}/${totalCount}` : '...'}
-              </span>
-            </>
+            <span>Explore • {mounted ? `${discoveryCount}/${totalCount}` : '...'}</span>
           ) : (
-            <>
-              <BookOpen size={16} />
-              <span className="hidden sm:inline">View All</span>
-            </>
+            <span>View All</span>
           )}
         </button>
 
@@ -333,87 +318,88 @@ export default function GlossaryGraph() {
           <>
             <button
               onClick={handleResetDiscoveries}
-              className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg transition-colors"
+              className="p-1.5 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
               title="Reset discoveries (keep starting term)"
             >
               <RotateCcw size={16} />
             </button>
             <button
               onClick={handleRerollStartingTerm}
-              className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg transition-colors"
-              title="Reroll starting term"
+              className="p-1.5 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
+              title="Random starting term"
             >
               <Shuffle size={16} />
             </button>
           </>
         )}
 
-        <div className="flex items-center gap-2 bg-slate-700 rounded-lg p-1">
+        <div className="flex items-center gap-4 border-l border-[#E5E5E5] pl-4 ml-2">
           <button
             onClick={() => setView('list')}
-            className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+            className={`text-sm transition-colors pb-0.5 ${
               view === 'list'
-                ? 'bg-slate-600 text-white'
-                : 'text-slate-300 hover:text-white'
+                ? 'text-[#E07A5F] border-b-2 border-[#E07A5F] font-medium'
+                : 'text-[#6B6B6B] hover:text-[#E07A5F]'
             }`}
           >
-            <List size={16} className="inline mr-1" />
             List
           </button>
           <button
             onClick={() => setView('graph')}
-            className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+            className={`text-sm transition-colors pb-0.5 ${
               view === 'graph'
-                ? 'bg-slate-600 text-white'
-                : 'text-slate-300 hover:text-white'
+                ? 'text-[#E07A5F] border-b-2 border-[#E07A5F] font-medium'
+                : 'text-[#6B6B6B] hover:text-[#E07A5F]'
             }`}
           >
-            <Network size={16} className="inline mr-1" />
             Graph
           </button>
         </div>
 
         <button
           onClick={() => setIsSearchOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg transition-colors ml-auto"
+          className="flex items-center gap-2 px-3 py-1.5 text-sm border border-[#E5E5E5] rounded hover:border-[#E07A5F] hover:text-[#E07A5F] transition-colors text-[#6B6B6B] ml-auto"
         >
-          <Search size={18} />
+          <Search size={16} />
           <span className="hidden sm:inline">Search</span>
-          <kbd className="hidden md:inline-block px-2 py-0.5 text-xs bg-slate-600 rounded border border-slate-500">
+          <kbd className="hidden md:inline-block px-1.5 py-0.5 text-xs bg-[#F5F5F5] rounded border border-[#E5E5E5]">
             ⌘K
           </kbd>
         </button>
 
         <button
           onClick={() => setIsHelpOpen(true)}
-          className="p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg transition-colors"
+          className="p-1.5 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
           title="Help"
         >
           <HelpCircle size={18} />
         </button>
 
         {view === 'graph' && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 border-l border-[#E5E5E5] pl-4">
             <button
               onClick={() => setZoom(prev => Math.min(3, prev * 1.2))}
-              className="p-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+              className="px-2 py-1 text-sm text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
               title="Zoom In"
             >
-              <ZoomIn size={18} />
+              +
             </button>
+            <span className="text-xs text-[#A0A0A0] w-12 text-center">
+              {Math.round(zoom * 100)}%
+            </span>
             <button
               onClick={() => setZoom(prev => Math.max(0.5, prev * 0.8))}
-              className="p-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+              className="px-2 py-1 text-sm text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
               title="Zoom Out"
             >
-              <ZoomOut size={18} />
+              −
             </button>
             <button
               onClick={resetView}
-              className="p-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+              className="p-1.5 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors ml-1"
               title="Reset View"
             >
-              <Maximize2 size={18} />
+              <Maximize2 size={16} />
             </button>
           </div>
         )}
@@ -431,12 +417,12 @@ export default function GlossaryGraph() {
 
         {/* Active Filters Bar - shows when sidebar is collapsed and filters are active */}
         {!isSidebarOpen && selectedTags.length > 0 && (
-          <div className="w-4 bg-slate-800 border-r border-slate-700 flex flex-col gap-1.5 py-2 items-center flex-shrink-0">
+          <div className="w-4 bg-[#FAF9F6] border-r border-[#E5E5E5] flex flex-col gap-1.5 py-2 items-center flex-shrink-0">
             {selectedTags.map(tag => (
               <div
                 key={tag}
                 className="w-2.5 h-2.5 rounded-full"
-                style={{ backgroundColor: tagColors[tag] || '#64748b' }}
+                style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
                 title={tag}
               />
             ))}
