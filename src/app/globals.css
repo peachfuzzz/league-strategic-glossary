@@ -5,18 +5,25 @@
 @tailwind utilities;
 
 :root {
-  --background: #FAF9F6;
-  --foreground: #2C2C2C;
-  --accent: #E07A5F;
-  --border: #E5E5E5;
+  /* League of Legends color scheme */
+  --background: #161f32;          /* Dark blue background */
+  --background-card: #1e2d45;     /* Lighter blue for cards (calculated: lightness +8%) */
+  --background-elevated: #243447; /* Even lighter for elevated elements */
+  --foreground: #ffffff;          /* White text */
+  --foreground-muted: rgba(255, 255, 255, 0.7);  /* Muted white */
+  --foreground-light: rgba(255, 255, 255, 0.5);  /* Light white */
+  --accent: #c28f2c;              /* League gold/yellow */
+  --accent-hover: #d4a03d;        /* Lighter gold on hover */
+  --accent-dark: #9a7324;         /* Darker gold */
+  --border: rgba(255, 255, 255, 0.1);  /* Subtle white borders */
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --header-bg: #000000;           /* Black header */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: Georgia, "Crimson Text", "Times New Roman", serif;
-  --font-mono: "Courier New", Courier, monospace;
+  --font-sans: var(--font-source-sans);
 }
 
 body {
@@ -25,14 +32,30 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
-/* Serif utility class */
-.font-serif {
-  font-family: var(--font-serif);
+/* Display font for titles - using Source Sans Pro with heavier weight */
+.font-display {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-/* Custom scrollbar styling for academic feel */
+/* Body text */
+.font-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+
+/* Small caps for labels */
+.small-caps {
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  font-size: 0.85em;
+}
+
+/* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -45,6 +68,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #D0D0D0;
   border-radius: 5px;
+  border: 2px solid #F5F5F5;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -53,12 +77,55 @@ body {
 
 /* Selection color */
 ::selection {
-  background: rgba(224, 122, 95, 0.2);
+  background: rgba(224, 122, 95, 0.25);
   color: var(--foreground);
 }
 
-/* Focus outline for accessibility */
+/* Focus outline */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* Card shadows for dark theme */
+.shadow-paper {
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.shadow-paper-lg {
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(194, 143, 44, 0.1);  /* Subtle gold glow */
+}
+
+/* Hand-drawn divider */
+.divider-sketch {
+  position: relative;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.divider-sketch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border) 2%,
+    var(--border) 98%,
+    transparent 100%
+  );
+  transform: translateY(-0.5px);
+}
+
+/* Slight tilt for cards (optional, use sparingly) */
+.tilt-slight {
+  transform: rotate(-0.3deg);
 }

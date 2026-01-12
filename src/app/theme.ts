@@ -52,11 +52,11 @@ export const THEME = {
 
   /**
    * Typography
-   * Serif fonts for content, sans-serif for UI
+   * Source Sans Pro for all text (titles use heavier weight)
    */
   fonts: {
-    serif: 'Georgia, "Crimson Text", "Times New Roman", serif',
-    sans: 'system-ui, -apple-system, "Segoe UI", sans-serif',
+    display: 'var(--font-source-sans), system-ui, sans-serif',
+    body: 'var(--font-source-sans), system-ui, sans-serif',
     mono: '"Courier New", Courier, monospace',
   },
 

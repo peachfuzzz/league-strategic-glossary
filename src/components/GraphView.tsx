@@ -65,7 +65,7 @@ export default function GraphView({
     const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
     if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-[#2C2C2C] text-sm leading-relaxed font-serif">{displayDefinition}</p>;
+      return <p className="text-white leading-relaxed">{displayDefinition}</p>;
     }
 
     // Build a map of term IDs to their display names and patterns (including alternates)
@@ -140,8 +140,8 @@ export default function GraphView({
             }}
             className={`underline decoration-1 underline-offset-2 transition-colors ${
               isDiscovered
-                ? 'text-[#E07A5F] hover:text-[#D66A4F]'
-                : 'text-[#6B6B6B] hover:text-[#E07A5F]'
+                ? 'text-[#c28f2c] hover:text-[#d4a03d]'
+                : 'text-[rgba(255,255,255,0.5)] hover:text-[#c28f2c]'
             }`}
           >
             {match.text}
@@ -157,7 +157,7 @@ export default function GraphView({
       parts.push(displayDefinition.substring(lastIndex));
     }
 
-    return <p className="text-[#2C2C2C] text-sm leading-relaxed font-serif">{parts}</p>;
+    return <p className="text-white leading-relaxed">{parts}</p>;
   };
 
   // Initialize nodes when glossaryData changes
@@ -324,8 +324,8 @@ export default function GraphView({
     const draw = () => {
       const { width, height } = getCanvasSize();
 
-      // Draw parchment background
-      ctx.fillStyle = '#FFFCF7';
+      // Draw dark background
+      ctx.fillStyle = '#161f32';
       ctx.fillRect(0, 0, width, height);
 
       ctx.save();
@@ -353,7 +353,7 @@ export default function GraphView({
         allLinks.forEach((linkId: string) => {
           const linked = nodes.find(n => n.id === linkId);
           if (linked && filteredNodes.includes(linked)) {
-            ctx.strokeStyle = 'rgba(107, 107, 107, 0.3)';
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
@@ -388,7 +388,7 @@ export default function GraphView({
 
             // Draw faint dashed line
             ctx.setLineDash([3, 3]);
-            ctx.strokeStyle = 'rgba(107, 107, 107, 0.15)';
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
@@ -410,7 +410,7 @@ export default function GraphView({
           ];
 
           // Draw discovered connections
-          ctx.strokeStyle = 'rgba(224, 122, 95, 0.6)';
+          ctx.strokeStyle = 'rgba(194, 143, 44, 0.6)';
           ctx.lineWidth = 2.5;
           allLinks.forEach((linkId: string) => {
             const linked = nodes.find(n => n.id === linkId);
@@ -439,7 +439,7 @@ export default function GraphView({
 
               // Draw more visible dashed line for selected node
               ctx.setLineDash([5, 5]);
-              ctx.strokeStyle = 'rgba(224, 122, 95, 0.3)';
+              ctx.strokeStyle = 'rgba(194, 143, 44, 0.3)';
               ctx.lineWidth = 2;
               ctx.beginPath();
               ctx.moveTo(selected.x, selected.y);
@@ -512,7 +512,7 @@ export default function GraphView({
         // Draw border (applies to all node types)
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = isSelected || isHovered ? '#E07A5F' : 'rgba(160, 160, 160, 0.4)';
+        ctx.strokeStyle = isSelected || isHovered ? '#c28f2c' : 'rgba(255, 255, 255, 0.3)';
         ctx.lineWidth = isSelected ? 3 : 1.5;
         ctx.stroke();
 
@@ -529,13 +529,13 @@ export default function GraphView({
           const textWidth = ctx.measureText(node.term).width;
 
           // Use reduced opacity when no node is selected
-          const bgOpacity = !selectedNode ? 0.6 : 0.9;
-          const textOpacity = !selectedNode ? 0.6 : 1.0;
+          const bgOpacity = !selectedNode ? 0.8 : 0.95;
+          const textOpacity = !selectedNode ? 0.7 : 1.0;
 
-          ctx.fillStyle = `rgba(255, 252, 247, ${bgOpacity})`;
+          ctx.fillStyle = `rgba(30, 45, 69, ${bgOpacity})`;
           ctx.fillRect(node.x - textWidth / 2 - 4, node.y + node.radius + 4, textWidth + 8, 20);
 
-          ctx.fillStyle = `rgba(44, 44, 44, ${textOpacity})`;
+          ctx.fillStyle = `rgba(255, 255, 255, ${textOpacity})`;
           ctx.fillText(node.term, node.x, node.y + node.radius + 8);
         }
       });
@@ -656,21 +656,21 @@ export default function GraphView({
 
       {/* Selected node info panel */}
       {selectedNode && (
-        <div className="absolute bottom-6 right-6 bg-[#FFFCF7] border border-[#E5E5E5] rounded shadow-lg p-5 max-w-sm">
+        <div className="absolute bottom-6 right-6 bg-[#1e2d45] border border-[rgba(255,255,255,0.2)] rounded shadow-paper-lg p-5 max-w-sm">
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1">
-              <h3 className="text-xl font-serif font-semibold text-[#2C2C2C] leading-tight">
+              <h3 className="text-xl font-display text-white leading-tight">
                 {selectedNode.term}
               </h3>
               {selectedNode.alternates && selectedNode.alternates.length > 0 && (
-                <p className="text-xs text-[#6B6B6B] italic mt-1">
+                <p className="text-xs text-[rgba(255,255,255,0.5)] italic mt-1 font-light">
                   Also: {selectedNode.alternates.join(', ')}
                 </p>
               )}
             </div>
             <button
               onClick={() => setSelectedNode(null)}
-              className="p-1 text-[#A0A0A0] hover:text-[#E07A5F] transition-colors flex-shrink-0"
+              className="p-1 text-[rgba(255,255,255,0.5)] hover:text-[#c28f2c] transition-colors flex-shrink-0"
             >
               <X size={18} />
             </button>
@@ -692,21 +692,21 @@ export default function GraphView({
                   className="w-2.5 h-2.5 rounded-full"
                   style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
                 />
-                <span className="text-xs text-[#6B6B6B]">{tag}</span>
+                <span className="text-xs text-[rgba(255,255,255,0.6)]">{tag}</span>
               </button>
             ))}
           </div>
 
           {/* Definition with inline autolinks */}
-          <div className="border-t border-[#F0F0F0] pt-3">
+          <div className="divider-sketch">
             {renderDefinitionWithLinks(selectedNode)}
           </div>
 
           {/* Manual links */}
           {selectedNode.links.length > 0 && (
-            <div className="border-t border-[#F0F0F0] pt-3 mt-3">
-              <p className="text-xs text-[#A0A0A0] mb-2 uppercase tracking-wide">
-                See Also
+            <div className="divider-sketch">
+              <p className="text-[10px] text-[rgba(255,255,255,0.4)] mb-2 uppercase tracking-wider">
+                Related
               </p>
               <div className="flex flex-wrap gap-2">
                 {selectedNode.links.map(linkId => {
@@ -717,10 +717,10 @@ export default function GraphView({
                   return (
                     <button
                       key={linkId}
-                      className={`text-sm transition-colors ${
+                      className={`text-xs transition-colors ${
                         isDiscovered
-                          ? 'text-[#E07A5F] hover:underline'
-                          : 'text-[#A0A0A0] hover:text-[#6B6B6B]'
+                          ? 'text-[#c28f2c] hover:text-[#d4a03d] hover:underline'
+                          : 'text-[rgba(255,255,255,0.4)] hover:text-[rgba(255,255,255,0.6)]'
                       }`}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -742,7 +742,7 @@ export default function GraphView({
       )}
 
       {/* Instructions overlay */}
-      <div className="absolute top-4 left-4 bg-[#FFFCF7]/95 border border-[#E5E5E5] rounded px-3 py-2 text-xs text-[#6B6B6B]">
+      <div className="absolute top-2 left-4 bg-[#1e2d45]/95 border border-[rgba(255,255,255,0.2)] rounded px-3 py-2 text-xs text-[rgba(255,255,255,0.6)]">
         <div>Click & drag nodes • Scroll to zoom • Drag background to pan</div>
       </div>
     </>

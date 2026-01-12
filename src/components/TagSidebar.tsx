@@ -24,7 +24,7 @@ export default function TagSidebar({
     <aside className={`${isOpen ? 'w-64' : 'w-0'} bg-[#FAF9F6] border-r border-[#E5E5E5] overflow-hidden transition-all duration-300 flex-shrink-0`}>
       <div className="p-4 h-full overflow-y-auto">
         <div className="mb-4">
-          <h2 className="text-base font-serif font-semibold text-[#2C2C2C] mb-1">
+          <h2 className="text-base font-display text-[#2C2C2C] mb-1">
             Filter by Tag
           </h2>
           {selectedTags.length > 0 && (

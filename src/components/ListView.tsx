@@ -35,7 +35,7 @@ export default function ListView({
     const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
     if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-[#2C2C2C] text-sm leading-relaxed font-serif">{displayDefinition}</p>;
+      return <p className="text-white leading-relaxed">{displayDefinition}</p>;
     }
 
     // Build a map of term IDs to their display names and patterns (including alternates)
@@ -110,8 +110,8 @@ export default function ListView({
             }}
             className={`underline decoration-1 underline-offset-2 transition-colors ${
               isDiscovered
-                ? 'text-[#E07A5F] hover:text-[#D66A4F]'
-                : 'text-[#6B6B6B] hover:text-[#E07A5F]'
+                ? 'text-[#c28f2c] hover:text-[#d4a03d]'
+                : 'text-[rgba(255,255,255,0.5)] hover:text-[#c28f2c]'
             }`}
           >
             {match.text}
@@ -127,31 +127,31 @@ export default function ListView({
       parts.push(displayDefinition.substring(lastIndex));
     }
 
-    return <p className="text-[#2C2C2C] text-sm leading-relaxed font-serif">{parts}</p>;
+    return <p className="text-white leading-relaxed">{parts}</p>;
   };
 
   return (
     <div className="h-full overflow-y-auto p-6">
-      <div className="max-w-4xl mx-auto space-y-3">
+      <div className="max-w-7xl mx-auto space-y-3">
         {filteredTerms.length === 0 ? (
           <div className="text-center py-16">
-            <Search size={48} className="mx-auto text-[#A0A0A0] mb-3" />
-            <p className="text-[#6B6B6B]">No terms match your filters</p>
+            <Search size={48} className="mx-auto text-[rgba(255,255,255,0.3)] mb-3" />
+            <p className="text-[rgba(255,255,255,0.5)]">No terms match your filters</p>
           </div>
         ) : (
           filteredTerms.map(term => (
             <div
               key={term.id}
               onClick={() => setSelectedNode(term)}
-              className={`bg-[#FFFCF7] border rounded p-4 cursor-pointer transition-all hover:border-[#E07A5F] ${
-                selectedNode?.id === term.id ? 'border-[#E07A5F] ring-2 ring-[#E07A5F]/20' : 'border-[#E5E5E5]'
+              className={`bg-[#1e2d45] border rounded shadow-paper p-4 cursor-pointer transition-all hover:border-[#c28f2c] hover:shadow-paper-lg ${
+                selectedNode?.id === term.id ? 'border-[#c28f2c] ring-2 ring-[#c28f2c]/20 shadow-paper-lg' : 'border-[rgba(255,255,255,0.1)]'
               }`}
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-serif font-semibold text-[#2C2C2C]">{term.term}</h3>
+                  <h3 className="text-lg font-display text-white">{term.term}</h3>
                   {term.alternates && term.alternates.length > 0 && (
-                    <p className="text-xs text-[#6B6B6B] italic mt-1">
+                    <p className="text-xs text-[rgba(255,255,255,0.5)] italic mt-1 font-light">
                       Also: {term.alternates.join(', ')}
                     </p>
                   )}
@@ -177,22 +177,22 @@ export default function ListView({
                         className="w-2.5 h-2.5 rounded-full"
                         style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
                       />
-                      <span className="text-xs text-[#6B6B6B]">{tag}</span>
+                      <span className="text-xs text-[rgba(255,255,255,0.6)]">{tag}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Definition with inline autolinks */}
-              <div className="border-t border-[#F0F0F0] pt-3 mb-3">
+              <div className="divider-sketch">
                 {renderDefinitionWithLinks(term)}
               </div>
 
               {/* Manual links */}
               {term.links.length > 0 && (
-                <div className="border-t border-[#F0F0F0] pt-3">
-                  <p className="text-xs text-[#A0A0A0] mb-2 uppercase tracking-wide">
-                    See Also
+                <div className="divider-sketch">
+                  <p className="text-[10px] text-[rgba(255,255,255,0.4)] mb-2 uppercase tracking-wider">
+                    Related
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {term.links.map(linkId => {
@@ -203,10 +203,10 @@ export default function ListView({
                       return (
                         <button
                           key={linkId}
-                          className={`text-sm transition-colors ${
+                          className={`text-xs transition-colors ${
                             isDiscovered
-                              ? 'text-[#E07A5F] hover:underline'
-                              : 'text-[#A0A0A0] hover:text-[#6B6B6B]'
+                              ? 'text-[#c28f2c] hover:text-[#d4a03d] hover:underline'
+                              : 'text-[rgba(255,255,255,0.4)] hover:text-[rgba(255,255,255,0.6)]'
                           }`}
                           onClick={(e) => {
                             e.stopPropagation();

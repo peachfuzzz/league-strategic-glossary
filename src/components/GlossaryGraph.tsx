@@ -1,13 +1,13 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Menu, Eye, BookOpen, RotateCcw, Shuffle, HelpCircle } from 'lucide-react';
+import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Eye, BookOpen, RotateCcw, Shuffle, HelpCircle, Filter } from 'lucide-react';
 import { glossaryData, GlossaryTerm, tagColors } from '@/data/glossaryData';
 import { SHUFFLE_CONFIG } from '@/config/shuffle.config';
 import GraphView from './GraphView';
 import ListView from './ListView';
 import SearchOverlay from './SearchOverlay';
-import TagSidebar from './TagSidebar';
+import TagFilterDropdown from './TagFilterDropdown';
 import HelpCard from './HelpCard';
 
 // LocalStorage keys
@@ -287,23 +287,16 @@ export default function GlossaryGraph() {
   }, [searchQuery]);
 
   return (
-    <div className="h-screen bg-[#FAF9F6] flex flex-col">
+    <div className="h-screen bg-[#161f32] flex flex-col">
       {/* Header */}
-      <header className="bg-[#FAF9F6] border-b border-[#E5E5E5] px-6 py-4 flex items-center gap-4 flex-shrink-0 flex-wrap">
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-1 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
-          title={isSidebarOpen ? 'Hide filter bar' : 'Show filter bar'}
-        >
-          <Menu size={18} />
-        </button>
-
-        <h1 className="text-xl font-serif text-[#2C2C2C] mr-4">League Strategic Glossary</h1>
+      <header className="bg-[#000000] border-b border-[rgba(255,255,255,0.1)] shadow-lg flex-shrink-0 relative z-50">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4 flex-wrap">
+        <h1 className="text-xl font-display text-white mr-4">League Strategic Glossary</h1>
 
         {/* View Mode Toggle */}
         <button
           onClick={toggleViewMode}
-          className="px-3 py-1.5 text-sm border border-[#E5E5E5] rounded hover:border-[#E07A5F] hover:text-[#E07A5F] transition-colors text-[#2C2C2C]"
+          className="px-3 py-1.5 text-sm border border-white/30 rounded hover:border-[#c28f2c] hover:bg-[rgba(194,143,44,0.1)] transition-colors text-white"
           title={viewMode === 'explore' ? 'Switch to View All' : 'Switch to Explore Mode'}
         >
           {viewMode === 'explore' ? (
@@ -318,14 +311,14 @@ export default function GlossaryGraph() {
           <>
             <button
               onClick={handleResetDiscoveries}
-              className="p-1.5 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
+              className="p-1.5 text-white/80 hover:text-[#c28f2c] transition-colors"
               title="Reset discoveries (keep starting term)"
             >
               <RotateCcw size={16} />
             </button>
             <button
               onClick={handleRerollStartingTerm}
-              className="p-1.5 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
+              className="p-1.5 text-white/80 hover:text-[#c28f2c] transition-colors"
               title="Random starting term"
             >
               <Shuffle size={16} />
@@ -333,13 +326,13 @@ export default function GlossaryGraph() {
           </>
         )}
 
-        <div className="flex items-center gap-4 border-l border-[#E5E5E5] pl-4 ml-2">
+        <div className="flex items-center gap-4 border-l border-white/30 pl-4 ml-2">
           <button
             onClick={() => setView('list')}
             className={`text-sm transition-colors pb-0.5 ${
               view === 'list'
-                ? 'text-[#E07A5F] border-b-2 border-[#E07A5F] font-medium'
-                : 'text-[#6B6B6B] hover:text-[#E07A5F]'
+                ? 'text-[#c28f2c] border-b-2 border-[#c28f2c] font-medium'
+                : 'text-white/70 hover:text-[#c28f2c]'
             }`}
           >
             List
@@ -348,8 +341,8 @@ export default function GlossaryGraph() {
             onClick={() => setView('graph')}
             className={`text-sm transition-colors pb-0.5 ${
               view === 'graph'
-                ? 'text-[#E07A5F] border-b-2 border-[#E07A5F] font-medium'
-                : 'text-[#6B6B6B] hover:text-[#E07A5F]'
+                ? 'text-[#c28f2c] border-b-2 border-[#c28f2c] font-medium'
+                : 'text-white/70 hover:text-[#c28f2c]'
             }`}
           >
             Graph
@@ -358,78 +351,98 @@ export default function GlossaryGraph() {
 
         <button
           onClick={() => setIsSearchOpen(true)}
-          className="flex items-center gap-2 px-3 py-1.5 text-sm border border-[#E5E5E5] rounded hover:border-[#E07A5F] hover:text-[#E07A5F] transition-colors text-[#6B6B6B] ml-auto"
+          className="flex items-center gap-2 px-3 py-1.5 text-sm border border-white/30 rounded hover:border-[#c28f2c] hover:bg-[rgba(194,143,44,0.1)] transition-colors text-white ml-auto"
         >
           <Search size={16} />
           <span className="hidden sm:inline">Search</span>
-          <kbd className="hidden md:inline-block px-1.5 py-0.5 text-xs bg-[#F5F5F5] rounded border border-[#E5E5E5]">
+          <kbd className="hidden md:inline-block px-1.5 py-0.5 text-xs bg-white/20 rounded border border-white/30">
             ⌘K
           </kbd>
         </button>
 
         <button
           onClick={() => setIsHelpOpen(true)}
-          className="p-1.5 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
+          className="p-1.5 text-white/80 hover:text-[#c28f2c] transition-colors"
           title="Help"
         >
           <HelpCircle size={18} />
         </button>
 
         {view === 'graph' && (
-          <div className="flex items-center gap-1 border-l border-[#E5E5E5] pl-4">
+          <div className="flex items-center gap-1 border-l border-white/30 pl-4">
             <button
               onClick={() => setZoom(prev => Math.min(3, prev * 1.2))}
-              className="px-2 py-1 text-sm text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
+              className="px-2 py-1 text-sm text-white/80 hover:text-[#c28f2c] transition-colors"
               title="Zoom In"
             >
               +
             </button>
-            <span className="text-xs text-[#A0A0A0] w-12 text-center">
+            <span className="text-xs text-white/70 w-12 text-center">
               {Math.round(zoom * 100)}%
             </span>
             <button
               onClick={() => setZoom(prev => Math.max(0.5, prev * 0.8))}
-              className="px-2 py-1 text-sm text-[#6B6B6B] hover:text-[#E07A5F] transition-colors"
+              className="px-2 py-1 text-sm text-white/80 hover:text-[#c28f2c] transition-colors"
               title="Zoom Out"
             >
               −
             </button>
             <button
               onClick={resetView}
-              className="p-1.5 text-[#6B6B6B] hover:text-[#E07A5F] transition-colors ml-1"
+              className="p-1.5 text-white/80 hover:text-[#c28f2c] transition-colors ml-1"
               title="Reset View"
             >
               <Maximize2 size={16} />
             </button>
           </div>
         )}
-      </header>
+        </div>
 
-      <div className="flex-1 flex overflow-hidden">
-        <TagSidebar
+        {/* Tag Filter Dropdown */}
+        <TagFilterDropdown
           isOpen={isSidebarOpen}
           allTags={allTags}
           selectedTags={selectedTags}
           onToggleTag={toggleTag}
           onClearTags={() => setSelectedTags([])}
           hoveredTag={hoveredTag}
+          setHoveredTag={setHoveredTag}
         />
+      </header>
 
-        {/* Active Filters Bar - shows when sidebar is collapsed and filters are active */}
-        {!isSidebarOpen && selectedTags.length > 0 && (
-          <div className="w-4 bg-[#FAF9F6] border-r border-[#E5E5E5] flex flex-col gap-1.5 py-2 items-center flex-shrink-0">
-            {selectedTags.map(tag => (
-              <div
-                key={tag}
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
-                title={tag}
-              />
-            ))}
+      {/* Folder Tab Style Filter Button */}
+      <div className="relative z-50 flex justify-center">
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className={`bg-[#1e2d45]/70 backdrop-blur-sm border-t border-x border-[rgba(255,255,255,0.1)] rounded-t px-6 py-2 transition-all ${
+            isSidebarOpen
+              ? 'text-white translate-y-0'
+              : 'text-white/70 hover:text-white hover:translate-y-0.5'
+          }`}
+          title={isSidebarOpen ? 'Hide filter menu' : 'Show filter menu'}
+        >
+          <div className="flex items-center gap-2">
+            <Filter size={14} />
+            <span className="text-xs font-medium">Filters</span>
+            {selectedTags.length > 0 && (
+              <span className="flex items-center gap-1 ml-1">
+                {selectedTags.slice(0, 5).map(tag => (
+                  <div
+                    key={tag}
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
+                  />
+                ))}
+                {selectedTags.length > 5 && (
+                  <span className="text-[10px] text-white/50">+{selectedTags.length - 5}</span>
+                )}
+              </span>
+            )}
           </div>
-        )}
+        </button>
+      </div>
 
-        <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-hidden">
           {view === 'graph' ? (
             <GraphView
               nodes={nodes}
@@ -469,7 +482,6 @@ export default function GlossaryGraph() {
               onToggleTag={toggleTag}
             />
           )}
-        </div>
       </div>
 
       <SearchOverlay
