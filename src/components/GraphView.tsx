@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { X } from 'lucide-react';
 import { GlossaryTerm, tagColors } from '@/data/glossaryData';
 import { GRAPH_PHYSICS_CONFIG } from '@/config/graph.config';
+import MediaGallery from '@/components/MediaGallery';
 
 interface GraphViewProps {
   nodes: any[];
@@ -704,6 +705,13 @@ export default function GraphView({
           <div className="divider-sketch">
             {renderDefinitionWithLinks(selectedNode)}
           </div>
+
+          {/* Compact media */}
+          {selectedNode.media && selectedNode.media.length > 0 && (
+            <div className="divider-sketch">
+              <MediaGallery media={selectedNode.media} compact />
+            </div>
+          )}
 
           {/* Manual links */}
           {selectedNode.links.length > 0 && (

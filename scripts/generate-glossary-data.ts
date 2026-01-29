@@ -11,6 +11,13 @@ const TERMS_DIR = path.join(process.cwd(), 'src/data/terms');
 const OUTPUT_FILE = path.join(process.cwd(), 'src/data/glossaryData.ts');
 const TAGS_CONFIG_FILE = path.join(process.cwd(), 'src/config/tags.config.ts');
 
+interface MediaItem {
+  type: 'image' | 'video';
+  src: string;
+  alt?: string;
+  caption?: string;
+}
+
 interface TermData {
   id: string;
   term: string;
@@ -19,6 +26,7 @@ interface TermData {
   links: string[];
   alternates?: string[];
   autoLinks?: string[];
+  media?: MediaItem[];
   extensions?: Record<string, any>;
 }
 
@@ -104,6 +112,20 @@ function buildGlossaryData(validTagIds: Set<string>): TermData[] {
 
     if (data.alternates && Array.isArray(data.alternates)) {
       term.alternates = data.alternates;
+    }
+
+    if (data.media && Array.isArray(data.media)) {
+      term.media = data.media.filter((item: Record<string, unknown>) => {
+        if (!item.type || !item.src) {
+          console.warn(`⚠️  Invalid media item in ${filename}: missing type or src`);
+          return false;
+        }
+        if (item.type !== 'image' && item.type !== 'video') {
+          console.warn(`⚠️  Invalid media type "${item.type}" in ${filename}`);
+          return false;
+        }
+        return true;
+      });
     }
 
     if (data.extensions) {
@@ -195,6 +217,13 @@ function generateTypeScriptFile(terms: TermData[], tagConfigs: TagConfig[]): str
 // Run 'npm run generate-glossary' to regenerate this file.
 // Tag colors are sourced from src/config/tags.config.ts
 
+export interface MediaItem {
+  type: 'image' | 'video';
+  src: string;
+  alt?: string;
+  caption?: string;
+}
+
 export interface GlossaryTerm {
   id: string;
   term: string;
@@ -203,6 +232,7 @@ export interface GlossaryTerm {
   links: string[];        // Manual links from frontmatter
   alternates?: string[];  // Alternate names/forms (e.g., "OTP" for "one trick")
   autoLinks?: string[];   // Auto-detected links from definition text
+  media?: MediaItem[];    // Images and videos for the term
   // Extensible for future additions
   extensions?: {
     translations?: Record<string, string>;

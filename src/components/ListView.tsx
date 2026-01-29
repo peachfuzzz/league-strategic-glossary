@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { GlossaryTerm, tagColors } from '@/data/glossaryData';
+import MediaGallery from '@/components/MediaGallery';
 
 interface ListViewProps {
   filteredTerms: GlossaryTerm[];
@@ -192,6 +193,13 @@ export default function ListView({
               <div className="divider-sketch">
                 {renderDefinitionWithLinks(term)}
               </div>
+
+              {/* Compact media */}
+              {term.media && term.media.length > 0 && (
+                <div className="divider-sketch">
+                  <MediaGallery media={term.media} compact />
+                </div>
+              )}
 
               {/* Manual links */}
               {term.links.length > 0 && (

@@ -64,6 +64,21 @@ export function buildGlossaryData(): GlossaryTerm[] {
       term.alternates = data.alternates;
     }
 
+    // Add media if present
+    if (data.media && Array.isArray(data.media)) {
+      term.media = data.media.filter((item: Record<string, unknown>) => {
+        if (!item.type || !item.src) {
+          console.warn(`⚠️  Invalid media item in ${filename}: missing type or src`);
+          return false;
+        }
+        if (item.type !== 'image' && item.type !== 'video') {
+          console.warn(`⚠️  Invalid media type "${item.type}" in ${filename}`);
+          return false;
+        }
+        return true;
+      });
+    }
+
     // Add extensions if present
     if (data.extensions) {
       term.extensions = data.extensions;

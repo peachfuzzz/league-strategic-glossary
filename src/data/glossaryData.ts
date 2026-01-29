@@ -3,6 +3,13 @@
 // Run 'npm run generate-glossary' to regenerate this file.
 // Tag colors are sourced from src/config/tags.config.ts
 
+export interface MediaItem {
+  type: 'image' | 'video';
+  src: string;
+  alt?: string;
+  caption?: string;
+}
+
 export interface GlossaryTerm {
   id: string;
   term: string;
@@ -11,6 +18,7 @@ export interface GlossaryTerm {
   links: string[];        // Manual links from frontmatter
   alternates?: string[];  // Alternate names/forms (e.g., "OTP" for "one trick")
   autoLinks?: string[];   // Auto-detected links from definition text
+  media?: MediaItem[];    // Images and videos for the term
   // Extensible for future additions
   extensions?: {
     translations?: Record<string, string>;
@@ -558,6 +566,14 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [
       "shove"
+    ],
+    "media": [
+      {
+        "type": "image",
+        "src": "/images/terms/slow-push-example.png",
+        "alt": "Slow push wave buildup diagram",
+        "caption": "A slow push builds over 2-4 waves before crashing into the enemy tower."
+      }
     ],
     "autoLinks": [
       "actor",

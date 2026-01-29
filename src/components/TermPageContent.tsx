@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import { GlossaryTerm, glossaryData } from '@/data/glossaryData';
 import { getTagConfig } from '@/config/tags.config';
+import MediaGallery from '@/components/MediaGallery';
 
 interface TermPageContentProps {
   term: GlossaryTerm;
@@ -146,6 +147,13 @@ export default function TermPageContent({
 
         {/* Definition */}
         <div className="mb-8">{renderDefinition(term)}</div>
+
+        {/* Media gallery */}
+        {term.media && term.media.length > 0 && (
+          <div className="mb-8">
+            <MediaGallery media={term.media} />
+          </div>
+        )}
 
         {/* Related terms (manual links) */}
         {manualLinks.length > 0 && (
