@@ -47,7 +47,7 @@ export default function SearchOverlay({
 
   return (
     <div
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4"
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4 animate-fade-in"
       onClick={onClose}
     >
       <div

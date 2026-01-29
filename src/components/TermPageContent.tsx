@@ -114,7 +114,7 @@ export default function TermPageContent({
         </Link>
 
         {/* Term header */}
-        <h1 className="text-3xl font-display text-white mb-3">{term.term}</h1>
+        <h1 className="text-4xl font-display text-white mb-3">{term.term}</h1>
 
         {/* Alternates */}
         {term.alternates && term.alternates.length > 0 && (

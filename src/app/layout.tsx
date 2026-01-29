@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Source_Sans_3 } from "next/font/google";
+import { Source_Sans_3, Cinzel } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,6 +8,12 @@ const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",
   subsets: ["latin"],
   weight: ["300", "400", "600", "700"],
+});
+
+const cinzel = Cinzel({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -23,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sourceSans.variable} antialiased flex flex-col min-h-screen`}
+        className={`${sourceSans.variable} ${cinzel.variable} antialiased flex flex-col min-h-screen`}
       >
         <Header />
         <main className="flex-1 flex flex-col">

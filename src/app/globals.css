@@ -9,12 +9,15 @@
   --background: #161f32;          /* Dark blue background */
   --background-card: #1e2d45;     /* Lighter blue for cards (calculated: lightness +8%) */
   --background-elevated: #243447; /* Even lighter for elevated elements */
+  --background-darker: #0f1623;   /* Deeper contrast for insets */
   --foreground: #ffffff;          /* White text */
   --foreground-muted: rgba(255, 255, 255, 0.7);  /* Muted white */
   --foreground-light: rgba(255, 255, 255, 0.5);  /* Light white */
   --accent: #c28f2c;              /* League gold/yellow */
   --accent-hover: #d4a03d;        /* Lighter gold on hover */
   --accent-dark: #9a7324;         /* Darker gold */
+  --accent-glow: rgba(194, 143, 44, 0.15);    /* Subtle gold background highlight */
+  --accent-border: rgba(194, 143, 44, 0.3);   /* Gold border treatment */
   --border: rgba(255, 255, 255, 0.1);  /* Subtle white borders */
   --border-subtle: rgba(255, 255, 255, 0.05);
   --header-bg: #000000;           /* Black header */
@@ -35,9 +38,9 @@ body {
   line-height: 1.6;
 }
 
-/* Display font for titles - using Source Sans Pro with heavier weight */
+/* Display font for titles - Cinzel serif */
 .font-display {
-  font-family: var(--font-sans);
+  font-family: var(--font-display), Georgia, serif;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -55,29 +58,60 @@ body {
   font-size: 0.85em;
 }
 
-/* Custom scrollbar styling */
+/* Section heading utility (ALSO SEE, REFERENCED BY, etc.) */
+.section-heading {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Base transitions for interactive elements */
+a, button {
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+/* Ghost button utility (toolbar/action buttons) */
+.btn-ghost {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.25rem;
+  color: white;
+  background: transparent;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* Custom scrollbar styling - dark theme */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F5F5;
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D0D0D0;
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 5px;
-  border: 2px solid #F5F5F5;
+  border: 2px solid var(--background);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #B0B0B0;
+  background: rgba(255, 255, 255, 0.25);
 }
 
-/* Selection color */
+/* Selection color - gold tint */
 ::selection {
-  background: rgba(224, 122, 95, 0.25);
+  background: rgba(194, 143, 44, 0.25);
   color: var(--foreground);
 }
 
@@ -98,7 +132,37 @@ body {
   box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.4),
     0 8px 16px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(194, 143, 44, 0.1);  /* Subtle gold glow */
+    0 0 0 1px rgba(194, 143, 44, 0.15);  /* Subtle gold glow */
+}
+
+/* Card hover utility */
+.card-hover {
+  transition: all 200ms ease;
+}
+
+.card-hover:hover {
+  border-color: var(--accent);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(194, 143, 44, 0.15);
+}
+
+/* Gold accent border */
+.border-accent-subtle {
+  border-color: var(--accent-border);
+}
+
+/* Gold gradient line (for header/footer borders) */
+.border-gold-gradient {
+  border-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent-border) 15%,
+    var(--accent) 50%,
+    var(--accent-border) 85%,
+    transparent 100%
+  ) 1;
 }
 
 /* Hand-drawn divider */
@@ -128,4 +192,18 @@ body {
 /* Slight tilt for cards (optional, use sparingly) */
 .tilt-slight {
   transform: rotate(-0.3deg);
+}
+
+/* Fade-in animation for modals/overlays */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 150ms ease-out;
 }

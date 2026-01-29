@@ -295,7 +295,7 @@ Phases 4-7 can be done in any order after Phase 1-3, or even in parallel with th
 | 2. Term Pages | Complete | /term/[slug] with generateStaticParams, OG meta tags, inline links, related/back links, prev/next nav. OG image generation deferred (needs server runtime). |
 | 3. Media Support | Complete | MediaItem type, MediaGallery component (full + compact + lightbox), integrated into TermPageContent/GraphView/ListView. Media parsed from frontmatter. Sample entry on slow-push term. |
 | 4. Graph Visual | Not started | |
-| 5. General Visual | Not started | |
+| 5. General Visual | Complete | Cinzel serif display font, dark scrollbar, gold accent CSS variables, gold gradient header/footer borders, card-hover/btn-ghost/section-heading utilities, fade-in animations on overlays, h1 size bump, gold selection color. |
 | 6. Explore Mode | Not started | |
 | 7. List View | Not started | |
 
