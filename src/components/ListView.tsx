@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { GlossaryTerm, tagColors } from '@/data/glossaryData';
 
@@ -149,7 +150,11 @@ export default function ListView({
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-display text-white">{term.term}</h3>
+                  <h3 className="text-lg font-display">
+                    <Link href={`/term/${term.id}`} className="text-white hover:text-[#c28f2c] transition-colors">
+                      {term.term}
+                    </Link>
+                  </h3>
                   {term.alternates && term.alternates.length > 0 && (
                     <p className="text-xs text-[rgba(255,255,255,0.5)] italic mt-1 font-light">
                       Also: {term.alternates.join(', ')}

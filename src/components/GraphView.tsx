@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { X } from 'lucide-react';
 import { GlossaryTerm, tagColors } from '@/data/glossaryData';
 import { GRAPH_PHYSICS_CONFIG } from '@/config/graph.config';
@@ -659,8 +660,10 @@ export default function GraphView({
         <div className="absolute bottom-6 right-6 bg-[#1e2d45] border border-[rgba(255,255,255,0.2)] rounded shadow-paper-lg p-5 max-w-sm">
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1">
-              <h3 className="text-xl font-display text-white leading-tight">
-                {selectedNode.term}
+              <h3 className="text-xl font-display leading-tight">
+                <Link href={`/term/${selectedNode.id}`} className="text-white hover:text-[#c28f2c] transition-colors">
+                  {selectedNode.term}
+                </Link>
               </h3>
               {selectedNode.alternates && selectedNode.alternates.length > 0 && (
                 <p className="text-xs text-[rgba(255,255,255,0.5)] italic mt-1 font-light">

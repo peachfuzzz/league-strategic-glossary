@@ -292,7 +292,7 @@ Phases 4-7 can be done in any order after Phase 1-3, or even in parallel with th
 | Phase | Status | Notes |
 |-------|--------|-------|
 | 1. Page Structure | Complete | Header/Footer in layout, glossary toolbar separated, /about + /credits pages |
-| 2. Term Pages | Not started | |
+| 2. Term Pages | Complete | /term/[slug] with generateStaticParams, OG meta tags, inline links, related/back links, prev/next nav. OG image generation deferred (needs server runtime). |
 | 3. Media Support | Not started | |
 | 4. Graph Visual | Not started | |
 | 5. General Visual | Not started | |
