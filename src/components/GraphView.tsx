@@ -524,18 +524,11 @@ export default function GraphView({
         const shouldShowLabel = !selectedNode || isSelected || isConnected || isHovered;
 
         if (shouldShowLabel) {
-          ctx.font = isSelected ? 'bold 14px Georgia, serif' : '12px Georgia, serif';
+          ctx.font = isSelected ? '600 14px "Source Sans 3", system-ui, sans-serif' : '12px "Source Sans 3", system-ui, sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
 
-          const textWidth = ctx.measureText(node.term).width;
-
-          // Use reduced opacity when no node is selected
-          const bgOpacity = !selectedNode ? 0.8 : 0.95;
           const textOpacity = !selectedNode ? 0.7 : 1.0;
-
-          ctx.fillStyle = `rgba(30, 45, 69, ${bgOpacity})`;
-          ctx.fillRect(node.x - textWidth / 2 - 4, node.y + node.radius + 4, textWidth + 8, 20);
 
           ctx.fillStyle = `rgba(255, 255, 255, ${textOpacity})`;
           ctx.fillText(node.term, node.x, node.y + node.radius + 8);

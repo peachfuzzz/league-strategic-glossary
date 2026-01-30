@@ -38,10 +38,10 @@ body {
   line-height: 1.6;
 }
 
-/* Display font for titles - Cinzel serif */
+/* Display font for titles - Sora geometric sans */
 .font-display {
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 700;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 

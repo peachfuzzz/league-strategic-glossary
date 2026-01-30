@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Eye, BookOpen, RotateCcw, Shuffle, HelpCircle, Filter } from 'lucide-react';
+import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Eye, BookOpen, RotateCcw, Shuffle, HelpCircle } from 'lucide-react';
 import { glossaryData, GlossaryTerm, tagColors } from '@/data/glossaryData';
 import { SHUFFLE_CONFIG } from '@/config/shuffle.config';
 import GraphView from './GraphView';
@@ -396,9 +396,13 @@ export default function GlossaryGraph() {
           )}
         </div>
 
-        {/* Tag Filter Dropdown */}
+      </div>
+
+      <div className="flex-1 relative overflow-hidden">
+        {/* Tag Filter — overlay on content */}
         <TagFilterDropdown
           isOpen={isSidebarOpen}
+          onToggleOpen={() => setIsSidebarOpen(!isSidebarOpen)}
           allTags={allTags}
           selectedTags={selectedTags}
           onToggleTag={toggleTag}
@@ -406,41 +410,6 @@ export default function GlossaryGraph() {
           hoveredTag={hoveredTag}
           setHoveredTag={setHoveredTag}
         />
-      </div>
-
-      {/* Folder Tab Style Filter Button */}
-      <div className="relative z-50 flex justify-center">
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className={`bg-[#1e2d45]/70 backdrop-blur-sm border-t border-x border-[rgba(255,255,255,0.1)] rounded-t px-6 py-2 transition-all ${
-            isSidebarOpen
-              ? 'text-white translate-y-0'
-              : 'text-white/70 hover:text-white hover:translate-y-0.5'
-          }`}
-          title={isSidebarOpen ? 'Hide filter menu' : 'Show filter menu'}
-        >
-          <div className="flex items-center gap-2">
-            <Filter size={14} />
-            <span className="text-xs font-medium">Filters</span>
-            {selectedTags.length > 0 && (
-              <span className="flex items-center gap-1 ml-1">
-                {selectedTags.slice(0, 5).map(tag => (
-                  <div
-                    key={tag}
-                    className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
-                  />
-                ))}
-                {selectedTags.length > 5 && (
-                  <span className="text-[10px] text-white/50">+{selectedTags.length - 5}</span>
-                )}
-              </span>
-            )}
-          </div>
-        </button>
-      </div>
-
-      <div className="flex-1 relative overflow-hidden">
           {view === 'graph' ? (
             <GraphView
               nodes={nodes}
