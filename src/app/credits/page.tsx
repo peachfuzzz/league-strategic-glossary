@@ -26,6 +26,10 @@ export default function CreditsPage() {
                 </a>
                 {' '}&mdash; Project creator and maintainer
               </li>
+              <li className="text-white/80">
+                Euphoria143
+                {' '}&mdash; Contributor, editor
+              </li>
             </ul>
           </section>
 

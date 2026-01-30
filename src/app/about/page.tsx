@@ -13,24 +13,7 @@ export default function AboutPage() {
 
         <div className="prose prose-invert max-w-none space-y-6 text-white/80 leading-relaxed">
           <p>
-            The League Strategic Glossary is a reference tool for League of Legends
-            strategic concepts. It aims to formalize the vocabulary that players use
-            to discuss the game at a deeper level — from fundamental mechanics to
-            high-level macro strategy.
-          </p>
-
-          <p>
-            The glossary is built around exploration. Rather than presenting a flat
-            list of definitions, terms are connected to each other through links and
-            shared concepts. The Explore mode lets you start from a single term and
-            discover the web of related ideas, while View All gives you the full
-            picture at once.
-          </p>
-
-          <p>
-            Whether you&apos;re a new player trying to decode what your teammates are
-            saying, or a serious student of the game looking for a structured
-            reference, this glossary is for you.
+            we holding some place
           </p>
 
           <p className="text-white/50 text-sm pt-4 border-t border-white/10">
