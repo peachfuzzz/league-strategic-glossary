@@ -60,6 +60,7 @@ export default function GraphView({
   const animationRef = useRef<number | null>(null);
   const isPanning = useRef(false);
   const lastPanPos = useRef({ x: 0, y: 0 });
+  const timeRef = useRef<number>(0);
 
   // Render definition with inline autolinks
   const renderDefinitionWithLinks = (term: GlossaryTerm) => {
@@ -180,19 +181,29 @@ export default function GraphView({
     const width = rect.width;
     const height = rect.height;
 
+    // Compute connection counts for radius scaling
+    const MIN_RADIUS = 6;
+    const MAX_RADIUS = 12;
+    const connectionCounts = glossaryData.map(term =>
+      (term.links?.length || 0) + (term.autoLinks?.length || 0)
+    );
+    const maxConnections = Math.max(...connectionCounts, 1);
+
     // Create nodes for all glossary items, merging with existing positions if available
     const newNodes = glossaryData.map((term, i) => {
       const existingNode = nodes.find(n => n.id === term.id);
+      const radius = MIN_RADIUS + (connectionCounts[i] / maxConnections) * (MAX_RADIUS - MIN_RADIUS);
       return existingNode ? {
         ...existingNode,
-        ...term
+        ...term,
+        radius
       } : {
         ...term,
         x: width / 2 + (Math.random() - 0.5) * 400,
         y: height / 2 + (Math.random() - 0.5) * 400,
         vx: 0,
         vy: 0,
-        radius: 8
+        radius
       };
     });
 
@@ -324,6 +335,7 @@ export default function GraphView({
 
     let drawAnimationId: number;
     const draw = () => {
+      timeRef.current = performance.now();
       const { width, height } = getCanvasSize();
 
       // Draw dark background
@@ -333,6 +345,23 @@ export default function GraphView({
       ctx.save();
       ctx.translate(pan.x, pan.y);
       ctx.scale(zoom, zoom);
+
+      // Draw dot grid background for spatial reference
+      const dotSpacing = 40;
+      const dotColor = 'rgba(255, 255, 255, 0.06)';
+      const visibleLeft = -pan.x / zoom;
+      const visibleTop = -pan.y / zoom;
+      const visibleRight = visibleLeft + width / zoom;
+      const visibleBottom = visibleTop + height / zoom;
+      const startX = Math.floor(visibleLeft / dotSpacing) * dotSpacing;
+      const startY = Math.floor(visibleTop / dotSpacing) * dotSpacing;
+
+      ctx.fillStyle = dotColor;
+      for (let x = startX; x <= visibleRight; x += dotSpacing) {
+        for (let y = startY; y <= visibleBottom; y += dotSpacing) {
+          ctx.fillRect(x - 0.5, y - 0.5, 1, 1);
+        }
+      }
 
       const filteredNodes = nodes.filter(node => {
         if (!node.term || !node.tags) return false;
@@ -355,7 +384,7 @@ export default function GraphView({
         allLinks.forEach((linkId: string) => {
           const linked = nodes.find(n => n.id === linkId);
           if (linked && filteredNodes.includes(linked)) {
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
@@ -388,15 +417,17 @@ export default function GraphView({
             const endX = node.x + Math.cos(angle) * trailLength;
             const endY = node.y + Math.sin(angle) * trailLength;
 
-            // Draw faint dashed line
-            ctx.setLineDash([3, 3]);
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            // Draw animated dashed line (marching ants)
+            ctx.setLineDash([4, 4]);
+            ctx.lineDashOffset = -(timeRef.current * 0.015);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(endX, endY);
             ctx.stroke();
-            ctx.setLineDash([]); // Reset dash pattern
+            ctx.setLineDash([]);
+            ctx.lineDashOffset = 0;
           });
         }
       });
@@ -412,7 +443,7 @@ export default function GraphView({
           ];
 
           // Draw discovered connections
-          ctx.strokeStyle = 'rgba(194, 143, 44, 0.6)';
+          ctx.strokeStyle = 'rgba(194, 143, 44, 0.7)';
           ctx.lineWidth = 2.5;
           allLinks.forEach((linkId: string) => {
             const linked = nodes.find(n => n.id === linkId);
@@ -439,15 +470,17 @@ export default function GraphView({
               const endX = selected.x + Math.cos(angle) * trailLength;
               const endY = selected.y + Math.sin(angle) * trailLength;
 
-              // Draw more visible dashed line for selected node
+              // Draw animated dashed line for selected node (marching ants)
               ctx.setLineDash([5, 5]);
-              ctx.strokeStyle = 'rgba(194, 143, 44, 0.3)';
+              ctx.lineDashOffset = -(timeRef.current * 0.02);
+              ctx.strokeStyle = 'rgba(194, 143, 44, 0.35)';
               ctx.lineWidth = 2;
               ctx.beginPath();
               ctx.moveTo(selected.x, selected.y);
               ctx.lineTo(endX, endY);
               ctx.stroke();
               ctx.setLineDash([]);
+              ctx.lineDashOffset = 0;
             });
           }
         }
@@ -468,16 +501,24 @@ export default function GraphView({
         const nodeTags = node.tags || [];
         const hasMultipleTags = nodeTags.length > 1;
 
+        // Hover pulse: gentle breathing effect on hovered nodes
+        const hoverPulse = isHovered ? 1 + 0.08 * Math.sin(timeRef.current * 0.006) : 1;
+        const drawRadius = node.radius * hoverPulse;
+
         // Set glow effect for selected, connected, or hovered nodes
         if (isSelected) {
-          ctx.shadowColor = '#E07A5F';
+          ctx.shadowColor = '#c28f2c';
           ctx.shadowBlur = 20;
         } else if (isConnected) {
-          ctx.shadowColor = '#F0A896';
-          ctx.shadowBlur = 10;
+          ctx.shadowColor = 'rgba(194, 143, 44, 0.7)';
+          ctx.shadowBlur = 12;
         } else if (isHovered) {
-          ctx.shadowColor = '#A0A0A0';
-          ctx.shadowBlur = 10;
+          ctx.shadowColor = '#c28f2c';
+          ctx.shadowBlur = 10 + 4 * Math.sin(timeRef.current * 0.006);
+        } else {
+          // Subtle ambient glow for all nodes
+          ctx.shadowColor = 'rgba(255, 255, 255, 0.15)';
+          ctx.shadowBlur = 4;
         }
 
         // Draw node with its actual tag colors
@@ -492,7 +533,7 @@ export default function GraphView({
 
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
-            ctx.arc(node.x, node.y, node.radius, startAngle, endAngle);
+            ctx.arc(node.x, node.y, drawRadius, startAngle, endAngle);
             ctx.closePath();
             ctx.fillStyle = color;
             ctx.fill();
@@ -502,7 +543,7 @@ export default function GraphView({
         } else {
           // Single-tagged nodes: solid color
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+          ctx.arc(node.x, node.y, drawRadius, 0, Math.PI * 2);
           const color = nodeTags[0] ? (tagColors[nodeTags[0]] || '#64748b') : '#64748b';
           ctx.fillStyle = color;
           ctx.fill();
@@ -513,7 +554,7 @@ export default function GraphView({
 
         // Draw border (applies to all node types)
         ctx.beginPath();
-        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        ctx.arc(node.x, node.y, drawRadius, 0, Math.PI * 2);
         ctx.strokeStyle = isSelected || isHovered ? '#c28f2c' : 'rgba(255, 255, 255, 0.3)';
         ctx.lineWidth = isSelected ? 3 : 1.5;
         ctx.stroke();
@@ -531,7 +572,7 @@ export default function GraphView({
           const textOpacity = !selectedNode ? 0.7 : 1.0;
 
           ctx.fillStyle = `rgba(255, 255, 255, ${textOpacity})`;
-          ctx.fillText(node.term, node.x, node.y + node.radius + 8);
+          ctx.fillText(node.term, node.x, node.y + drawRadius + 8);
         }
       });
 
@@ -651,7 +692,7 @@ export default function GraphView({
 
       {/* Selected node info panel */}
       {selectedNode && (
-        <div className="absolute bottom-6 right-6 bg-[#1e2d45] border border-[rgba(255,255,255,0.2)] rounded shadow-paper-lg p-5 max-w-sm">
+        <div className="absolute bottom-6 right-6 bg-[#1e2d45] border border-[rgba(194,143,44,0.25)] rounded shadow-paper-lg p-5 max-w-sm" style={{ borderTop: '2px solid rgba(194, 143, 44, 0.5)' }}>
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1">
               <h3 className="text-xl font-display leading-tight">
