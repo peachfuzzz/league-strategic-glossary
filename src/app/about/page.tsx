@@ -13,7 +13,13 @@ export default function AboutPage() {
 
         <div className="prose prose-invert max-w-none space-y-6 text-white/80 leading-relaxed">
           <p>
-            we holding some place
+            League of Legends demands much from players. The core MOBA design that makes League fun and engaging for thousands of hours also contributes to its incredible difficulty. At the same time, League of Legends' players demand much from each other. Over 16 years, League players have discovered, implemented, and refined many concepts that exist separately from the game. As such, the table stakes for League only continue to increase, both in its gameplay and its surrounding discussion.
+          </p>
+          <p>
+            The League Strategic Glossary attempts to formalize the ideas around League of Legends and present them in an intuitive, digestible manner. Part reference source and part learning tool, the Glossary emphasizes the connection between ideas, automatically linking together related terms in an interactive graph visualization. Exploration is one of its main features. The graph can be traversed by selecting linked terms in the definitions, letting the reader explore one related idea at a time.
+          </p>          
+          <p>
+            All terms and definitions are written and edited by hand. League's jargon may be widespread, but reliable definitions, particularly of more abstract concepts, tend to be elusive. The glossary takes a descriptive approach to definition, with the goal of mirroring popular usage as closely as possible. 
           </p>
 
           <p className="text-white/50 text-sm pt-4 border-t border-white/10">
