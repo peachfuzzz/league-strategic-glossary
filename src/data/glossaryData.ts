@@ -85,6 +85,9 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "alternates": [
       "auto cancel"
+    ],
+    "autoLinks": [
+      "mechanics"
     ]
   },
   {
@@ -97,6 +100,9 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "alternates": [
       "auto reset"
+    ],
+    "autoLinks": [
+      "mechanics"
     ]
   },
   {
@@ -136,7 +142,8 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "autoLinks": [
       "freeze",
-      "tension"
+      "tension",
+      "wave"
     ]
   },
   {
@@ -167,6 +174,30 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "autoLinks": [
       "buffer"
+    ]
+  },
+  {
+    "id": "chain-cc",
+    "term": "Chain CC",
+    "definition": "Timing several distinct sources of hard CC on the same target to apply in sequence without allowing the target to act. An optimal chain CC overlaps the duration of each source of crowd control as little as possible to maximize the time they are inactionable.",
+    "tags": [
+      "strategy"
+    ],
+    "links": []
+  },
+  {
+    "id": "cheese",
+    "term": "Cheese",
+    "definition": "An unexpected or surprising decision by an actor, generally considered suboptimal, whose success relies on a lack of knowledge from the target. Picking off-meta champions can often be categorized as cheese, since a significant advantage can be gained from the information asymmetry of an unusual pick. Plays are also sometimes labeled as cheesy if the play would only work through the element of surprise.",
+    "tags": [
+      "vernacular"
+    ],
+    "links": [],
+    "alternates": [
+      "cheesy"
+    ],
+    "autoLinks": [
+      "actor"
     ]
   },
   {
@@ -211,6 +242,19 @@ export const glossaryData: GlossaryTerm[] = [
     ]
   },
   {
+    "id": "counterjungle",
+    "term": "Counterjungle",
+    "definition": "Invading the opposing team’s jungle to kill their jungle camps. Counterjungling is a common response taken when the enemy jungler shows on the map, often considered a crossmap play. Unlike clearing allied camps, counterjungling’s effects are twofold: the player gains the gold and experience from killing the camp, while the opposing jungler loses access to the same resources, creating a net relative advantage of two camps.",
+    "tags": [
+      "strategy",
+      "jungle"
+    ],
+    "links": [],
+    "autoLinks": [
+      "crossmap"
+    ]
+  },
+  {
     "id": "counterpick",
     "term": "Counterpick",
     "definition": "Selecting a champion in reaction to the enemy team’s picks. The player with counterpick can choose a champion that matches up well against the enemy team or their opposing laner. This term is most often used in reference to lane matchups.",
@@ -229,7 +273,20 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [],
     "autoLinks": [
-      "bounceback"
+      "bounceback",
+      "wave"
+    ]
+  },
+  {
+    "id": "crossmap",
+    "term": "Crossmap",
+    "definition": "A play made across the map from an opponent's play. Crossmapping is a frequent response to an opposing play made with a numbers advantage. Crossmaps can be reactive, but are strongest when performed proactively, provoking the opposing team to commit to a course of action. When a crossmap concerns two different neutral objectives, the situation is sometimes called a “trade.”",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "autoLinks": [
+      "trade"
     ]
   },
   {
@@ -247,7 +304,7 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "dive",
     "term": "Dive",
-    "definition": "Attempting to kill enemy champion(s) under their tower. Dives have a high risk-reward ratio: the ramping tower damage makes dives very dangerous, but the reward of killing an enemy under their own tower is the denial of at least one, if not multiple, waves. Dives are sometimes attempted in quick succession; re-attempts are often called a redive.  A successful dive requires quick execution and coordinated management of tower aggro to minimize allied deaths.",
+    "definition": "Attempting to kill enemy champion(s) under their tower. Dives have a high risk-reward ratio: the ramping tower damage makes dives very dangerous, but the reward of killing an enemy under their own tower is the denial of at least one, if not multiple, waves. Dives are sometimes attempted in quick succession; re-attempts are called a redive.  A successful dive requires quick execution and coordinated management of tower aggro to minimize allied deaths.",
     "tags": [
       "strategy"
     ],
@@ -316,7 +373,9 @@ export const glossaryData: GlossaryTerm[] = [
     "tags": [
       "game-mechanics"
     ],
-    "links": [],
+    "links": [
+      "flashcast"
+    ],
     "autoLinks": [
       "buffer"
     ]
@@ -344,8 +403,19 @@ export const glossaryData: GlossaryTerm[] = [
     "autoLinks": [
       "actor",
       "bounceback",
-      "crash"
+      "crash",
+      "wave"
     ]
+  },
+  {
+    "id": "gank",
+    "term": "Gank",
+    "definition": "A player entering a lane with the intent of creating a numbers advantage to help the allied laner(s), usually with the goal of killing the enemy laner(s). A jungler’s main way of influencing lanes is through ganking, though ganking can be performed by anyone not originally assigned to the ganked lane. The term gank mostly applies during lane phase, since lane assignments are much less strict later. Gank appears to be a portmanteau of “gang kill,” originating from MMOs.",
+    "tags": [
+      "strategy",
+      "jungle"
+    ],
+    "links": []
   },
   {
     "id": "give",
@@ -383,11 +453,30 @@ export const glossaryData: GlossaryTerm[] = [
     "links": []
   },
   {
+    "id": "hypercarry",
+    "term": "Hypercarry",
+    "definition": "A champion with a kit that scales particularly well into the late game. The specific attributes that determine a hypercarry are up for debate, but generally hypercarries have high, reliable, target-agnostic damage with lots of multiplicative scalings. Marksmen make up the majority of hypercarry candidates, as basic attacks are very reliable and already have several multiplicative scalers in attack speed, attack damage, and crit chance.",
+    "tags": [
+      "vernacular"
+    ],
+    "links": []
+  },
+  {
     "id": "interaction-engine",
     "term": "Interaction (Engine)",
     "definition": "The way two actions, states, or inputs affect each other according to the game engine. Interactions refer to the specific situation or outcome of an event, especially in unintuitive or unclear scenarios, e.g. a Quinn’s Vault targeting a Camille using Hookshot. The outcome of key interactions is a factor in analyzing matchups and fights.",
     "tags": [
       "abstract-concepts"
+    ],
+    "links": []
+  },
+  {
+    "id": "invade",
+    "term": "Invade",
+    "definition": "Entering the opposing jungle. Invades most often have the goal of counterjungling, fighting the enemy jungler, or placing deep vision. Invades tend to carry more risk than clearing the allied jungle, due to the proximity of the enemy laners, so their success often relies upon additional information or assistance from allies.",
+    "tags": [
+      "strategy",
+      "jungle"
     ],
     "links": []
   },
@@ -403,7 +492,7 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "kill-pressure",
     "term": "Kill Pressure",
-    "definition": "Kill pressure is a state where a player can kill another player with any of their strings of abilities. Usually, this means that if the player with kill pressure lands their key setup ability, they have a string of inputs that takes a relatively short amount of time that has a high likelihood of killing the other player. Whenever a player has kill pressure, it allows them to play much more aggressively, and the defending player will need to play more safely.",
+    "definition": "A state where a player can kill another player with a strings of abilities. Usually, this means that if the player with kill pressure lands their key setup ability, they have a string of inputs that takes a relatively short amount of time that has a high likelihood of killing the other player. Whenever a player has kill pressure, it allows them to play much more aggressively, and the defending player will need to play more safely.",
     "tags": [
       "abstract-concepts"
     ],
@@ -413,9 +502,36 @@ export const glossaryData: GlossaryTerm[] = [
     ]
   },
   {
+    "id": "lane-assignment",
+    "term": "Lane Assignment",
+    "definition": "The allocation of lanes to laners, particularly once lane phase has ended. Lane assignments after lane phase often differ from the roles at the beginning of the game. Ideally, in determining lane assignments, a team tries to maximize safety, map pressure, and suitability for each laner. In many games, the bot laner and support move to mid lane while the solo laners move to side lanes, but moment-to-moment lane assignments are situationally-dependent.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "autoLinks": [
+      "pressure"
+    ]
+  },
+  {
+    "id": "macro",
+    "term": "Macro",
+    "definition": "Skills and strategies that concern longer-term decisions, on the order of a minute or more. Macro covers ideas that require significant foresight and/or coordination between teammates and often aim to generate value for the team, rather than just the individual.",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": [],
+    "alternates": [
+      "macrostrategy"
+    ],
+    "autoLinks": [
+      "value"
+    ]
+  },
+  {
     "id": "matchup",
     "term": "Matchup",
-    "definition": "The abstract evaluation of the favorability of outcomes for specific champions during the lane phase or an isolated combat. Matchups are the total of the possible interactions that result in one or more champions holding advantages or disadvantages over the other, assuming equal champion mastery and skill between each player. Analysis of matchups can concern players in a single role, or a combination of two roles (such as bot/support or mid/jungle), but rarely the entire draft.\n\nMatchups in League are not clearly quantified due to the multitude of factors that can introduce variance. Qualifiers are often attached to describe the general favorability of interactions. Matchups are judged on a scale from hard winning to hard losing, with matchups in the middle deemed “skill” or “even.” Truly unplayable matchups are extremely rare in League due to how many factors can influence the isolated 1v1.",
+    "definition": "An overall evaluation of the likely outcome for specific champions during the lane phase or in isolated combat. Matchups are the total of the possible interactions that result in one or more champions holding advantages or disadvantages over the other, assuming equal champion mastery and skill between each player. Analysis of matchups can concern players in a single role, or a combination of two roles (such as bot/support or mid/jungle), but rarely the entire draft.\n\nMatchups in League are not clearly quantified due to the multitude of factors that can introduce variance. Qualifiers are often attached to describe the general favorability of interactions. Matchups are judged on a scale from hard winning to hard losing, with matchups in the middle deemed “skill” or “even.” Truly unplayable matchups are extremely rare in League due to how many factors can influence the isolated 1v1.",
     "tags": [
       "strategy"
     ],
@@ -423,6 +539,47 @@ export const glossaryData: GlossaryTerm[] = [
     "autoLinks": [
       "combat",
       "variance"
+    ]
+  },
+  {
+    "id": "mechanics",
+    "term": "Mechanics",
+    "definition": "Skills and strategies that concern in-the-moment decisions and inputs, on the order of seconds or less. Mechanics cover ideas that rely heavily on reaction speed, game sense, and intuition, and center around combat.",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": [],
+    "alternates": [
+      "micro",
+      "microstrategy"
+    ],
+    "autoLinks": [
+      "combat"
+    ]
+  },
+  {
+    "id": "mindgame",
+    "term": "Mindgame",
+    "definition": "A situation where two opposing players have discrete right and wrong options, and each attempts to manipulate the other into making a mistake. A common example of a mindgame involves a specific interaction (engine) between two abilities that counter each other, such as Sion’s Q versus Fiora’s W, where each player wants to use their ability to negate the other’s. Mindgames primarily focus on prediction and guesswork rather than reaction-based execution.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [
+      "mixup"
+    ]
+  },
+  {
+    "id": "mixup",
+    "term": "Mixup",
+    "definition": "A situation where a defending player is vulnerable to multiple options from an attacking player, forcing them to predict or guess the correct response. Mixups are valuable when an attacking player can expect their opponent’s reaction to a string, either as a result of strong matchup knowledge or conditioning. The opponent anticipates a specific animation or other trigger to which they react, so by changing the string to introduce a non-standard option, the opponent might get caught off-guard. When performing a mixup, a player may need to take a suboptimal action to break the opponent’s expectations.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [
+      "mindgame"
+    ],
+    "autoLinks": [
+      "matchup"
     ]
   },
   {
@@ -435,6 +592,20 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "actor"
+    ]
+  },
+  {
+    "id": "objective-setup",
+    "term": "Objective Setup",
+    "definition": "The sequence of preparing a play around a neutral objective. The term objective setup can be used in specific, referring to a prepared, high-coordination sequence a team performs before an objective, or in general, referring to the general situation before a neutral objective is contested. The goal of an objective setup is to make the following contest easier, through a mixture of wave management, map movement, vision control, and synchronizing tempo.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "autoLinks": [
+      "contest",
+      "tempo",
+      "wave"
     ]
   },
   {
@@ -459,7 +630,24 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "bait",
-      "collapse"
+      "collapse",
+      "gank"
+    ]
+  },
+  {
+    "id": "pathing",
+    "term": "Pathing",
+    "definition": "The route a jungler takes on the map. Jungle pathing also encompasses the skill of planning such a route and the decision-making process of deciding where to go and when. “Pathing toward” is sometimes used in a similar context as the prioritization of the object that a jungler paths towards, e.g. “pathing towards bot.”",
+    "tags": [
+      "strategy",
+      "jungle"
+    ],
+    "links": [],
+    "alternates": [
+      "jungle pathing"
+    ],
+    "autoLinks": [
+      "object"
     ]
   },
   {
@@ -494,7 +682,24 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "actor",
+      "splitpusher",
       "threat"
+    ]
+  },
+  {
+    "id": "proxy",
+    "term": "Proxy",
+    "definition": "Farming the enemy minion waves between standing enemy turrets. Proxying minimizes lane interactions and creates a tempo advantage for the proxying player at the cost of increased risk of death upon an enemy collapse. Since the enemy minion waves are killed before they can meet with the allied wave, the allied wave will always crash without interruption unless the opposing laner interferes, while also preventing the opposing laner from pushing with their own wave to threaten tower damage. In certain matchups, proxying can force the lower waveclear laner to remain under their tower while the proxying player can farm uncontested.",
+    "tags": [
+      "strategy",
+      "minions"
+    ],
+    "links": [],
+    "autoLinks": [
+      "collapse",
+      "crash",
+      "tempo",
+      "wave"
     ]
   },
   {
@@ -509,6 +714,45 @@ export const glossaryData: GlossaryTerm[] = [
       "combat",
       "engage",
       "fight"
+    ]
+  },
+  {
+    "id": "recall-timing",
+    "term": "Recall Timing",
+    "definition": "A window of time that is opportune for a recall. A recalling player is inactionable for a recall’s 8-second channel time, then off the map from any standing resources or potential plays until they leave base, incurring a high tempo cost. The general strategy of recall timings aims to minimize tempo costs by finding a period of time where minimal enemy minions die and action on the map is low.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "autoLinks": [
+      "tempo"
+    ]
+  },
+  {
+    "id": "reliability",
+    "term": "Reliability",
+    "definition": "A measure of the consistency of an option, hinging upon variance. Actions or strategies that have high reliability often have low time/resource investment, carry little risk of failure or death, and have few prerequisite conditions. As an example, ranged basic attacks are highly reliable sources of damage owing to their frequency and low commitment, whereas melee skillshots are relatively unreliable since the user must be within the enemy’s effective range to cast it and their success is not guaranteed. Reliability is one of the axes upon which an output is evaluated. An option’s reliability tends to be inversely related to its value—highly reliable options tend to have lower payoffs, and vice versa.",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": [
+      "value"
+    ],
+    "autoLinks": [
+      "variance"
+    ]
+  },
+  {
+    "id": "rotate",
+    "term": "Rotate",
+    "definition": "Moving to or from lanes. A rotation can also refer to specifically swapping lanes with another allied laner for a strategic purpose, such as maximizing farm, sidelane pressure, or preparing for an upcoming objective setup.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "autoLinks": [
+      "objective-setup",
+      "pressure"
     ]
   },
   {
@@ -527,7 +771,8 @@ export const glossaryData: GlossaryTerm[] = [
       "fast push"
     ],
     "autoLinks": [
-      "crash"
+      "crash",
+      "wave"
     ]
   },
   {
@@ -541,6 +786,15 @@ export const glossaryData: GlossaryTerm[] = [
     "autoLinks": [
       "fight"
     ]
+  },
+  {
+    "id": "skill-test",
+    "term": "Skill Test",
+    "definition": "A task, encountered regularly during games, whose outcome affects the game state. Skill tests are the abstract categories of problems that League of Legends asks of a player that wants to win. Skill tests can be categorized broadly and narrowly. For example, positioning is a skill test asked of all champions, while pet micromanagement only concerns champions that summon controllable pets.",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": []
   },
   {
     "id": "skirmish",
@@ -567,18 +821,11 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [
       "shove"
     ],
-    "media": [
-      {
-        "type": "image",
-        "src": "/images/terms/slow-push-example.png",
-        "alt": "Slow push wave buildup diagram",
-        "caption": "A slow push builds over 2-4 waves before crashing into the enemy tower."
-      }
-    ],
     "autoLinks": [
       "actor",
       "crash",
-      "dive"
+      "dive",
+      "wave"
     ]
   },
   {
@@ -594,6 +841,18 @@ export const glossaryData: GlossaryTerm[] = [
     ]
   },
   {
+    "id": "spike",
+    "term": "Spike",
+    "definition": "A significant increase in power level. The significance of a spike is not strictly defined, though generally spikes refer to power increases that unlock new capabilities for a champion. Spikes that are commonly discussed include level 2, level 3, level 6, and completed items. Skilled players often formulate their gameplans around spikes, since they are a clear reference point to power and can be used to surprise opponents.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "alternates": [
+      "powerspike"
+    ]
+  },
+  {
     "id": "split-map",
     "term": "Split Map",
     "definition": "A map state where both junglers opt to control one side (bot/top) of the map only. Split maps often form as a result of vertical jungling, creating a well-defined strongside and weakside. Because split maps incentivize junglers to focus on only one side of the map while ignoring the other, side lanes that benefit from increased jungle presence benefit more from a successful split map.",
@@ -604,6 +863,35 @@ export const glossaryData: GlossaryTerm[] = [
     "autoLinks": [
       "strongside",
       "weakside"
+    ]
+  },
+  {
+    "id": "splitpush",
+    "term": "Splitpush",
+    "definition": "Pushing a sidelane while split from the team. A splitpush puts pressure on the opposing team to consider sending one or more people to answer the splitpusher, giving the splitpusher’s allies time to make a play on the opposite side of the map. Splitpushing, an isolated play is often contrasted with teamfighting, a grouped play.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "alternates": [
+      "splitting"
+    ],
+    "autoLinks": [
+      "give",
+      "pressure",
+      "splitpusher"
+    ]
+  },
+  {
+    "id": "splitpusher",
+    "term": "Splitpusher",
+    "definition": "A champion that excels at the splitpush, often relying on the strategy to win games. Splitpushers commonly have strong dueling and high tower damage, especially in the form of attack resets.",
+    "tags": [
+      "vernacular"
+    ],
+    "links": [],
+    "autoLinks": [
+      "splitpush"
     ]
   },
   {
@@ -628,6 +916,19 @@ export const glossaryData: GlossaryTerm[] = [
     "autoLinks": [
       "matchup",
       "weakside"
+    ]
+  },
+  {
+    "id": "tactics",
+    "term": "Tactics",
+    "definition": "Skills and strategies that concern decisions and plans in the medium term, on the order of minion waves. Tactics cover ideas that require some foresight without significant coordination: strategies that are still selfish, but consider potential outcomes and factors slightly beyond the present.",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": [],
+    "alternates": [
+      "mesostrategy",
+      "meso"
     ]
   },
   {
@@ -693,7 +994,8 @@ export const glossaryData: GlossaryTerm[] = [
       "expected-value",
       "hook",
       "object",
-      "value"
+      "value",
+      "zone"
     ]
   },
   {
@@ -750,7 +1052,21 @@ export const glossaryData: GlossaryTerm[] = [
       "contest",
       "crash",
       "dive",
-      "freeze"
+      "freeze",
+      "wave"
+    ]
+  },
+  {
+    "id": "wave",
+    "term": "Wave",
+    "definition": "A group of minions. A wave can refer to a specific group of minions spawned by either nexus on a regular interval or any arbitrary collection of minions in a lane. Minion waves spawn at 30-second intervals (decreasing to 25, then 20 seconds with game time as of Season 2026), and are also used as a measurement of time.",
+    "tags": [
+      "game-mechanics",
+      "minions"
+    ],
+    "links": [],
+    "alternates": [
+      "minion wave"
     ]
   },
   {
@@ -763,6 +1079,19 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "strongside"
+    ]
+  },
+  {
+    "id": "zone",
+    "term": "Zone",
+    "definition": "Creating a space through threat that disincentivizes the approach of opposing players. Zoning implies the lack of active combat. A player being zoned could still choose to ignore the threat and enter the area, though they likely would experience retaliation.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "autoLinks": [
+      "combat",
+      "threat"
     ]
   }
 ];
