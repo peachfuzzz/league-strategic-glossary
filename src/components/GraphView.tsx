@@ -305,25 +305,34 @@ export default function GraphView({
     };
   }, [nodes.length, draggedNode, setNodes]);
 
-  // Drawing
+  // Keep canvas bitmap in sync with its rendered size (runs once; reacts to any parent-size change)
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || nodes.length === 0) return;
+    if (!canvas) return;
 
-    // Set canvas size to match display size
     const updateCanvasSize = () => {
       const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
       const dpr = window.devicePixelRatio || 1;
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        ctx.scale(dpr, dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
     };
 
     updateCanvasSize();
-    window.addEventListener('resize', updateCanvasSize);
+    const resizeObserver = new ResizeObserver(updateCanvasSize);
+    resizeObserver.observe(canvas);
+
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  // Drawing
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || nodes.length === 0) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -583,7 +592,6 @@ export default function GraphView({
     draw();
 
     return () => {
-      window.removeEventListener('resize', updateCanvasSize);
       if (drawAnimationId) {
         cancelAnimationFrame(drawAnimationId);
       }
@@ -650,33 +658,32 @@ export default function GraphView({
     isPanning.current = false;
   };
 
-  const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Get mouse position relative to canvas
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
 
-    // Convert mouse position to world coordinates (before zoom)
-    const worldX = (mouseX - pan.x) / zoom;
-    const worldY = (mouseY - pan.y) / zoom;
+      const worldX = (mouseX - pan.x) / zoom;
+      const worldY = (mouseY - pan.y) / zoom;
 
-    // Calculate new zoom
-    const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    const newZoom = Math.max(0.5, Math.min(3, zoom * delta));
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      const newZoom = Math.max(0.5, Math.min(3, zoom * delta));
 
-    // Calculate new pan to keep the world point under the cursor
-    const newPan = {
-      x: mouseX - worldX * newZoom,
-      y: mouseY - worldY * newZoom
+      setZoom(newZoom);
+      setPan({
+        x: mouseX - worldX * newZoom,
+        y: mouseY - worldY * newZoom,
+      });
     };
 
-    setZoom(newZoom);
-    setPan(newPan);
-  };
+    canvas.addEventListener('wheel', handleWheel, { passive: false });
+    return () => canvas.removeEventListener('wheel', handleWheel);
+  }, [pan.x, pan.y, zoom, setZoom, setPan]);
 
   return (
     <>
@@ -687,12 +694,11 @@ export default function GraphView({
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onWheel={handleWheel}
       />
 
       {/* Selected node info panel */}
       {selectedNode && (
-        <div className="absolute bottom-6 right-6 bg-[#1e2d45] border border-[rgba(194,143,44,0.25)] rounded shadow-paper-lg p-5 max-w-sm" style={{ borderTop: '2px solid rgba(194, 143, 44, 0.5)' }}>
+        <div className="fixed bottom-[72px] right-6 z-40 bg-[#1e2d45] border border-[rgba(194,143,44,0.25)] rounded shadow-paper-lg p-5 max-w-sm max-h-[calc(100vh-12rem)] overflow-y-auto" style={{ borderTop: '2px solid rgba(194, 143, 44, 0.5)' }}>
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1">
               <h3 className="text-xl font-display leading-tight">

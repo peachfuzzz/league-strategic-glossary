@@ -29,10 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sourceSans.variable} ${sora.variable} antialiased flex flex-col min-h-screen`}
+        className={`${sourceSans.variable} ${sora.variable} antialiased flex flex-col h-screen overflow-hidden`}
       >
         <Header />
-        <main className="flex-1 flex flex-col">
+        <main className="flex-1 flex flex-col overflow-y-auto">
           {children}
         </main>
         <Footer />
