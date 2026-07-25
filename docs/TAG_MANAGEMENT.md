@@ -47,21 +47,6 @@ This is the **single source of truth** for all tags. Every tag used in the gloss
 3. Rebuild the glossary: `npm run generate-glossary`
 4. Use the tag in your term markdown files
 
-### Choosing Colors
-
-Use hex colors that:
-- Are visually distinct from existing tags
-- Have good contrast on dark backgrounds
-- Follow a logical color scheme (e.g., blue for strategy, green for fundamentals)
-
-**Recommended Tailwind CSS colors:**
-- Blue: `#3b82f6` - Strategy, general concepts
-- Green: `#10b981` - Fundamentals, basics
-- Purple: `#a855f7` - Advanced concepts, special cases
-- Amber: `#f59e0b` - Economy, resources
-- Red: `#ef4444` - Combat, aggressive
-- Indigo: `#6366f1` - Vision, information
-
 ## Using Tags in Terms
 
 ### In Markdown Files
@@ -253,18 +238,6 @@ If you have existing tags that aren't in the config:
 
 ### Sync script creating wrong tags
 **Solution:** Check that section headers in your Google Doc match tag IDs in `tags.config.ts`.
-
-## Future Enhancements
-
-Potential future features for tag management:
-
-- **Web UI** for tag configuration (no need to edit TypeScript)
-- **Tag hierarchies** (parent/child relationships)
-- **Custom tag metadata** (difficulty level, learning path, etc.)
-- **Tag analytics** (most common combinations, tag coverage)
-- **Auto-suggest tags** based on term content
-- **Tag synonyms** (multiple IDs for the same tag)
-- **Color themes** (swap entire color palettes)
 
 ## Questions?
 

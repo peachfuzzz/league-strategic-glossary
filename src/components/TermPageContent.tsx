@@ -19,7 +19,7 @@ function renderDefinition(term: GlossaryTerm) {
   const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
   if (!term.autoLinks || term.autoLinks.length === 0) {
-    return <p className="text-white/90 leading-relaxed text-base">{displayDefinition}</p>;
+    return <p className="text-ink-2 leading-relaxed text-base">{displayDefinition}</p>;
   }
 
   // Build a map of term IDs to their display names and patterns
@@ -74,7 +74,7 @@ function renderDefinition(term: GlossaryTerm) {
       <Link
         key={`${match.linkId}-${i}`}
         href={`/term/${match.linkId}`}
-        className="text-[#c28f2c] hover:text-[#d4a03d] underline decoration-1 underline-offset-2 transition-colors"
+        className="text-signal hover:text-signal-2 underline decoration-1 underline-offset-2 transition-colors"
       >
         {match.text}
       </Link>
@@ -87,7 +87,7 @@ function renderDefinition(term: GlossaryTerm) {
     parts.push(displayDefinition.substring(lastIndex));
   }
 
-  return <p className="text-white/90 leading-relaxed text-base">{parts}</p>;
+  return <p className="text-ink-2 leading-relaxed text-base">{parts}</p>;
 }
 
 export default function TermPageContent({
@@ -102,23 +102,23 @@ export default function TermPageContent({
     .filter((c): c is NonNullable<typeof c> => c !== undefined);
 
   return (
-    <div className="bg-[#161f32] flex-1">
+    <div className="bg-paper flex-1">
       <div className="max-w-2xl mx-auto px-6 py-8">
         {/* Back to glossary */}
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-white/50 hover:text-[#c28f2c] transition-colors mb-6"
+          className="inline-flex items-center gap-1.5 text-sm text-ink-3 hover:text-signal transition-colors mb-6"
         >
           <ArrowLeft size={14} />
           Back to Glossary
         </Link>
 
         {/* Term header */}
-        <h1 className="text-4xl font-display text-white mb-3">{term.term}</h1>
+        <h1 className="text-4xl font-display text-ink mb-3">{term.term}</h1>
 
         {/* Alternates */}
         {term.alternates && term.alternates.length > 0 && (
-          <p className="text-white/50 text-sm mb-4">
+          <p className="text-ink-3 text-sm mb-4">
             Also known as: {term.alternates.join(', ')}
           </p>
         )}
@@ -157,8 +157,8 @@ export default function TermPageContent({
 
         {/* Related terms (manual links) */}
         {manualLinks.length > 0 && (
-          <div className="mb-6 pt-6 border-t border-white/10">
-            <h2 className="text-sm font-medium text-white/60 uppercase tracking-wider mb-3">
+          <div className="mb-6 pt-6 border-t border-rule">
+            <h2 className="text-sm font-medium text-ink-3 uppercase tracking-wider mb-3">
               Also see
             </h2>
             <div className="flex flex-wrap gap-2">
@@ -166,7 +166,7 @@ export default function TermPageContent({
                 <Link
                   key={linked.id}
                   href={`/term/${linked.id}`}
-                  className="px-3 py-1.5 text-sm rounded border border-white/20 text-white/80 hover:border-[#c28f2c] hover:text-[#c28f2c] transition-colors"
+                  className="px-3 py-1.5 text-sm rounded border border-rule text-ink-2 hover:border-signal hover:text-signal transition-colors"
                 >
                   {linked.term}
                 </Link>
@@ -177,8 +177,8 @@ export default function TermPageContent({
 
         {/* Back links (terms that reference this one) */}
         {backLinks.length > 0 && (
-          <div className="mb-6 pt-6 border-t border-white/10">
-            <h2 className="text-sm font-medium text-white/60 uppercase tracking-wider mb-3">
+          <div className="mb-6 pt-6 border-t border-rule">
+            <h2 className="text-sm font-medium text-ink-3 uppercase tracking-wider mb-3">
               Referenced by
             </h2>
             <div className="flex flex-wrap gap-2">
@@ -186,7 +186,7 @@ export default function TermPageContent({
                 <Link
                   key={bl.id}
                   href={`/term/${bl.id}`}
-                  className="px-3 py-1.5 text-sm rounded border border-white/20 text-white/80 hover:border-[#c28f2c] hover:text-[#c28f2c] transition-colors"
+                  className="px-3 py-1.5 text-sm rounded border border-rule text-ink-2 hover:border-signal hover:text-signal transition-colors"
                 >
                   {bl.term}
                 </Link>
@@ -196,11 +196,11 @@ export default function TermPageContent({
         )}
 
         {/* Prev/Next navigation */}
-        <div className="flex items-center justify-between pt-6 border-t border-white/10">
+        <div className="flex items-center justify-between pt-6 border-t border-rule">
           {prevTerm ? (
             <Link
               href={`/term/${prevTerm.id}`}
-              className="flex items-center gap-1.5 text-sm text-white/60 hover:text-[#c28f2c] transition-colors"
+              className="flex items-center gap-1.5 text-sm text-ink-3 hover:text-signal transition-colors"
             >
               <ChevronLeft size={16} />
               {prevTerm.term}
@@ -211,7 +211,7 @@ export default function TermPageContent({
           {nextTerm ? (
             <Link
               href={`/term/${nextTerm.id}`}
-              className="flex items-center gap-1.5 text-sm text-white/60 hover:text-[#c28f2c] transition-colors"
+              className="flex items-center gap-1.5 text-sm text-ink-3 hover:text-signal transition-colors"
             >
               {nextTerm.term}
               <ChevronRight size={16} />

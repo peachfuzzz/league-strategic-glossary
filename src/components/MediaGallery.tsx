@@ -30,12 +30,12 @@ function Lightbox({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/80 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors"
+        className="absolute top-4 right-4 text-paper-2/70 hover:text-paper transition-colors"
         aria-label="Close"
       >
         <X size={24} />
@@ -51,7 +51,7 @@ function Lightbox({
           className="max-w-full max-h-[80vh] object-contain rounded"
         />
         {item.caption && (
-          <p className="mt-3 text-sm text-white/70 text-center">
+          <p className="mt-3 text-sm text-paper-2/70 text-center">
             {item.caption}
           </p>
         )}
@@ -73,7 +73,7 @@ function MediaImage({
     return (
       <button
         onClick={onExpand}
-        className="w-full h-24 rounded overflow-hidden border border-white/10 hover:border-white/30 transition-colors"
+        className="w-full h-24 rounded overflow-hidden border border-rule hover:border-ink/30 transition-colors"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -89,7 +89,7 @@ function MediaImage({
     <figure className="group">
       <button
         onClick={onExpand}
-        className="w-full rounded overflow-hidden border border-white/10 hover:border-white/30 transition-colors cursor-zoom-in"
+        className="w-full rounded overflow-hidden border border-rule hover:border-ink/30 transition-colors cursor-zoom-in"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -99,7 +99,7 @@ function MediaImage({
         />
       </button>
       {item.caption && (
-        <figcaption className="mt-2 text-xs text-white/50 text-center">
+        <figcaption className="mt-2 text-xs text-ink-3 text-center">
           {item.caption}
         </figcaption>
       )}
@@ -120,9 +120,9 @@ function MediaVideo({
         href={item.src}
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-full h-24 rounded overflow-hidden border border-white/10 hover:border-white/30 transition-colors bg-white/5 flex items-center justify-center"
+        className="block w-full h-24 rounded overflow-hidden border border-rule hover:border-ink/30 transition-colors bg-ink/5 flex items-center justify-center"
       >
-        <span className="text-xs text-white/50">Video</span>
+        <span className="text-xs text-ink-3">Video</span>
       </a>
     );
   }
@@ -138,7 +138,7 @@ function MediaVideo({
 
   return (
     <figure>
-      <div className="w-full aspect-video rounded overflow-hidden border border-white/10">
+      <div className="w-full aspect-video rounded overflow-hidden border border-rule">
         <iframe
           src={embedSrc}
           title={item.caption || 'Video'}
@@ -148,7 +148,7 @@ function MediaVideo({
         />
       </div>
       {item.caption && (
-        <figcaption className="mt-2 text-xs text-white/50 text-center">
+        <figcaption className="mt-2 text-xs text-ink-3 text-center">
           {item.caption}
         </figcaption>
       )}
@@ -183,7 +183,7 @@ export default function MediaGallery({ media, compact }: MediaGalleryProps) {
     }
     // Videos only — show small indicator
     return (
-      <div className="flex items-center gap-1.5 text-xs text-white/40">
+      <div className="flex items-center gap-1.5 text-xs text-ink-3">
         <ImageIcon size={12} />
         <span>{media.length} media</span>
       </div>

@@ -68,7 +68,7 @@ export default function GraphView({
     const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
     if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-white leading-relaxed">{displayDefinition}</p>;
+      return <p className="text-ink leading-relaxed">{displayDefinition}</p>;
     }
 
     // Build a map of term IDs to their display names and patterns (including alternates)
@@ -143,8 +143,8 @@ export default function GraphView({
             }}
             className={`underline decoration-1 underline-offset-2 transition-colors ${
               isDiscovered
-                ? 'text-[#c28f2c] hover:text-[#d4a03d]'
-                : 'text-[rgba(255,255,255,0.5)] hover:text-[#c28f2c]'
+                ? 'text-signal hover:text-signal-2'
+                : 'text-ink/50 hover:text-signal'
             }`}
           >
             {match.text}
@@ -160,7 +160,7 @@ export default function GraphView({
       parts.push(displayDefinition.substring(lastIndex));
     }
 
-    return <p className="text-white leading-relaxed">{parts}</p>;
+    return <p className="text-ink leading-relaxed">{parts}</p>;
   };
 
   // Initialize nodes when glossaryData changes
@@ -698,23 +698,23 @@ export default function GraphView({
 
       {/* Selected node info panel */}
       {selectedNode && (
-        <div className="fixed bottom-[72px] right-6 z-40 bg-[#1e2d45] border border-[rgba(194,143,44,0.25)] rounded shadow-paper-lg p-5 max-w-sm max-h-[calc(100vh-12rem)] overflow-y-auto" style={{ borderTop: '2px solid rgba(194, 143, 44, 0.5)' }}>
+        <div className="fixed bottom-[72px] right-6 z-40 bg-paper-2 border border-signal/25 rounded shadow-paper-lg p-5 max-w-sm max-h-[calc(100vh-12rem)] overflow-y-auto" style={{ borderTop: '2px solid color-mix(in srgb, var(--color-signal) 50%, transparent)' }}>
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1">
               <h3 className="text-xl font-display leading-tight">
-                <Link href={`/term/${selectedNode.id}`} className="text-white hover:text-[#c28f2c] transition-colors">
+                <Link href={`/term/${selectedNode.id}`} className="text-ink hover:text-signal transition-colors">
                   {selectedNode.term}
                 </Link>
               </h3>
               {selectedNode.alternates && selectedNode.alternates.length > 0 && (
-                <p className="text-xs text-[rgba(255,255,255,0.5)] italic mt-1 font-light">
+                <p className="text-xs text-ink-3 italic mt-1 font-light">
                   Also: {selectedNode.alternates.join(', ')}
                 </p>
               )}
             </div>
             <button
               onClick={() => setSelectedNode(null)}
-              className="p-1 text-[rgba(255,255,255,0.5)] hover:text-[#c28f2c] transition-colors flex-shrink-0"
+              className="p-1 text-ink-3 hover:text-signal transition-colors flex-shrink-0"
             >
               <X size={18} />
             </button>
@@ -736,7 +736,7 @@ export default function GraphView({
                   className="w-2.5 h-2.5 rounded-full"
                   style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
                 />
-                <span className="text-xs text-[rgba(255,255,255,0.6)]">{tag}</span>
+                <span className="text-xs text-ink-3">{tag}</span>
               </button>
             ))}
           </div>
@@ -756,7 +756,7 @@ export default function GraphView({
           {/* Manual links */}
           {selectedNode.links.length > 0 && (
             <div className="divider-sketch">
-              <p className="text-[10px] text-[rgba(255,255,255,0.4)] mb-2 uppercase tracking-wider">
+              <p className="text-[10px] text-ink-3 mb-2 uppercase tracking-wider">
                 Related
               </p>
               <div className="flex flex-wrap gap-2">
@@ -770,8 +770,8 @@ export default function GraphView({
                       key={linkId}
                       className={`text-xs transition-colors ${
                         isDiscovered
-                          ? 'text-[#c28f2c] hover:text-[#d4a03d] hover:underline'
-                          : 'text-[rgba(255,255,255,0.4)] hover:text-[rgba(255,255,255,0.6)]'
+                          ? 'text-signal hover:text-signal-2 hover:underline'
+                          : 'text-ink-3 hover:text-ink-2'
                       }`}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -793,7 +793,7 @@ export default function GraphView({
       )}
 
       {/* Instructions overlay */}
-      <div className="absolute top-2 left-4 bg-[#1e2d45]/95 border border-[rgba(255,255,255,0.2)] rounded px-3 py-2 text-xs text-[rgba(255,255,255,0.6)]">
+      <div className="absolute top-2 left-4 bg-paper-2/95 border border-rule rounded px-3 py-2 text-xs text-ink-3">
         <div>Click & drag nodes • Scroll to zoom • Drag background to pan</div>
       </div>
     </>

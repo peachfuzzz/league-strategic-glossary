@@ -37,20 +37,20 @@ export default function TagFilterDropdown({
       <div className="flex flex-col items-center pointer-events-auto">
         {/* Collapsible tag panel */}
         <div
-          className={`bg-[#1e2d45]/80 backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-t shadow-lg transition-all duration-300 overflow-hidden ${
+          className={`bg-paper-2/80 backdrop-blur-md border border-rule rounded-t shadow-lg transition-all duration-300 overflow-hidden ${
             isOpen ? 'max-h-80' : 'max-h-0 border-transparent'
           }`}
           style={{ width: 'calc(min(1280px, 100vw) - 8rem)' }}
         >
           <div className="px-8 py-2.5">
             <div className="flex items-center justify-between mb-2.5">
-              <h2 className="text-sm font-display text-white">
+              <h2 className="text-sm font-display text-ink">
                 Filter by Tag
               </h2>
               {selectedTags.length > 0 && (
                 <button
                   onClick={onClearTags}
-                  className="text-xs text-[#c28f2c] hover:text-[#d4a03d] transition-colors"
+                  className="text-xs text-signal hover:text-signal-2 transition-colors"
                 >
                   Clear all ({selectedTags.length})
                 </button>
@@ -72,13 +72,13 @@ export default function TagFilterDropdown({
                         onMouseEnter={() => setHoveredTag(tag)}
                         onMouseLeave={() => setHoveredTag(null)}
                         className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded transition-colors text-left ${
-                          isHovered ? 'bg-[rgba(255,255,255,0.05)]' : ''
+                          isHovered ? 'bg-ink/5' : ''
                         }`}
                       >
                         {/* Colored dot */}
                         <div
                           className={`w-2.5 h-2.5 rounded-full transition-all flex-shrink-0 ${
-                            isSelected ? 'ring-2 ring-[#c28f2c] ring-offset-2 ring-offset-[#1e2d45]/70' : ''
+                            isSelected ? 'ring-2 ring-signal ring-offset-2 ring-offset-paper-2/70' : ''
                           }`}
                           style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
                         />
@@ -86,8 +86,8 @@ export default function TagFilterDropdown({
                         {/* Label */}
                         <span className={`text-xs flex-1 truncate ${
                           isSelected
-                            ? 'text-white font-medium'
-                            : 'text-[rgba(255,255,255,0.7)]'
+                            ? 'text-ink font-medium'
+                            : 'text-ink-2'
                         }`}>
                           {tag}
                         </span>
@@ -103,10 +103,10 @@ export default function TagFilterDropdown({
         {/* Tab button — always visible, attached to bottom of panel */}
         <button
           onClick={onToggleOpen}
-          className={`bg-[#1e2d45]/70 backdrop-blur-sm border border-[rgba(255,255,255,0.1)] border-t-0 rounded-b px-6 py-2 transition-colors ${
+          className={`bg-paper-2/70 backdrop-blur-sm border border-rule border-t-0 rounded-b px-6 py-2 transition-colors ${
             isOpen
-              ? 'text-white'
-              : 'text-white/70 hover:text-white hover:bg-[#1e2d45]/90'
+              ? 'text-ink'
+              : 'text-ink-2 hover:text-ink hover:bg-paper-2/90'
           }`}
           title={isOpen ? 'Hide filter menu' : 'Show filter menu'}
         >
@@ -123,7 +123,7 @@ export default function TagFilterDropdown({
                   />
                 ))}
                 {selectedTags.length > 5 && (
-                  <span className="text-[10px] text-white/50">+{selectedTags.length - 5}</span>
+                  <span className="text-[10px] text-ink-3">+{selectedTags.length - 5}</span>
                 )}
               </span>
             )}

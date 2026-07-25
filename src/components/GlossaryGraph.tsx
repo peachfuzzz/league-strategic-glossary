@@ -287,14 +287,14 @@ export default function GlossaryGraph() {
   }, [searchQuery]);
 
   return (
-    <div className="flex-1 bg-[#161f32] flex flex-col">
+    <div className="flex-1 bg-paper flex flex-col">
       {/* Glossary Toolbar */}
-      <div className="bg-[#1e2d45] border-b border-[rgba(255,255,255,0.1)] flex-shrink-0 relative z-50">
+      <div className="bg-paper-2 border-b border-rule flex-shrink-0 relative z-50">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4 flex-wrap">
           {/* View Mode Toggle */}
           <button
             onClick={toggleViewMode}
-            className="px-3 py-1.5 text-sm border border-white/30 rounded hover:border-[#c28f2c] hover:bg-[rgba(194,143,44,0.1)] transition-colors text-white"
+            className="px-3 py-1.5 text-sm border border-rule rounded hover:border-signal hover:bg-signal/10 transition-colors text-ink"
             title={viewMode === 'explore' ? 'Switch to View All' : 'Switch to Explore Mode'}
           >
             {viewMode === 'explore' ? (
@@ -309,14 +309,14 @@ export default function GlossaryGraph() {
             <>
               <button
                 onClick={handleResetDiscoveries}
-                className="p-1.5 text-white/80 hover:text-[#c28f2c] transition-colors"
+                className="p-1.5 text-ink-2 hover:text-signal transition-colors"
                 title="Reset discoveries (keep starting term)"
               >
                 <RotateCcw size={16} />
               </button>
               <button
                 onClick={handleRerollStartingTerm}
-                className="p-1.5 text-white/80 hover:text-[#c28f2c] transition-colors"
+                className="p-1.5 text-ink-2 hover:text-signal transition-colors"
                 title="Random starting term"
               >
                 <Shuffle size={16} />
@@ -324,13 +324,13 @@ export default function GlossaryGraph() {
             </>
           )}
 
-          <div className="flex items-center gap-4 border-l border-white/30 pl-4 ml-2">
+          <div className="flex items-center gap-4 border-l border-rule pl-4 ml-2">
             <button
               onClick={() => setView('list')}
               className={`text-sm transition-colors pb-0.5 ${
                 view === 'list'
-                  ? 'text-[#c28f2c] border-b-2 border-[#c28f2c] font-medium'
-                  : 'text-white/70 hover:text-[#c28f2c]'
+                  ? 'text-signal border-b-2 border-signal font-medium'
+                  : 'text-ink-2 hover:text-signal'
               }`}
             >
               List
@@ -339,8 +339,8 @@ export default function GlossaryGraph() {
               onClick={() => setView('graph')}
               className={`text-sm transition-colors pb-0.5 ${
                 view === 'graph'
-                  ? 'text-[#c28f2c] border-b-2 border-[#c28f2c] font-medium'
-                  : 'text-white/70 hover:text-[#c28f2c]'
+                  ? 'text-signal border-b-2 border-signal font-medium'
+                  : 'text-ink-2 hover:text-signal'
               }`}
             >
               Graph
@@ -349,45 +349,45 @@ export default function GlossaryGraph() {
 
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm border border-white/30 rounded hover:border-[#c28f2c] hover:bg-[rgba(194,143,44,0.1)] transition-colors text-white ml-auto"
+            className="flex items-center gap-2 px-3 py-1.5 text-sm border border-rule rounded hover:border-signal hover:bg-signal/10 transition-colors text-ink ml-auto"
           >
             <Search size={16} />
             <span className="hidden sm:inline">Search</span>
-            <kbd className="hidden md:inline-block px-1.5 py-0.5 text-xs bg-white/20 rounded border border-white/30">
+            <kbd className="hidden md:inline-block px-1.5 py-0.5 text-xs bg-ink/10 rounded border border-rule">
               ⌘K
             </kbd>
           </button>
 
           <button
             onClick={() => setIsHelpOpen(true)}
-            className="p-1.5 text-white/80 hover:text-[#c28f2c] transition-colors"
+            className="p-1.5 text-ink-2 hover:text-signal transition-colors"
             title="Help"
           >
             <HelpCircle size={18} />
           </button>
 
           {view === 'graph' && (
-            <div className="flex items-center gap-1 border-l border-white/30 pl-4">
+            <div className="flex items-center gap-1 border-l border-rule pl-4">
               <button
                 onClick={() => setZoom(prev => Math.min(3, prev * 1.2))}
-                className="px-2 py-1 text-sm text-white/80 hover:text-[#c28f2c] transition-colors"
+                className="px-2 py-1 text-sm text-ink-2 hover:text-signal transition-colors"
                 title="Zoom In"
               >
                 +
               </button>
-              <span className="text-xs text-white/70 w-12 text-center">
+              <span className="text-xs text-ink-2 w-12 text-center">
                 {Math.round(zoom * 100)}%
               </span>
               <button
                 onClick={() => setZoom(prev => Math.max(0.5, prev * 0.8))}
-                className="px-2 py-1 text-sm text-white/80 hover:text-[#c28f2c] transition-colors"
+                className="px-2 py-1 text-sm text-ink-2 hover:text-signal transition-colors"
                 title="Zoom Out"
               >
                 −
               </button>
               <button
                 onClick={resetView}
-                className="p-1.5 text-white/80 hover:text-[#c28f2c] transition-colors ml-1"
+                className="p-1.5 text-ink-2 hover:text-signal transition-colors ml-1"
                 title="Reset View"
               >
                 <Maximize2 size={16} />

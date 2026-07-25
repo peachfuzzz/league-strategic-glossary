@@ -94,7 +94,7 @@ export function buildGlossaryData(): GlossaryTerm[] {
     console.warn(`\n⚠️  Found ${invalidTags.size} undefined tag(s):`);
     invalidTags.forEach(tag => console.warn(`   - "${tag}"`));
     console.warn(`\n   Defined tags: ${validTagIds.join(', ')}`);
-    console.warn(`   Add missing tags to src/data/tags.config.ts\n`);
+    console.warn(`   Add missing tags to src/config/tags.config.ts\n`);
   }
 
   return terms;

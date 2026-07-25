@@ -38,7 +38,7 @@ export default function SearchOverlay({
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
     return parts.map((part, i) =>
       part.toLowerCase() === query.toLowerCase()
-        ? <mark key={i} className="bg-[#F0A896] text-[#2C2C2C]">{part}</mark>
+        ? <mark key={i} className="bg-signal/20 text-ink">{part}</mark>
         : part
     );
   };
@@ -47,22 +47,22 @@ export default function SearchOverlay({
 
   return (
     <div
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4 animate-fade-in"
+      className="fixed inset-0 bg-ink/40 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="bg-[#1e2d45] rounded border border-[rgba(255,255,255,0.2)] shadow-paper-lg w-full max-w-2xl"
+        className="bg-paper-2 rounded border border-rule shadow-paper-lg w-full max-w-2xl"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-[rgba(255,255,255,0.1)]">
-          <Search size={20} className="text-[rgba(255,255,255,0.5)]" />
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-rule">
+          <Search size={20} className="text-ink-3" />
           <input
             ref={searchInputRef}
             type="text"
             placeholder="Search terms, definitions, or tags..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent text-white placeholder-[rgba(255,255,255,0.4)] outline-none"
+            className="flex-1 bg-transparent text-ink placeholder-ink-3 outline-none"
             autoFocus
           />
           {searchQuery && (
@@ -71,7 +71,7 @@ export default function SearchOverlay({
                 setSearchQuery('');
                 searchInputRef.current?.focus();
               }}
-              className="text-[rgba(255,255,255,0.5)] hover:text-[#c28f2c]"
+              className="text-ink-3 hover:text-signal"
             >
               <X size={18} />
             </button>
@@ -80,13 +80,13 @@ export default function SearchOverlay({
 
         {/* Search mode toggle (only in explore mode) */}
         {viewMode === 'explore' && (
-          <div className="px-4 py-2 border-b border-[rgba(255,255,255,0.1)] bg-[rgba(0,0,0,0.2)]">
-            <label className="flex items-center gap-2 text-sm text-[rgba(255,255,255,0.7)] cursor-pointer">
+          <div className="px-4 py-2 border-b border-rule bg-ink/5">
+            <label className="flex items-center gap-2 text-sm text-ink-2 cursor-pointer">
               <input
                 type="checkbox"
                 checked={searchOnlyDiscovered}
                 onChange={onToggleSearchMode}
-                className="w-4 h-4 rounded border-[rgba(255,255,255,0.2)] text-[#c28f2c] focus:ring-[#c28f2c]"
+                className="w-4 h-4 rounded border-rule text-signal focus:ring-signal"
               />
               <span>Search only discovered terms</span>
             </label>
@@ -95,11 +95,11 @@ export default function SearchOverlay({
 
         <div className="max-h-96 overflow-y-auto">
           {searchQuery.trim() === '' ? (
-            <div className="px-4 py-8 text-center text-[rgba(255,255,255,0.4)]">
+            <div className="px-4 py-8 text-center text-ink-3">
               Start typing to search...
             </div>
           ) : filteredResults.length === 0 ? (
-            <div className="px-4 py-8 text-center text-[rgba(255,255,255,0.4)]">
+            <div className="px-4 py-8 text-center text-ink-3">
               No results found for "{searchQuery}"
             </div>
           ) : (
@@ -107,16 +107,16 @@ export default function SearchOverlay({
               <button
                 key={term.id}
                 onClick={() => onSelectTerm(term)}
-                className={`w-full text-left px-4 py-3 border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.05)] transition-colors ${
-                  index === highlightedIndex ? 'bg-[rgba(255,255,255,0.05)]' : ''
+                className={`w-full text-left px-4 py-3 border-b border-rule/50 hover:bg-ink/5 transition-colors ${
+                  index === highlightedIndex ? 'bg-ink/5' : ''
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display text-white mb-1">
+                    <h3 className="font-display text-ink mb-1">
                       {highlightMatch(term.term, searchQuery)}
                     </h3>
-                    <p className="text-sm text-[rgba(255,255,255,0.6)] line-clamp-2">
+                    <p className="text-sm text-ink-2 line-clamp-2">
                       {highlightMatch(term.definition, searchQuery)}
                     </p>
                   </div>
@@ -127,11 +127,11 @@ export default function SearchOverlay({
                           className="w-2 h-2 rounded-full flex-shrink-0"
                           style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
                         />
-                        <span className="text-xs text-[rgba(255,255,255,0.6)]">{tag}</span>
+                        <span className="text-xs text-ink-3">{tag}</span>
                       </div>
                     ))}
                     {term.tags.length > 2 && (
-                      <span className="text-xs text-[rgba(255,255,255,0.4)]">
+                      <span className="text-xs text-ink-3">
                         +{term.tags.length - 2}
                       </span>
                     )}
@@ -143,17 +143,17 @@ export default function SearchOverlay({
         </div>
 
         {filteredResults.length > 0 && (
-          <div className="px-4 py-2 border-t border-[rgba(255,255,255,0.1)] flex items-center gap-4 text-xs text-[rgba(255,255,255,0.5)]">
+          <div className="px-4 py-2 border-t border-rule flex items-center gap-4 text-xs text-ink-3">
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-[rgba(255,255,255,0.1)] rounded border border-[rgba(255,255,255,0.2)]">↑↓</kbd>
+              <kbd className="px-1.5 py-0.5 bg-ink/10 rounded border border-rule">↑↓</kbd>
               Navigate
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-[rgba(255,255,255,0.1)] rounded border border-[rgba(255,255,255,0.2)]">↵</kbd>
+              <kbd className="px-1.5 py-0.5 bg-ink/10 rounded border border-rule">↵</kbd>
               Select
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-[rgba(255,255,255,0.1)] rounded border border-[rgba(255,255,255,0.2)]">esc</kbd>
+              <kbd className="px-1.5 py-0.5 bg-ink/10 rounded border border-rule">esc</kbd>
               Close
             </span>
           </div>

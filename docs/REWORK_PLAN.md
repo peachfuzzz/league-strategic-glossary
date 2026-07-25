@@ -39,7 +39,6 @@
 4. Design header nav component with:
    - Site title/logo linking to home
    - Nav links: Glossary (home), About, Credits
-   - Search trigger (Cmd+K indicator)
 5. Ensure Explore mode state persists across navigation (already uses localStorage)
 6. Footer component with minimal links
 
@@ -133,21 +132,17 @@
 **Goal:** Make the graph more visually interesting and informative.
 
 **Tasks:**
-1. **Node icons by category** - Replace plain circles with category icons:
-   - Map tag categories to Lucide icons (Sword for Combat, Coins for Economy, Map for Macro, etc.)
-   - Draw icons inside nodes or as node shape
-   - Maintain pie-chart coloring for multi-tag nodes
-2. **Improved node rendering:**
+1. **Improved node rendering:**
    - Slightly larger nodes for terms with more connections (visual importance)
    - Subtle pulse animation on hover
    - Better label backgrounds (rounded, subtle shadow)
-3. **Connection line improvements:**
+2. **Connection line improvements:**
    - Different line styles for manual links vs auto-links
    - Animated dash pattern for undiscovered connections
-4. **Background enhancement:**
+3. **Background enhancement:**
    - Subtle grid or dot pattern
    - Very faint radial gradient from center
-5. **Zoom controls UI** - Add +/- buttons for users unfamiliar with scroll-zoom
+4. **Zoom controls UI** - Add +/- buttons for users unfamiliar with scroll-zoom
 
 **Files to modify:**
 - `src/components/GraphView.tsx`
@@ -176,7 +171,6 @@
    - Button hover effects
 5. **Header/branding:**
    - Site logo or wordmark
-   - Consider League-inspired decorative elements (hextech patterns, etc.)
 6. **Loading states:**
    - Skeleton screens for initial load
    - Graceful transitions between views
@@ -251,14 +245,13 @@
 
 ## Session Execution Guide
 
-Each phase is designed to be completable in a single Opus 4.5 session. When starting a session:
+When starting a session:
 
 1. **Read this document** to understand context
 2. **Read CLAUDE.md** for technical details
 3. **Check current state** - previous phases may have been completed
 4. **Focus on one phase** - don't scope-creep
-5. **Test thoroughly** - run `npm run dev` and verify changes
-6. **Update this document** - mark phase as complete, note any deviations
+5. **Update this document** - mark phase as complete, note any deviations
 
 ### Phase Dependencies
 ```
@@ -295,7 +288,7 @@ Phases 4-7 can be done in any order after Phase 1-3, or even in parallel with th
 | 2. Term Pages | Complete | /term/[slug] with generateStaticParams, OG meta tags, inline links, related/back links, prev/next nav. OG image generation deferred (needs server runtime). |
 | 3. Media Support | Complete | MediaItem type, MediaGallery component (full + compact + lightbox), integrated into TermPageContent/GraphView/ListView. Media parsed from frontmatter. Sample entry on slow-push term. |
 | 4. Graph Visual | Not started | |
-| 5. General Visual | Complete | Cinzel serif display font, dark scrollbar, gold accent CSS variables, gold gradient header/footer borders, card-hover/btn-ghost/section-heading utilities, fade-in animations on overlays, h1 size bump, gold selection color. |
+| 5. General Visual | Superseded | See DESIGN.md |
 | 6. Explore Mode | Not started | |
 | 7. List View | Not started | |
 
