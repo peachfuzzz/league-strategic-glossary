@@ -7,6 +7,11 @@ import { GlossaryTerm, tagColors } from '@/data/glossaryData';
 import { GRAPH_PHYSICS_CONFIG } from '@/config/graph.config';
 import MediaGallery from '@/components/MediaGallery';
 
+// Canvas fillStyle/strokeStyle/shadowColor need a resolved CSS color string;
+// colorTokensRef caches tokens as "r, g, b" triples so call sites can layer
+// their own alpha on top via rgba(rgb, alpha).
+const rgba = (rgb: string, a = 1) => `rgba(${rgb}, ${a})`;
+
 interface GraphViewProps {
   nodes: any[];
   setNodes: React.Dispatch<React.SetStateAction<any[]>>;
@@ -61,6 +66,32 @@ export default function GraphView({
   const isPanning = useRef(false);
   const lastPanPos = useRef({ x: 0, y: 0 });
   const timeRef = useRef<number>(0);
+
+  // Canvas can't use Tailwind classes — resolve the CSS tokens it needs once
+  // on mount and cache them, rather than calling getComputedStyle per frame.
+  // Stored as "r, g, b" triples so draw() can compose alphas via rgba().
+  const colorTokensRef = useRef({
+    paper: '247, 245, 240',
+    ink: '23, 22, 20',
+    signal: '176, 38, 31',
+    rule: '221, 216, 206',
+  });
+  useEffect(() => {
+    const hexToRgb = (hex: string) => {
+      const h = hex.trim().replace('#', '');
+      const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h.slice(0, 6);
+      const n = parseInt(full, 16);
+      return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+    };
+
+    const css = getComputedStyle(document.documentElement);
+    colorTokensRef.current = {
+      paper: hexToRgb(css.getPropertyValue('--color-paper')),
+      ink: hexToRgb(css.getPropertyValue('--color-ink')),
+      signal: hexToRgb(css.getPropertyValue('--color-signal')),
+      rule: hexToRgb(css.getPropertyValue('--color-rule')),
+    };
+  }, []);
 
   // Render definition with inline autolinks
   const renderDefinitionWithLinks = (term: GlossaryTerm) => {
@@ -347,8 +378,8 @@ export default function GraphView({
       timeRef.current = performance.now();
       const { width, height } = getCanvasSize();
 
-      // Draw dark background
-      ctx.fillStyle = '#161f32';
+      // Draw canvas background
+      ctx.fillStyle = rgba(colorTokensRef.current.paper);
       ctx.fillRect(0, 0, width, height);
 
       ctx.save();
@@ -357,7 +388,7 @@ export default function GraphView({
 
       // Draw dot grid background for spatial reference
       const dotSpacing = 40;
-      const dotColor = 'rgba(255, 255, 255, 0.06)';
+      const dotColor = rgba(colorTokensRef.current.ink, 0.06);
       const visibleLeft = -pan.x / zoom;
       const visibleTop = -pan.y / zoom;
       const visibleRight = visibleLeft + width / zoom;
@@ -393,7 +424,7 @@ export default function GraphView({
         allLinks.forEach((linkId: string) => {
           const linked = nodes.find(n => n.id === linkId);
           if (linked && filteredNodes.includes(linked)) {
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+            ctx.strokeStyle = rgba(colorTokensRef.current.ink, 0.25);
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
@@ -429,7 +460,7 @@ export default function GraphView({
             // Draw animated dashed line (marching ants)
             ctx.setLineDash([4, 4]);
             ctx.lineDashOffset = -(timeRef.current * 0.015);
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+            ctx.strokeStyle = rgba(colorTokensRef.current.ink, 0.12);
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
@@ -452,7 +483,7 @@ export default function GraphView({
           ];
 
           // Draw discovered connections
-          ctx.strokeStyle = 'rgba(194, 143, 44, 0.7)';
+          ctx.strokeStyle = rgba(colorTokensRef.current.signal, 0.7);
           ctx.lineWidth = 2.5;
           allLinks.forEach((linkId: string) => {
             const linked = nodes.find(n => n.id === linkId);
@@ -482,7 +513,7 @@ export default function GraphView({
               // Draw animated dashed line for selected node (marching ants)
               ctx.setLineDash([5, 5]);
               ctx.lineDashOffset = -(timeRef.current * 0.02);
-              ctx.strokeStyle = 'rgba(194, 143, 44, 0.35)';
+              ctx.strokeStyle = rgba(colorTokensRef.current.signal, 0.35);
               ctx.lineWidth = 2;
               ctx.beginPath();
               ctx.moveTo(selected.x, selected.y);
@@ -516,17 +547,17 @@ export default function GraphView({
 
         // Set glow effect for selected, connected, or hovered nodes
         if (isSelected) {
-          ctx.shadowColor = '#c28f2c';
+          ctx.shadowColor = rgba(colorTokensRef.current.signal);
           ctx.shadowBlur = 20;
         } else if (isConnected) {
-          ctx.shadowColor = 'rgba(194, 143, 44, 0.7)';
+          ctx.shadowColor = rgba(colorTokensRef.current.signal, 0.7);
           ctx.shadowBlur = 12;
         } else if (isHovered) {
-          ctx.shadowColor = '#c28f2c';
+          ctx.shadowColor = rgba(colorTokensRef.current.signal);
           ctx.shadowBlur = 10 + 4 * Math.sin(timeRef.current * 0.006);
         } else {
           // Subtle ambient glow for all nodes
-          ctx.shadowColor = 'rgba(255, 255, 255, 0.15)';
+          ctx.shadowColor = rgba(colorTokensRef.current.ink, 0.15);
           ctx.shadowBlur = 4;
         }
 
@@ -564,7 +595,7 @@ export default function GraphView({
         // Draw border (applies to all node types)
         ctx.beginPath();
         ctx.arc(node.x, node.y, drawRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = isSelected || isHovered ? '#c28f2c' : 'rgba(255, 255, 255, 0.3)';
+        ctx.strokeStyle = isSelected || isHovered ? rgba(colorTokensRef.current.signal) : rgba(colorTokensRef.current.rule);
         ctx.lineWidth = isSelected ? 3 : 1.5;
         ctx.stroke();
 
@@ -580,7 +611,7 @@ export default function GraphView({
 
           const textOpacity = !selectedNode ? 0.7 : 1.0;
 
-          ctx.fillStyle = `rgba(255, 255, 255, ${textOpacity})`;
+          ctx.fillStyle = rgba(colorTokensRef.current.ink, textOpacity);
           ctx.fillText(node.term, node.x, node.y + drawRadius + 8);
         }
       });

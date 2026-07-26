@@ -36,6 +36,9 @@ All tokens live in `app/globals.css` inside `@theme`. There is no
 
 @theme {
   /* Clear the default palette so `bg-slate-900` fails to compile.
+     NOTE: this also removes `black` and `white`, so `text-white` and
+     `bg-black` stop resolving — they render as nothing rather than
+     erroring. Convert those to ink/paper tokens in the same pass.
      Re-add the two keywords Tailwind needs internally. */
   --color-*: initial;
   --color-transparent: transparent;
@@ -246,7 +249,7 @@ Do these as separate passes. Do not attempt more than one per session.
 
 | Pass | Scope | Done when |
 |---|---|---|
-| 1 | Tokens. Add `@theme`, clear palette, migrate every component to tokens. | `rg 'slate-\|blue-\|gray-\|zinc-'` returns nothing in `app/` and `components/`. Site looks unstyled-but-correct. |
+| 1 | Tokens. Add `@theme`, clear palette, migrate every component to tokens. | Both checks in §8.1 come back clean. Site looks unstyled-but-correct. |
 | 2 | Typography + entry rebuild. Fonts loaded via `next/font`. Cards deleted. | No `rounded` or `border` on any entry. Measure capped. Visual diff reviewed. |
 | 3 | Chrome. Search field, text-label switcher, control relocation. | Header contains a wordmark and an input. |
 | 4 | Graph: node sizing + edge types. | Hubs visibly larger; two edge styles render. |
@@ -254,6 +257,40 @@ Do these as separate passes. Do not attempt more than one per session.
 | 6 | Furniture. | Permalinks resolve; inbound counts render. |
 
 Pass 1 is the one that makes the rest cheap. Do not skip ahead to the graph.
+
+### 8.1 Verification
+
+Checks live in `scripts/check-design.sh`, not in this document. Duplicating them
+here guarantees the two copies drift.
+
+```bash
+./scripts/check-design.sh 1    # checks required by Pass 1; later ones show PENDING
+./scripts/check-design.sh      # everything
+```
+
+Exit code is the number of failures. Run it before invoking `design-reviewer` and
+before every commit.
+
+Two things it exists to catch that the obvious grep does not. An unmatched Tailwind
+utility in v4 produces no CSS rather than an error, so a stale `bg-emerald-500`
+renders as nothing and the build still passes. And the canvas draws with
+`fillStyle`/`strokeStyle` string literals, which no class-based check can reach.
+
+Canvas colors must resolve from tokens, cached on mount — never per frame:
+
+```ts
+const css = getComputedStyle(document.documentElement);
+const ink = hexToRgb(css.getPropertyValue("--color-ink"));   // "23, 22, 20"
+ctx.fillStyle = `rgba(${ink}, 0.06)`;
+```
+
+Store RGB triples rather than hex so alpha composes at the call site, and seed the
+cache with real fallback values — an empty string assigned to `fillStyle` is a
+silent no-op, so a missing token would otherwise produce a mystery-colored graph
+instead of an obviously broken one.
+
+`tags.config.ts` and `glossaryData.ts` are the expected color exceptions; their
+values are removed in Pass 4.
 
 ---
 
