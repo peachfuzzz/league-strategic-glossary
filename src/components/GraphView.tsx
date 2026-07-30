@@ -729,7 +729,7 @@ export default function GraphView({
 
       {/* Selected node info panel */}
       {selectedNode && (
-        <div className="fixed bottom-[72px] right-6 z-40 bg-paper-2 border border-signal/25 rounded shadow-paper-lg p-5 max-w-sm max-h-[calc(100vh-12rem)] overflow-y-auto" style={{ borderTop: '2px solid color-mix(in srgb, var(--color-signal) 50%, transparent)' }}>
+        <div className="fixed bottom-[72px] right-6 z-40 bg-paper-2 border border-signal/25 rounded p-5 max-w-sm max-h-[calc(100vh-12rem)] overflow-y-auto" style={{ borderTop: '2px solid color-mix(in srgb, var(--color-signal) 50%, transparent)' }}>
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1">
               <h3 className="text-xl font-display leading-tight">

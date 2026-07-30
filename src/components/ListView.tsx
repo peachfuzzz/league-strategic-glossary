@@ -37,7 +37,7 @@ export default function ListView({
     const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
     if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-ink leading-relaxed">{displayDefinition}</p>;
+      return <p className="text-ink-2 text-[1.0625rem] leading-[1.65]">{displayDefinition}</p>;
     }
 
     // Build a map of term IDs to their display names and patterns (including alternates)
@@ -112,7 +112,7 @@ export default function ListView({
             }}
             className={`underline decoration-1 underline-offset-2 transition-colors ${
               isDiscovered
-                ? 'text-signal hover:text-signal-2'
+                ? 'text-signal decoration-signal/40 hover:text-signal-2'
                 : 'text-ink/50 hover:text-signal'
             }`}
           >
@@ -129,7 +129,7 @@ export default function ListView({
       parts.push(displayDefinition.substring(lastIndex));
     }
 
-    return <p className="text-ink leading-relaxed">{parts}</p>;
+    return <p className="text-ink-2 text-[1.0625rem] leading-[1.65]">{parts}</p>;
   };
 
   return (
@@ -145,19 +145,19 @@ export default function ListView({
             <div
               key={term.id}
               onClick={() => setSelectedNode(term)}
-              className={`bg-paper-2 border rounded shadow-paper p-4 cursor-pointer transition-all hover:border-signal hover:shadow-paper-lg ${
-                selectedNode?.id === term.id ? 'border-signal ring-2 ring-signal/20 shadow-paper-lg' : 'border-rule'
+              className={`bg-paper-2 border rounded shadow-paper p-4 cursor-pointer transition-all hover:border-signal ${
+                selectedNode?.id === term.id ? 'border-signal ring-2 ring-signal/20' : 'border-rule'
               }`}
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-display">
+                  <h3 className="text-2xl font-display">
                     <Link href={`/term/${term.id}`} className="text-ink hover:text-signal transition-colors">
                       {term.term}
                     </Link>
                   </h3>
                   {term.alternates && term.alternates.length > 0 && (
-                    <p className="text-xs text-ink-3 italic mt-1 font-light">
+                    <p className="text-[0.8125rem] text-ink-3 font-ui small-caps mt-1">
                       Also: {term.alternates.join(', ')}
                     </p>
                   )}

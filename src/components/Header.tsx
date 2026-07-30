@@ -13,7 +13,7 @@ export default function Header({ children }: { children?: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <header className="bg-paper border-b border-gold-gradient shadow-lg flex-shrink-0 relative z-50">
+    <header className="bg-paper border-b border-rule shadow-lg flex-shrink-0 relative z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-6">
         <Link href="/" className="group relative text-xl font-display text-ink hover:text-signal transition-colors">
           League Strategic Glossary

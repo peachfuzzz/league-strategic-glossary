@@ -51,7 +51,7 @@ export default function SearchOverlay({
       onClick={onClose}
     >
       <div
-        className="bg-paper-2 rounded border border-rule shadow-paper-lg w-full max-w-2xl"
+        className="bg-paper-2 rounded border border-rule w-full max-w-2xl"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 px-4 py-3 border-b border-rule">

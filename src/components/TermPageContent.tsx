@@ -19,7 +19,7 @@ function renderDefinition(term: GlossaryTerm) {
   const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
   if (!term.autoLinks || term.autoLinks.length === 0) {
-    return <p className="text-ink-2 leading-relaxed text-base">{displayDefinition}</p>;
+    return <p className="text-ink-2 text-[1.0625rem] leading-[1.65]">{displayDefinition}</p>;
   }
 
   // Build a map of term IDs to their display names and patterns
@@ -74,7 +74,7 @@ function renderDefinition(term: GlossaryTerm) {
       <Link
         key={`${match.linkId}-${i}`}
         href={`/term/${match.linkId}`}
-        className="text-signal hover:text-signal-2 underline decoration-1 underline-offset-2 transition-colors"
+        className="text-signal decoration-signal/40 hover:text-signal-2 underline decoration-1 underline-offset-2 transition-colors"
       >
         {match.text}
       </Link>
@@ -114,11 +114,11 @@ export default function TermPageContent({
         </Link>
 
         {/* Term header */}
-        <h1 className="text-4xl font-display text-ink mb-3">{term.term}</h1>
+        <h1 className="text-2xl font-display text-ink mb-3">{term.term}</h1>
 
         {/* Alternates */}
         {term.alternates && term.alternates.length > 0 && (
-          <p className="text-ink-3 text-sm mb-4">
+          <p className="text-ink-3 text-[0.8125rem] font-ui small-caps mb-4">
             Also known as: {term.alternates.join(', ')}
           </p>
         )}

@@ -22,49 +22,43 @@
   --color-signal-2:   #7A1A15;  /* hover/active */
 
   /* Type */
-  --font-display: "Newsreader", Georgia, serif;
-  --font-body:    "Source Serif 4", Georgia, serif;
-  --font-ui:      "Inter", system-ui, sans-serif;
-  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+  --font-display: var(--font-newsreader), Georgia, serif;
+  --font-body:    var(--font-spectral), Georgia, serif;
+  --font-ui:      var(--font-inter), system-ui, sans-serif;
+  --font-mono:    var(--font-jetbrains-mono), ui-monospace, monospace;
 
   /* Rhythm */
   --spacing-entry: 3rem;   /* between glossary entries */
   --measure: 68ch;
 }
 
-/* Font loading is untouched in Pass 1 (next/font wiring lands in Pass 2).
-   Keep the existing alias so body copy doesn't shift. */
-:root {
-  --font-sans: var(--font-source-sans);
-}
-
 body {
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-/* Display font for titles - Sora geometric sans */
+/* Headword face — Newsreader, weight 600, tight tracking */
 .font-display {
-  font-family: var(--font-display), system-ui, sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
-/* Body text */
+/* Body face — Spectral */
 .font-body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-weight: 400;
 }
 
-/* Small caps for labels */
+/* Small caps for labels (also-known-as, category, see-also). Real small
+   caps where the face supports them; browsers synthesize otherwise. */
 .small-caps {
-  font-variant: small-caps;
+  font-variant-caps: small-caps;
   letter-spacing: 0.05em;
-  font-size: 0.85em;
 }
 
 /* Section heading utility (ALSO SEE, REFERENCED BY, etc.) */
@@ -137,13 +131,6 @@ a, button {
     0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.shadow-paper-lg {
-  box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.4),
-    0 8px 16px rgba(0, 0, 0, 0.3),
-    0 0 0 1px color-mix(in srgb, var(--color-signal) 15%, transparent);  /* Subtle signal glow */
-}
-
 /* Card hover utility */
 .card-hover {
   transition: all 200ms ease;
@@ -160,18 +147,6 @@ a, button {
 /* Signal accent border */
 .border-accent-subtle {
   border-color: color-mix(in srgb, var(--color-signal) 30%, transparent);
-}
-
-/* Signal gradient line (for header/footer borders) */
-.border-gold-gradient {
-  border-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    color-mix(in srgb, var(--color-signal) 30%, transparent) 15%,
-    var(--color-signal) 50%,
-    color-mix(in srgb, var(--color-signal) 30%, transparent) 85%,
-    transparent 100%
-  ) 1;
 }
 
 /* Hand-drawn divider */

@@ -17,7 +17,7 @@ export default function HelpCard({ isOpen, onClose }: HelpCardProps) {
       onClick={onClose}
     >
       <div
-        className="bg-paper-2 rounded border border-rule shadow-paper-lg w-full max-w-2xl p-8 relative"
+        className="bg-paper-2 rounded border border-rule w-full max-w-2xl p-8 relative"
         onClick={e => e.stopPropagation()}
       >
         {/* Close button */}

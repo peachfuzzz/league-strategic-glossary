@@ -1,19 +1,49 @@
 import type { Metadata } from "next";
-import { Source_Sans_3, Sora } from "next/font/google";
+import { Newsreader, Source_Serif_4, Inter, JetBrains_Mono, Crimson_Pro, Spectral, Literata } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const sourceSans = Source_Sans_3({
-  variable: "--font-source-sans",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const sora = Sora({
-  variable: "--font-display",
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
+});
+
+const spectral = Spectral({
+  subsets: ["latin"],
+  variable: "--font-spectral",
+  weight: ["400", "600"],
+});
+
+const crimsonPro = Crimson_Pro({
+  subsets: ["latin"],
+  variable: "--font-crimson-pro",
+  display: "swap",
+});
+
+const literata   = Literata({ 
+  subsets: ["latin"], 
+  variable: "--font-literata", 
+  display: "swap" 
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -27,10 +57,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${sourceSans.variable} ${sora.variable} antialiased flex flex-col h-screen overflow-hidden`}
-      >
+    <html
+      lang="en"
+      className={`${newsreader.variable} ${spectral.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="antialiased flex flex-col h-screen overflow-hidden">
         <Header />
         <main className="flex-1 flex flex-col overflow-y-auto">
           {children}
