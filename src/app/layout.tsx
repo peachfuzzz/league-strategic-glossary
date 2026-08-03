@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Newsreader, Source_Serif_4, Inter, JetBrains_Mono, Crimson_Pro, Spectral, Literata } from "next/font/google";
+import { Newsreader, Inter, JetBrains_Mono, Spectral} from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -10,28 +10,10 @@ const newsreader = Newsreader({
   weight: ["400", "500", "600", "700"],
 });
 
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-});
-
 const spectral = Spectral({
   subsets: ["latin"],
   variable: "--font-spectral",
   weight: ["400", "600"],
-});
-
-const crimsonPro = Crimson_Pro({
-  subsets: ["latin"],
-  variable: "--font-crimson-pro",
-  display: "swap",
-});
-
-const literata   = Literata({ 
-  subsets: ["latin"], 
-  variable: "--font-literata", 
-  display: "swap" 
 });
 
 const inter = Inter({

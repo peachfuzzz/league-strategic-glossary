@@ -438,15 +438,11 @@ export default function GlossaryGraph() {
           ) : (
             <ListView
               filteredTerms={filteredListTerms}
-              selectedNode={selectedNode}
               setSelectedNode={setSelectedNode}
               glossaryData={glossaryData}
               onDiscoverTerm={handleDiscoverTerm}
               viewMode={viewMode}
               discoveredTerms={discoveredTerms}
-              hoveredTag={hoveredTag}
-              setHoveredTag={setHoveredTag}
-              onToggleTag={toggleTag}
             />
           )}
       </div>

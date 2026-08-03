@@ -17,7 +17,7 @@ These are checkable. A change that violates one is a bug.
    namespace — see §1.
 2. **No bordered/elevated cards for glossary entries.** No `border rounded-lg` box
    per term. Entries are separated by whitespace and hairline rules only.
-3. **No pill/badge components.** Category labels are small-caps text, not chips.
+3. **No pill/badge components.** Category labels are uppercase mono text, not chips.
 4. **Body measure capped at 68–72 characters.** Use `max-w-[68ch]`, not full-width.
 5. **No icons on text buttons.** Icons only where there is no text (graph controls).
 6. **Search is a visible input**, not a button that opens a modal. No `⌘K` badge.
@@ -52,17 +52,20 @@ All tokens live in `app/globals.css` inside `@theme`. There is no
   /* Ink */
   --color-ink:        #171614;  /* headwords, primary text */
   --color-ink-2:      #4A4740;  /* definitions */
-  --color-ink-3:      #85807A;  /* metadata, category labels */
+  --color-ink-3:      #75706A;  /* metadata, category labels — 4.50:1 on paper */
 
   /* Signal — used sparingly, small areas only */
   --color-signal:     #B0261F;  /* cross-references, headword marks */
   --color-signal-2:   #7A1A15;  /* hover/active */
 
-  /* Type */
-  --font-display: "Newsreader", Georgia, serif;
-  --font-body:    "Source Serif 4", Georgia, serif;
-  --font-ui:      "Inter", system-ui, sans-serif;
-  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+  /* Type — loaded via next/font/google in layout.tsx, .variable classNames
+     on <html>. A token pointing at an unloaded font variable invalidates the
+     whole declaration and falls back to Tailwind's sans stack, not to the
+     serif listed here. If text goes unexpectedly sans-serif, that's the cause. */
+  --font-display: var(--font-newsreader), Georgia, serif;
+  --font-body:    var(--font-spectral), Georgia, serif;
+  --font-ui:      var(--font-spectral), Georgia, serif;
+  --font-mono:    var(--font-jetbrains-mono), ui-monospace, monospace;
 
   /* Rhythm */
   --spacing-entry: 3rem;   /* between glossary entries */
@@ -94,17 +97,54 @@ If a palette change is proposed, check it against this list first.
 
 | Role | Face | Size | Treatment |
 |---|---|---|---|
-| Headword | display | 1.5rem | `--color-ink`, weight 600, tight tracking |
-| Also-known-as | ui | 0.8125rem | `--color-ink-3`, small caps, not italic |
+| Headword | display (Newsreader) | 1.5rem | `--color-ink`, weight 600, tight tracking |
+| Also-known-as | body (Spectral) | 0.8125rem | `--color-ink-3`, italic |
 | Category | mono | 0.6875rem | `--color-ink-3`, uppercase, tracking-wide |
-| Definition | body | 1.0625rem | `--color-ink-2`, line-height 1.65 |
-| Cross-reference | inherits body | — | `--color-signal`, 1px underline at 40% opacity |
-| See-also list | ui | 0.875rem | label in mono small caps, terms in signal |
+| Definition | body (Spectral) | 1.0625rem | `--color-ink-2`, line-height 1.65 |
+| Cross-reference | inherits body | — | `--color-signal`, `decoration-1`, 40% opacity |
+| See-also list | ui (Spectral) | 0.875rem | label uppercase + tracking, terms in signal |
 
-Small caps: use `font-variant-caps: small-caps` where the face supports real small
-caps; otherwise uppercase at reduced size with positive tracking. Do not fake it
-with `text-xs uppercase` alone — that reads as a UI label, which is the thing being
-avoided.
+Underline cross-references at `decoration-1` (1px). Browsers derive `auto`
+thickness from the font, which at 17px lands near 2px and turns a
+cross-reference-dense paragraph into stripes.
+
+Both discovered and undiscovered terms are underlined and clickable — following
+an undiscovered link is how discovery works, so hiding the affordance would hide
+the mechanic. Color carries the distinction: signal for discovered, ink-3 for
+undiscovered, each with its underline at matching opacity.
+
+### Also-known-as is italic
+
+Deliberate. Print reference works set alternate forms and variant names in
+italic, and this design is a book rather than a UI — uppercase-with-tracking is a
+web convention that would sit oddly here.
+
+Two conditions make it work: it stays `--color-ink-3` (the color does the
+receding, not the slant), and the **category label never uses italic**. Category
+is a classification, not a variant name; it stays mono uppercase so the two are
+never confused.
+
+### No synthesized small caps
+
+Neither Newsreader nor Spectral ships the `smcp` OpenType feature, so
+`font-variant-caps: small-caps` gets **synthesized** — the browser scales down
+full capitals, which thins the strokes and reads flat and squat. Never use it
+with these faces.
+
+Where this document says "mono uppercase" (category label, `last_revised`,
+see-also label), that means literal uppercase with tracking, not
+`font-variant-caps`:
+
+```
+uppercase tracking-[0.08em] text-[0.6875rem] font-medium
+```
+
+If real small caps become a requirement later, EB Garamond and Cormorant ship
+`smcp` on Google Fonts and would need `font-feature-settings: "smcp" 1`.
+
+Spectral is **not a variable font** — only the weights enumerated in its
+`next/font` import exist. Any other weight is browser-faked and looks soft.
+Newsreader is variable; Spectral is not.
 
 ---
 
@@ -122,16 +162,76 @@ also known as: fog gap
   SEE ALSO   crash · freeze · slow push
 ```
 
-- Headword flush left. Category flush right, same baseline, mono small caps.
-- Definition indented from the headword by one step, capped at `--measure`.
-- Cross-references inside the definition are inline links in signal color. They
-  are not extracted into a separate list — the whole point is that the prose is
-  the graph.
+- Headword flush left. Category flush right, same baseline, mono uppercase.
+- Also-known-as sits inside the `<dt>`, flush left with the headword — not
+  indented with the definition.
+- Definition indented from the headword by `1.5rem`, capped at `--measure`.
+- Cross-references inside the definition are inline links in signal color, 1px
+  underline at 40% opacity. Both discovered and undiscovered terms are
+  underlined and clickable; only the color differs (signal vs. `--color-ink-3`).
+  They are not extracted into a separate list; the whole point is that the prose
+  is the graph.
 - "See also" is a genuinely different relation (§5) and stays a trailing list.
+  It keeps the same discovered/undiscovered color distinction as inline
+  cross-references.
 - Entries separated by `--spacing-entry` and a single hairline rule at
   `--color-rule`. No box, no shadow, no radius.
 
 The list view becomes one continuous column, not a stack of objects.
+
+### Implementation constraints
+
+These are places the obvious implementation is silently wrong.
+
+**Measure.** `ch` resolves against the font size of the element carrying the
+rule, so `--measure` must sit on the definition itself (1.0625rem), not on a
+wrapper. Put indentation on the wrapper instead — the two must not share an
+element.
+
+**Tailwind v4 custom property syntax.** `max-w-(--measure)` compiles to
+`var(--measure)`. `max-w-[--measure]` compiles to the bare token `--measure`,
+which browsers drop silently: no error, no effect, no visible failure. Use the
+paren form. This applies to every arbitrary custom-property reference, not just
+`max-w`.
+
+**Entry spacing.** `space-y` and margin are one-sided — v4 applies them to
+`:not(:last-child)` on the bottom edge only — so they cannot center the hairline
+in the gap. The rule ends up flush against one entry with the whole gap on the
+other side. Use `divide-y` for the rule and split the gap across both sides of
+the border with per-entry padding instead:
+
+```
+py-[calc(var(--spacing-entry)/2)] first:pt-0 last:pb-0
+```
+
+Do not combine this with `space-y` on the parent. Padding *instead of* `space-y`
+is correct; padding *in addition to* it doubles the gap.
+
+**`<dl>` content model.** With `<div>` wrappers, each wrapper is strictly
+`dt+ dd+`. Nothing else may sit between them. Also-known-as belongs inside the
+`<dt>`.
+
+**Unlayered CSS wins.** A rule in `globals.css` outside any `@layer` beats every
+Tailwind utility regardless of specificity. That makes conflicts invisible
+rather than loud — a wrong utility class appears to work because the unlayered
+rule is quietly overriding it. Keep one source of truth per property: if
+`.also-known-as` sets size and color, no utility class should also set them.
+
+**Multiple tags.** Show only the first tag as the category label. Joining them
+recreates the pill row the entry is meant to remove.
+
+### The category label vs. the tagColors carve-out
+
+These conflict, and this section wins. The category label on an entry becomes
+`--color-ink-3` mono uppercase — which means it stops reading `tagColors`, even
+though tag color removal is otherwise deferred to Pass 4.
+
+The carve-out narrows accordingly. From Pass 2 onward it covers only the
+**filter and search UI** — `TagSidebar`, `TagFilterDropdown`, and the colored dots
+in `SearchOverlay`. Entry-level category display is Pass 2's job.
+
+Rationale: an entry cannot be "one continuous column with no boxes" while its
+category is still a colored pill. The two constraints are the same change.
 
 ---
 
@@ -207,7 +307,7 @@ vocabulary; walking outward from an arbitrary term is a random walk.
 `--color-ink` default, `--color-signal` on hover/selection. Two colors total.
 **Do not color-code nodes by tag** — that reintroduces a legend and a twelve-color
 palette, and it is the single biggest contributor to the current look. Tag identity
-moves to the mono small-caps label on the entry (§2).
+moves to the mono uppercase label on the entry (§2).
 
 ---
 
@@ -230,12 +330,59 @@ the `color` field in `tags.config.ts` only if something still reads it.
 
 ---
 
-## 7. Reference-work furniture
+## 7. The landing page
+
+`/` is a front door, not a view switcher. Neither List nor Graph works as one:
+List is a lookup surface that assumes you know what you want, Graph is
+orientation that assumes you already have terms.
+
+Structure, top to bottom:
+
+1. **Two or three sentences** on what the glossary is. Not the About essay — a
+   compressed version, with a link to the full one.
+2. **One featured entry, rendered in full** using the §3 entry treatment. Not a
+   card, not a teaser — the actual entry, so a visitor sees what the material
+   looks like and the cross-references inside it become their first clicks.
+3. **A quiet line** into List and Graph.
+
+The featured term is drawn from a **curated set**, not chosen at random and not
+computed from depth. Depth 0 mixes true primitives (`actor`, `object`) with terms
+that are merely lexically isolated (`hook`, `squishy`), so it is not a
+"start here" filter. The set should favor terms whose definitions are dense with
+cross-references — an entry with four live links is a better doorway than a
+precise one with none.
+
+Store the set explicitly (`src/config/featured.config.ts` or frontmatter flag).
+Deterministic daily rotation is fine; random per-load is not, since it breaks
+sharing and makes the page feel unstable.
+
+---
+
+## 8. Explore mode non-goals
+
+Explore mode is a lens over the reference tool, never a gate on it. These are
+out of scope permanently, not deferred:
+
+- **No content gating.** Every term is readable at every moment, in every mode.
+  Undiscovered terms are styled differently; they are never withheld.
+- **No prompts, nudges, or interruptions.** No "you haven't met X yet," no
+  prerequisite warnings, no milestone popups. If a reader is missing a
+  prerequisite, the word is already in front of them, underlined, one click
+  away. The design solves this; a notification would only interrupt reading.
+- **No forced ordering.** Readers enter wherever they like and follow whatever
+  interests them.
+
+Depth may inform **passive** surfaces — the layered graph, a coverage figure
+someone goes looking for. It must never initiate.
+
+Rationale: following a cross-reference *is* a walk down the dependency graph,
+since a definition invokes its prerequisites. Free exploration and depth ordering
+are the same motion. Nothing needs to enforce it.
 
 These signal authorship and maintenance, which is most of what credibility is.
 
 - Stable slug per term; `/term/{slug}` permalinks; anchor links on headwords.
-- `last_revised` in frontmatter, rendered in mono small caps at the entry foot.
+- `last_revised` in frontmatter, rendered in mono uppercase at the entry foot.
 - Inbound reference count per term ("referenced by 7 terms"), computed from the
   definitional graph, linking to the referrers.
 - An A–Z index rail on the list view.
@@ -243,22 +390,53 @@ These signal authorship and maintenance, which is most of what credibility is.
 
 ---
 
-## 8. Sequencing
+## 9. Reference-work furniture
+
+These signal authorship and maintenance, which is most of what credibility is.
+
+- Stable slug per term; `/term/{slug}` permalinks; anchor links on headwords.
+- `last_revised` in frontmatter, rendered in mono uppercase at the entry foot.
+- Inbound reference count per term ("referenced by 7 terms"), computed from the
+  definitional graph, linking to the referrers.
+- An A–Z index rail on the list view.
+- A `revision` or edition number for the glossary as a whole.
+
+---
+
+## 10. Sequencing
 
 Do these as separate passes. Do not attempt more than one per session.
 
 | Pass | Scope | Done when |
 |---|---|---|
-| 1 | Tokens. Add `@theme`, clear palette, migrate every component to tokens. | Both checks in §8.1 come back clean. Site looks unstyled-but-correct. |
+| 1 | Tokens. Add `@theme`, clear palette, migrate every component to tokens. | `check-design.sh 1` clean. Site looks unstyled-but-correct. |
 | 2 | Typography + entry rebuild. Fonts loaded via `next/font`. Cards deleted. | No `rounded` or `border` on any entry. Measure capped. Visual diff reviewed. |
 | 3 | Chrome. Search field, text-label switcher, control relocation. | Header contains a wordmark and an input. |
 | 4 | Graph: node sizing + edge types. | Hubs visibly larger; two edge styles render. |
 | 5 | Graph: layered mode + cycle handling. | Layered is default; SCCs collapse without error. |
-| 6 | Furniture. | Permalinks resolve; inbound counts render. |
+| 6 | List navigation (§10.2). | Clicking a cross-reference scrolls to and focuses the target, in both modes. |
+| 7 | Landing page (§7). | `/` renders preface, featured entry, and links out. |
+| 8 | Furniture (§9). | Permalinks resolve; inbound counts render. |
 
 Pass 1 is the one that makes the rest cheap. Do not skip ahead to the graph.
 
-### 8.1 Verification
+### 10.2 List navigation
+
+The list currently renders every term and leaves position to the user, so
+following a cross-reference means scrolling to find where the target landed.
+In View All, cross-references do nothing at all. Both are the same gap: the list
+has no notion of navigating *to* a term.
+
+This is the primary interaction in a Wikipedia-style reference and it does not
+work. Fix in Pass 6:
+
+- Clicking a cross-reference scrolls the target into view and focuses it, in
+  both Explore and View All.
+- Newly discovered terms are scrolled to, not merely inserted.
+- Focus is visible (§11) and announced for screen readers.
+- Back/forward should return the reader to where they were.
+
+### 10.1 Verification
 
 Checks live in `scripts/check-design.sh`, not in this document. Duplicating them
 here guarantees the two copies drift.
@@ -294,9 +472,19 @@ values are removed in Pass 4.
 
 ---
 
-## 9. Quality floor
+## 11. Quality floor
 
 Not worth stating in a commit message, just do it: responsive to 375px, visible
 keyboard focus rings (signal color, 2px offset), `prefers-reduced-motion`
-respected, real `<dl>`/`<dt>`/`<dd>` semantics for the entry list, contrast
-verified at AA for `--color-ink-2` on `--color-paper`.
+respected, real `<dl>`/`<dt>`/`<dd>` semantics for the entry list.
+
+**Contrast.** Measured against `--color-paper`: `--color-ink` 16.6:1,
+`--color-ink-2` 8.5:1, `--color-signal` 6.1:1. All clear AA comfortably.
+
+`--color-ink-3` was `#85807A` at **3.59:1**, which fails AA for normal text — and
+it is used at 11px and 13px, well below the large-text exemption. §1 now
+specifies `#75706A` (4.50:1). Darken rather than enlarge; the small sizes are
+load-bearing.
+
+Non-text UI (hairline rules, undiscovered node outlines) needs only 3:1 and is
+exempt.

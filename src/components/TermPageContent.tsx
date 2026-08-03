@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import { GlossaryTerm, glossaryData } from '@/data/glossaryData';
@@ -19,7 +20,7 @@ function renderDefinition(term: GlossaryTerm) {
   const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
   if (!term.autoLinks || term.autoLinks.length === 0) {
-    return <p className="text-ink-2 text-[1.0625rem] leading-[1.65]">{displayDefinition}</p>;
+    return <p className="text-ink-2 text-[1.0625rem] leading-[1.65] max-w-(--measure)">{displayDefinition}</p>;
   }
 
   // Build a map of term IDs to their display names and patterns
@@ -87,7 +88,30 @@ function renderDefinition(term: GlossaryTerm) {
     parts.push(displayDefinition.substring(lastIndex));
   }
 
-  return <p className="text-ink-2 leading-relaxed text-base">{parts}</p>;
+  return <p className="text-ink-2 text-[1.0625rem] leading-[1.65] max-w-(--measure)">{parts}</p>;
+}
+
+function TrailingList({ label, terms }: { label: string; terms: GlossaryTerm[] }) {
+  if (terms.length === 0) return null;
+
+  return (
+    <p className="mt-4 text-[0.875rem] font-body">
+      <span className="font-mono uppercase tracking-[0.08em] text-[0.6875rem] font-medium text-ink-3 mr-2">
+        {label}
+      </span>
+      {terms.map((linked, i) => (
+        <Fragment key={linked.id}>
+          {i > 0 && <span className="text-ink-3"> · </span>}
+          <Link
+            href={`/term/${linked.id}`}
+            className="text-signal decoration-signal/40 hover:text-signal-2 underline decoration-1 underline-offset-2 transition-colors"
+          >
+            {linked.term}
+          </Link>
+        </Fragment>
+      ))}
+    </p>
+  );
 }
 
 export default function TermPageContent({
@@ -97,9 +121,9 @@ export default function TermPageContent({
   prevTerm,
   nextTerm,
 }: TermPageContentProps) {
-  const tagConfigs = term.tags
-    .map((t) => getTagConfig(t))
-    .filter((c): c is NonNullable<typeof c> => c !== undefined);
+  const category = term.tags
+    .map((t) => getTagConfig(t)?.label ?? t)
+    .join(' · ');
 
   return (
     <div className="bg-paper flex-1">
@@ -113,90 +137,45 @@ export default function TermPageContent({
           Back to Glossary
         </Link>
 
-        {/* Term header */}
-        <h1 className="text-2xl font-display text-ink mb-3">{term.term}</h1>
+        {/* dt may not contain heading content, so the document's h1 is
+            visually hidden and the visible headword lives in the dt below. */}
+        <h1 className="sr-only">{term.term}</h1>
 
-        {/* Alternates */}
-        {term.alternates && term.alternates.length > 0 && (
-          <p className="text-ink-3 text-[0.8125rem] font-ui small-caps mb-4">
-            Also known as: {term.alternates.join(', ')}
-          </p>
-        )}
+        <dl>
+          <div>
+            <dt>
+              <div className="flex items-baseline justify-between gap-4">
+                <span className="text-2xl font-display text-ink">{term.term}</span>
+                {category && (
+                  <span className="shrink-0 text-[0.6875rem] font-mono uppercase tracking-[0.08em] font-medium text-ink-3">
+                    {category}
+                  </span>
+                )}
+              </div>
+              {term.alternates && term.alternates.length > 0 && (
+                <p className="also-known-as font-body mt-1">
+                  also known as: {term.alternates.join(', ')}
+                </p>
+              )}
+            </dt>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {tagConfigs.map((tag) => (
-            <Link
-              key={tag.id}
-              href={`/?tag=${tag.id}`}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs transition-colors hover:brightness-110"
-              style={{
-                backgroundColor: `${tag.color}20`,
-                color: tag.color,
-                border: `1px solid ${tag.color}40`,
-              }}
-            >
-              <span
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: tag.color }}
-              />
-              {tag.label}
-            </Link>
-          ))}
-        </div>
+            <dd className="mt-3 pl-6">
+              {renderDefinition(term)}
 
-        {/* Definition */}
-        <div className="mb-8">{renderDefinition(term)}</div>
+              {term.media && term.media.length > 0 && (
+                <div className="mt-6 max-w-(--measure)">
+                  <MediaGallery media={term.media} />
+                </div>
+              )}
 
-        {/* Media gallery */}
-        {term.media && term.media.length > 0 && (
-          <div className="mb-8">
-            <MediaGallery media={term.media} />
+              <TrailingList label="See also" terms={manualLinks} />
+              <TrailingList label="Referenced by" terms={backLinks} />
+            </dd>
           </div>
-        )}
-
-        {/* Related terms (manual links) */}
-        {manualLinks.length > 0 && (
-          <div className="mb-6 pt-6 border-t border-rule">
-            <h2 className="text-sm font-medium text-ink-3 uppercase tracking-wider mb-3">
-              Also see
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {manualLinks.map((linked) => (
-                <Link
-                  key={linked.id}
-                  href={`/term/${linked.id}`}
-                  className="px-3 py-1.5 text-sm rounded border border-rule text-ink-2 hover:border-signal hover:text-signal transition-colors"
-                >
-                  {linked.term}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Back links (terms that reference this one) */}
-        {backLinks.length > 0 && (
-          <div className="mb-6 pt-6 border-t border-rule">
-            <h2 className="text-sm font-medium text-ink-3 uppercase tracking-wider mb-3">
-              Referenced by
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {backLinks.map((bl) => (
-                <Link
-                  key={bl.id}
-                  href={`/term/${bl.id}`}
-                  className="px-3 py-1.5 text-sm rounded border border-rule text-ink-2 hover:border-signal hover:text-signal transition-colors"
-                >
-                  {bl.term}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        </dl>
 
         {/* Prev/Next navigation */}
-        <div className="flex items-center justify-between pt-6 border-t border-rule">
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-rule">
           {prevTerm ? (
             <Link
               href={`/term/${prevTerm.id}`}

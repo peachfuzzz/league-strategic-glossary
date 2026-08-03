@@ -3,33 +3,26 @@
 import React from 'react';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import { GlossaryTerm, tagColors } from '@/data/glossaryData';
+import { GlossaryTerm } from '@/data/glossaryData';
+import { getTagConfig } from '@/config/tags.config';
 import MediaGallery from '@/components/MediaGallery';
 
 interface ListViewProps {
   filteredTerms: GlossaryTerm[];
-  selectedNode: GlossaryTerm | null;
   setSelectedNode: (node: GlossaryTerm | null) => void;
   glossaryData: GlossaryTerm[];
   onDiscoverTerm: (termId: string) => void;
   viewMode: 'explore' | 'viewAll';
   discoveredTerms?: Set<string>;
-  hoveredTag: string | null;
-  setHoveredTag: (tag: string | null) => void;
-  onToggleTag: (tag: string) => void;
 }
 
 export default function ListView({
   filteredTerms,
-  selectedNode,
   setSelectedNode,
   glossaryData,
   onDiscoverTerm,
   viewMode,
   discoveredTerms = new Set(),
-  hoveredTag,
-  setHoveredTag,
-  onToggleTag
 }: ListViewProps) {
   // Render definition with inline autolinks
   const renderDefinitionWithLinks = (term: GlossaryTerm) => {
@@ -37,7 +30,7 @@ export default function ListView({
     const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
 
     if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-ink-2 text-[1.0625rem] leading-[1.65]">{displayDefinition}</p>;
+      return <p className="text-ink-2 text-[1.0625rem] leading-[1.65] max-w-(--measure)">{displayDefinition}</p>;
     }
 
     // Build a map of term IDs to their display names and patterns (including alternates)
@@ -113,7 +106,7 @@ export default function ListView({
             className={`underline decoration-1 underline-offset-2 transition-colors ${
               isDiscovered
                 ? 'text-signal decoration-signal/40 hover:text-signal-2'
-                : 'text-ink/50 hover:text-signal'
+                : 'text-ink-3 hover:text-signal'
             }`}
           >
             {match.text}
@@ -129,116 +122,93 @@ export default function ListView({
       parts.push(displayDefinition.substring(lastIndex));
     }
 
-    return <p className="text-ink-2 text-[1.0625rem] leading-[1.65]">{parts}</p>;
+    return <p className="text-ink-2 text-[1.0625rem] leading-[1.65] max-w-(--measure)">{parts}</p>;
   };
 
   return (
     <div className="h-full overflow-y-auto p-6">
-      <div className="max-w-7xl mx-auto space-y-3">
+      <div className="max-w-7xl mx-auto">
         {filteredTerms.length === 0 ? (
           <div className="text-center py-16">
             <Search size={48} className="mx-auto text-ink-3 mb-3" />
             <p className="text-ink-3">No terms match your filters</p>
           </div>
         ) : (
-          filteredTerms.map(term => (
-            <div
-              key={term.id}
-              onClick={() => setSelectedNode(term)}
-              className={`bg-paper-2 border rounded shadow-paper p-4 cursor-pointer transition-all hover:border-signal ${
-                selectedNode?.id === term.id ? 'border-signal ring-2 ring-signal/20' : 'border-rule'
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div className="flex-1">
-                  <h3 className="text-2xl font-display">
-                    <Link href={`/term/${term.id}`} className="text-ink hover:text-signal transition-colors">
-                      {term.term}
-                    </Link>
-                  </h3>
-                  {term.alternates && term.alternates.length > 0 && (
-                    <p className="text-[0.8125rem] text-ink-3 font-ui small-caps mt-1">
-                      Also: {term.alternates.join(', ')}
-                    </p>
-                  )}
+          <dl className="divide-y divide-rule">
+            {filteredTerms.map(term => {
+              const category = term.tags
+                .map(tag => getTagConfig(tag)?.label ?? tag)
+                .join(' · ');
+
+              return (
+                <div key={term.id} className="py-[calc(var(--spacing-entry)/2)] first:pt-0 last:pb-0">
+                  <dt>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <Link href={`/term/${term.id}`} className="text-2xl font-display text-ink hover:text-signal transition-colors">
+                        {term.term}
+                      </Link>
+                      {category && (
+                        <span className="shrink-0 text-[0.6875rem] font-mono uppercase tracking-[0.08em] font-medium text-ink-3">
+                          {category}
+                        </span>
+                      )}
+                    </div>
+                    {term.alternates && term.alternates.length > 0 && (
+                      <p className="also-known-as font-body mt-1">
+                        also known as: {term.alternates.join(', ')}
+                      </p>
+                    )}
+                  </dt>
+
+                  <dd className="mt-3 pl-6">
+                    {renderDefinitionWithLinks(term)}
+
+                    {term.media && term.media.length > 0 && (
+                      <div className="mt-4 max-w-(--measure)">
+                        <MediaGallery media={term.media} compact />
+                      </div>
+                    )}
+
+                    {term.links.length > 0 && (
+                      <p className="mt-4 text-[0.875rem] font-body">
+                        <span className="font-mono uppercase tracking-[0.08em] text-[0.6875rem] font-medium text-ink-3 mr-2">
+                          See also
+                        </span>
+                        {term.links.map((linkId, i) => {
+                          const linkedTerm = glossaryData.find(t => t.id === linkId);
+                          if (!linkedTerm) return null;
+
+                          const isDiscovered = discoveredTerms.has(linkedTerm.id);
+                          return (
+                            <React.Fragment key={linkId}>
+                              {i > 0 && <span className="text-ink-3"> · </span>}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (viewMode === 'explore') {
+                                    onDiscoverTerm(linkedTerm.id);
+                                  } else {
+                                    setSelectedNode(linkedTerm);
+                                  }
+                                }}
+                                className={`underline decoration-1 underline-offset-2 transition-colors ${
+                                  isDiscovered
+                                    ? 'text-signal decoration-signal/40 hover:text-signal-2'
+                                    : 'text-ink-3 hover:text-signal'
+                                }`}
+                              >
+                                {linkedTerm.term}
+                              </button>
+                            </React.Fragment>
+                          );
+                        })}
+                      </p>
+                    )}
+                  </dd>
                 </div>
-
-                {/* Tags - dots instead of pills */}
-                <div className="flex flex-wrap gap-2 justify-end">
-                  {term.tags.map(tag => (
-                    <button
-                      key={tag}
-                      className={`flex items-center gap-1.5 hover:opacity-70 transition-opacity ${
-                        hoveredTag === tag ? 'opacity-70' : ''
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleTag(tag);
-                      }}
-                      onMouseEnter={() => setHoveredTag(tag)}
-                      onMouseLeave={() => setHoveredTag(null)}
-                      title={`Filter by ${tag}`}
-                    >
-                      <div
-                        className="w-2.5 h-2.5 rounded-full"
-                        style={{ backgroundColor: tagColors[tag] || '#A0A0A0' }}
-                      />
-                      <span className="text-xs text-ink-3">{tag}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Definition with inline autolinks */}
-              <div className="divider-sketch">
-                {renderDefinitionWithLinks(term)}
-              </div>
-
-              {/* Compact media */}
-              {term.media && term.media.length > 0 && (
-                <div className="divider-sketch">
-                  <MediaGallery media={term.media} compact />
-                </div>
-              )}
-
-              {/* Manual links */}
-              {term.links.length > 0 && (
-                <div className="divider-sketch">
-                  <p className="text-[10px] text-ink-3 mb-2 uppercase tracking-wider">
-                    Related
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {term.links.map(linkId => {
-                      const linkedTerm = glossaryData.find(t => t.id === linkId);
-                      if (!linkedTerm) return null;
-
-                      const isDiscovered = discoveredTerms.has(linkedTerm.id);
-                      return (
-                        <button
-                          key={linkId}
-                          className={`text-xs transition-colors ${
-                            isDiscovered
-                              ? 'text-signal hover:text-signal-2 hover:underline'
-                              : 'text-ink-3 hover:text-ink-2'
-                          }`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (viewMode === 'explore') {
-                              onDiscoverTerm(linkedTerm.id);
-                            } else {
-                              setSelectedNode(linkedTerm);
-                            }
-                          }}
-                        >
-                          {linkedTerm.term}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))
+              );
+            })}
+          </dl>
         )}
       </div>
     </div>

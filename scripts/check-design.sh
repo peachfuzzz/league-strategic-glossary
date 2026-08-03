@@ -83,7 +83,17 @@ no_entry_cards() {
 }
 
 measure_capped() {
-  grep -rq 'max-w-\[--measure\]\|max-w-\[6[0-9]ch\]\|max-w-\[7[0-2]ch\]' src/ \
+  # Tailwind v4: max-w-(--measure) compiles to var(--measure).
+  # max-w-[--measure] compiles to the literal `--measure`, which browsers
+  # silently drop — valid-looking, entirely inert. Flag it explicitly.
+  local broken
+  broken=$(grep -rn 'max-w-\[--' src/ --include='*.tsx' --include='*.ts')
+  if [ -n "$broken" ]; then
+    echo "$broken"
+    echo "  ^ bracket form is inert in v4; use max-w-(--measure)"
+    return
+  fi
+  grep -rq 'max-w-(--measure)\|max-w-\[6[0-9]ch\]\|max-w-\[7[0-2]ch\]' src/ \
     || echo "no measure cap found in src/"
 }
 

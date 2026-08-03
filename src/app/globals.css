@@ -15,7 +15,7 @@
   /* Ink */
   --color-ink:        #171614;  /* headwords, primary text */
   --color-ink-2:      #4A4740;  /* definitions */
-  --color-ink-3:      #85807A;  /* metadata, category labels */
+  --color-ink-3:      #75706A;  /* metadata, category labels */
 
   /* Signal — used sparingly, small areas only */
   --color-signal:     #B0261F;  /* cross-references, headword marks */
@@ -24,7 +24,7 @@
   /* Type */
   --font-display: var(--font-newsreader), Georgia, serif;
   --font-body:    var(--font-spectral), Georgia, serif;
-  --font-ui:      var(--font-inter), system-ui, sans-serif;
+  --font-ui:      var(--font-spectral), system-ui, sans-serif;
   --font-mono:    var(--font-jetbrains-mono), ui-monospace, monospace;
 
   /* Rhythm */
@@ -54,42 +54,16 @@ body {
   font-weight: 400;
 }
 
-/* Small caps for labels (also-known-as, category, see-also). Real small
-   caps where the face supports them; browsers synthesize otherwise. */
-.small-caps {
-  font-variant-caps: small-caps;
-  letter-spacing: 0.05em;
-}
-
-/* Section heading utility (ALSO SEE, REFERENCED BY, etc.) */
-.section-heading {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--color-ink-3);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+/* Alternate term names ("also known as: ...") */
+.also-known-as {
+    font-style: italic;
+    font-size: 0.8125rem;
+    color: var(--color-ink-3);
+  }
 
 /* Base transitions for interactive elements */
 a, button {
   transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
-}
-
-/* Ghost button utility (toolbar/action buttons) */
-.btn-ghost {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
-  border: 1px solid var(--color-rule);
-  border-radius: 0.25rem;
-  color: var(--color-ink);
-  background: transparent;
-  cursor: pointer;
-  transition: all 150ms ease;
-}
-
-.btn-ghost:hover {
-  border-color: var(--color-signal);
-  background: color-mix(in srgb, var(--color-signal) 15%, transparent);
 }
 
 /* Custom scrollbar styling */
@@ -124,31 +98,6 @@ a, button {
   outline-offset: 2px;
 }
 
-/* Card shadows */
-.shadow-paper {
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.3),
-    0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* Card hover utility */
-.card-hover {
-  transition: all 200ms ease;
-}
-
-.card-hover:hover {
-  border-color: var(--color-signal);
-  box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.4),
-    0 8px 16px rgba(0, 0, 0, 0.3),
-    0 0 0 1px color-mix(in srgb, var(--color-signal) 15%, transparent);
-}
-
-/* Signal accent border */
-.border-accent-subtle {
-  border-color: color-mix(in srgb, var(--color-signal) 30%, transparent);
-}
-
 /* Hand-drawn divider */
 .divider-sketch {
   position: relative;
@@ -171,11 +120,6 @@ a, button {
     transparent 100%
   );
   transform: translateY(-0.5px);
-}
-
-/* Slight tilt for cards (optional, use sparingly) */
-.tilt-slight {
-  transform: rotate(-0.3deg);
 }
 
 /* Fade-in animation for modals/overlays */
