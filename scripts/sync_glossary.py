@@ -176,6 +176,10 @@ class Term:
         # Active flag - true only for terms marked completed (✓) in the Doc
         lines.append(f"active: {'true' if self.is_completed else 'false'}")
 
+        # Complete flag - editorial status, maintained by hand in Obsidian.
+        # The Doc has no source for this, so imports always seed it false.
+        lines.append("complete: false")
+
         lines.append("---")
         lines.append("")
         lines.append(self.definition)

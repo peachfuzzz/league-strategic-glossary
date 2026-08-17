@@ -4,6 +4,7 @@ term: Cheese
 tags: [vernacular]
 alternates: ["cheesy"]
 active: true
+complete: false
 ---
 
 An unexpected or surprising decision by a player, generally considered suboptimal, whose success relies on a lack of knowledge from the target. Picking off-meta champions can often be categorized as cheese, since a significant advantage can be gained from the information asymmetry of an unusual pick. Plays are also sometimes labeled as cheesy if the play would only work through the element of surprise.

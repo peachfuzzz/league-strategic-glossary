@@ -2,6 +2,8 @@
 id: actor
 term: Actor
 tags: [abstract-concepts]
+active: false
+complete: false
 ---
 
 Something or someone that acts upon an object. 

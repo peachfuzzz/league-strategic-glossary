@@ -54,13 +54,14 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [],
     "autoLinks": [
-      "object"
+      "object",
+      "player"
     ]
   },
   {
     "id": "all-in",
     "term": "All-in",
-    "definition": "A fight between opposing players with the intention to kill. An all-in is taken either when an actor has sufficient kill pressure, either via a calculation of lethal, or as a natural consequence of prior combat.  All-ins often expend every resource and cooldown available to all champions involved.",
+    "definition": "A fight between opposing players with the intention to kill. An all-in is taken either when a player has sufficient kill pressure, either via a calculation of lethal, or as a natural consequence of prior combat.  All-ins often expend every resource and cooldown available to all champions involved.",
     "tags": [
       "strategy"
     ],
@@ -68,10 +69,11 @@ export const glossaryData: GlossaryTerm[] = [
       "trade"
     ],
     "autoLinks": [
-      "actor",
       "combat",
       "fight",
       "kill-pressure",
+      "lethal",
+      "player",
       "pressure"
     ]
   },
@@ -108,11 +110,14 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "backstep",
     "term": "Backstep",
-    "definition": "Dodging an ability by briefly moving opposite the expected direction of travel. Backsteps are effectively a subclass of sidesteps that travel backwards. A backstep requires a player to input a movement command in the opposite direction of their original intended location, thus requiring a higher degree of intentionality than a traditional sidestep.",
+    "definition": "Dodging an ability by briefly moving opposite the expected direction of travel. Backsteps are effectively a subclass of sidesteps that travel backwards. A backstep requires the player to input a movement command in the opposite direction of their original intended location, thus requiring a higher degree of intentionality than a traditional sidestep.",
     "tags": [
       "vernacular"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "player"
+    ]
   },
   {
     "id": "bait",
@@ -125,7 +130,8 @@ export const glossaryData: GlossaryTerm[] = [
       "overextend"
     ],
     "autoLinks": [
-      "fight"
+      "fight",
+      "player"
     ]
   },
   {
@@ -159,7 +165,20 @@ export const glossaryData: GlossaryTerm[] = [
     "alternates": [
       "input buffer",
       "buffer window"
+    ],
+    "autoLinks": [
+      "player",
+      "target"
     ]
+  },
+  {
+    "id": "camp",
+    "term": "Camp",
+    "definition": "Frequent ganks or roams around a specific lane. Camping is usually done by a jungler, but can involve more team members with coordination.",
+    "tags": [
+      "vernacular"
+    ],
+    "links": []
   },
   {
     "id": "cc-buffer",
@@ -173,7 +192,8 @@ export const glossaryData: GlossaryTerm[] = [
       "buffering through CC"
     ],
     "autoLinks": [
-      "buffer"
+      "buffer",
+      "player"
     ]
   },
   {
@@ -183,12 +203,31 @@ export const glossaryData: GlossaryTerm[] = [
     "tags": [
       "strategy"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "target"
+    ]
+  },
+  {
+    "id": "cheater-recall",
+    "term": "Cheater Recall",
+    "definition": "Recalling after crashing the first three minion waves of the game in a manner such that minimal minions are lost upon returning to lane without the assistance of teleport. While technically performable in bot lane, the cheater recall is most frequently used in top lane. A cheater recall is a reliable strategy for creating a lead after obtaining level one priority. The recall grants the player full resources, as well as the ability to spend their gold on a component for a combat advantage. The common follow-up on a cheater recall is to return to lane before the opposing wave crashes and to leverage their increased resources to hold a freeze.",
+    "tags": [
+      "strategy",
+      "minions"
+    ],
+    "links": [],
+    "autoLinks": [
+      "combat",
+      "freeze",
+      "player",
+      "wave"
+    ]
   },
   {
     "id": "cheese",
     "term": "Cheese",
-    "definition": "An unexpected or surprising decision by an actor, generally considered suboptimal, whose success relies on a lack of knowledge from the target. Picking off-meta champions can often be categorized as cheese, since a significant advantage can be gained from the information asymmetry of an unusual pick. Plays are also sometimes labeled as cheesy if the play would only work through the element of surprise.",
+    "definition": "An unexpected or surprising decision by a player, generally considered suboptimal, whose success relies on a lack of knowledge from the target. Picking off-meta champions can often be categorized as cheese, since a significant advantage can be gained from the information asymmetry of an unusual pick. Plays are also sometimes labeled as cheesy if the play would only work through the element of surprise.",
     "tags": [
       "vernacular"
     ],
@@ -197,7 +236,9 @@ export const glossaryData: GlossaryTerm[] = [
       "cheesy"
     ],
     "autoLinks": [
-      "actor"
+      "meta",
+      "player",
+      "target"
     ]
   },
   {
@@ -207,7 +248,11 @@ export const glossaryData: GlossaryTerm[] = [
     "tags": [
       "strategy"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "player",
+      "target"
+    ]
   },
   {
     "id": "combat",
@@ -224,7 +269,7 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "contest",
     "term": "Contest",
-    "definition": "Threatening or fighting over something. An actor can contest anything: a minion, lane priority, neutral objectives, etc. Contesting is a demonstration of intent and does not necessarily mean a full fight over the object of the contest. Even just the threat of fighting, such as a soft contest, can be enough to achieve the goal of a contest.",
+    "definition": "Threatening or fighting over something. A player can contest anything: a minion, lane priority, neutral objectives, etc. Contesting is a demonstration of intent and does not necessarily mean a full fight over the object of the contest. Even just the threat of fighting, such as a soft contest, can be enough to achieve the goal of a contest.",
     "tags": [
       "strategy"
     ],
@@ -235,9 +280,10 @@ export const glossaryData: GlossaryTerm[] = [
       "contesting"
     ],
     "autoLinks": [
-      "actor",
       "fight",
+      "lane-priority",
       "object",
+      "player",
       "threat"
     ]
   },
@@ -251,7 +297,9 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [],
     "autoLinks": [
-      "crossmap"
+      "camp",
+      "crossmap",
+      "player"
     ]
   },
   {
@@ -261,7 +309,10 @@ export const glossaryData: GlossaryTerm[] = [
     "tags": [
       "strategy"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "player"
+    ]
   },
   {
     "id": "crash",
@@ -274,6 +325,8 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "bounceback",
+      "player",
+      "roam",
       "wave"
     ]
   },
@@ -319,7 +372,9 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [],
     "autoLinks": [
-      "fight"
+      "fight",
+      "player",
+      "target"
     ]
   },
   {
@@ -335,6 +390,15 @@ export const glossaryData: GlossaryTerm[] = [
     ]
   },
   {
+    "id": "execute-damage",
+    "term": "Execute (damage)",
+    "definition": "",
+    "tags": [
+      "game-mechanics"
+    ],
+    "links": []
+  },
+  {
     "id": "expected-value",
     "term": "Expected Value",
     "definition": "The weighted average of an outcome. The expected value of an outcome is directly proportional to the probability of the potential value gained. Expected value is a strong factor in decision-making, and optimization often surrounds improving the expected value of decisions by either lowering the variance of success or increasing the value of the outcome. \nAuthors’ note: We avoid using standard deviation because it is uncommon in the player lexicon and implies a level of precision impossible to measure.",
@@ -346,6 +410,7 @@ export const glossaryData: GlossaryTerm[] = [
       "EV"
     ],
     "autoLinks": [
+      "player",
       "value",
       "variance"
     ]
@@ -377,7 +442,8 @@ export const glossaryData: GlossaryTerm[] = [
       "flashcast"
     ],
     "autoLinks": [
-      "buffer"
+      "buffer",
+      "target"
     ]
   },
   {
@@ -394,16 +460,17 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "freeze",
     "term": "Freeze",
-    "definition": "Keeping a larger enemy minion wave near, but not within range of, an allied tower. A freeze forms when a large enemy wave can kill an allied wave before the allied minions can build up fast enough to reverse wave direction, while also not being allowed to crash into the allied tower. Freezing can allow an actor to deny the opposing laner(s) of minion gold or even experience for an extended period of time, since the wave will not initiate a bounceback until the freeze is broken. A freeze breaks when the enemy minions cannot kill enough allied minions to prevent a buildup, and can happen intentionally or naturally. Within a large enough difference of ranged minions (usually 3+), a freeze can last indefinitely, sometimes referred to as a true freeze.",
+    "definition": "Keeping a larger enemy minion wave near, but not within range of, an allied tower. A freeze forms when a large enemy wave can kill an allied wave before the allied minions can build up fast enough to reverse the wave direction, while also not being allowed to crash into the allied tower. Freezing can allow a player to deny the opposing laner(s) of minion gold or even experience for an extended period of time, since the wave will not initiate a bounceback until the freeze is broken. A freeze breaks when the enemy minions cannot kill enough allied minions to prevent a buildup, and can happen intentionally or naturally. Within a large enough difference of ranged minions (usually 3+), a freeze can last indefinitely, sometimes referred to as a true freeze.",
     "tags": [
       "strategy",
       "minions"
     ],
     "links": [],
     "autoLinks": [
-      "actor",
       "bounceback",
       "crash",
+      "player",
+      "wave-direction",
       "wave"
     ]
   },
@@ -415,12 +482,15 @@ export const glossaryData: GlossaryTerm[] = [
       "strategy",
       "jungle"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "player"
+    ]
   },
   {
     "id": "give",
     "term": "Give",
-    "definition": "Allowing the enemy to do something. An actor can give anything: a jungle camp, space, towers, etc. Giving is not necessarily a passive decision, and can be done strategically to allocate time and resources towards a more valuable play. A common reason to give is to set up a cross-map play.",
+    "definition": "Allowing the enemy to do something. A player can give anything: a jungle camp, space, towers, etc. Giving is not necessarily a passive decision, and can be done strategically to allocate time and resources towards a more valuable play. A common reason to give is to set up a cross-map play.",
     "tags": [
       "strategy"
     ],
@@ -431,7 +501,9 @@ export const glossaryData: GlossaryTerm[] = [
       "giving"
     ],
     "autoLinks": [
-      "actor"
+      "camp",
+      "player",
+      "space"
     ]
   },
   {
@@ -450,7 +522,10 @@ export const glossaryData: GlossaryTerm[] = [
     "tags": [
       "vernacular"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "target"
+    ]
   },
   {
     "id": "hypercarry",
@@ -459,7 +534,10 @@ export const glossaryData: GlossaryTerm[] = [
     "tags": [
       "vernacular"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "target"
+    ]
   },
   {
     "id": "interaction-engine",
@@ -487,18 +565,23 @@ export const glossaryData: GlossaryTerm[] = [
     "tags": [
       "abstract-concepts"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "player"
+    ]
   },
   {
     "id": "kill-pressure",
     "term": "Kill Pressure",
-    "definition": "A state where a player can kill another player with a strings of abilities. Usually, this means that if the player with kill pressure lands their key setup ability, they have a string of inputs that takes a relatively short amount of time that has a high likelihood of killing the other player. Whenever a player has kill pressure, it allows them to play much more aggressively, and the defending player will need to play more safely.",
+    "definition": "A state where the player can kill a target with a string of abilities. Usually, this means that if the player with kill pressure lands their key setup ability, they have a string of inputs that takes a relatively short amount of time that has a high likelihood of killing the other player. Whenever the player has kill pressure, it allows them to play much more aggressively, and the defending player will need to play more safely.",
     "tags": [
       "abstract-concepts"
     ],
     "links": [],
     "autoLinks": [
-      "pressure"
+      "player",
+      "pressure",
+      "target"
     ]
   },
   {
@@ -511,6 +594,50 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "pressure"
+    ]
+  },
+  {
+    "id": "lane-bully",
+    "term": "Lane Bully",
+    "definition": "The label for any champion with a strong lane phase relative to other champions in their role. Lane bullies more easily win lane through direct combat, whether through strong trades or all-ins. Lane bullies are contextual: the specific lane matchup can swing the perception of what champion(s) are considered the bully.",
+    "tags": [
+      "vernacular"
+    ],
+    "links": [],
+    "autoLinks": [
+      "combat",
+      "matchup"
+    ]
+  },
+  {
+    "id": "lane-priority",
+    "term": "Lane Priority",
+    "definition": "The state of being able to move from a lane before the opposing laner(s). Lane priority stems from the ability to push a wave in a manner such that the opposing laner cannot contest. A player with lane priority incurs fewer minion losses if they were to leave lane, so they tend to have first move over their opponent when joining plays outside of their lane. Lane priority is a relative comparison of several factors, including matchup, waveclear, and jungle proximity.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "alternates": [
+      "prio"
+    ],
+    "autoLinks": [
+      "contest",
+      "matchup",
+      "player",
+      "wave"
+    ]
+  },
+  {
+    "id": "lethal",
+    "term": "Lethal",
+    "definition": "The state of having sufficient damage to kill an opponent. Lethal is a speculative estimate, not a deterministic state. Having lethal does not mean that a player can do anything and come away with a kill, but that a player with lethal has identified a specific string of actions that is likely to result in killing their target.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "autoLinks": [
+      "player",
+      "target"
     ]
   },
   {
@@ -538,6 +665,7 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "combat",
+      "player",
       "variance"
     ]
   },
@@ -558,6 +686,18 @@ export const glossaryData: GlossaryTerm[] = [
     ]
   },
   {
+    "id": "meta",
+    "term": "Meta",
+    "definition": "The perceived state of strategies for winning a game of League. Meta is short for “metagame,” or the game beyond the game. The meta is a product of community perception and does not necessarily reflect the absolute best strategies. Strategies perceived to deviate from the meta are called off-meta.",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": [],
+    "alternates": [
+      "metagame"
+    ]
+  },
+  {
     "id": "mindgame",
     "term": "Mindgame",
     "definition": "A situation where two opposing players have discrete right and wrong options, and each attempts to manipulate the other into making a mistake. A common example of a mindgame involves a specific interaction (engine) between two abilities that counter each other, such as Sion’s Q versus Fiora’s W, where each player wants to use their ability to negate the other’s. Mindgames primarily focus on prediction and guesswork rather than reaction-based execution.",
@@ -566,6 +706,9 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [
       "mixup"
+    ],
+    "autoLinks": [
+      "player"
     ]
   },
   {
@@ -579,7 +722,8 @@ export const glossaryData: GlossaryTerm[] = [
       "mindgame"
     ],
     "autoLinks": [
-      "matchup"
+      "matchup",
+      "player"
     ]
   },
   {
@@ -617,7 +761,8 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [],
     "autoLinks": [
-      "high-elo"
+      "high-elo",
+      "player"
     ]
   },
   {
@@ -631,7 +776,26 @@ export const glossaryData: GlossaryTerm[] = [
     "autoLinks": [
       "bait",
       "collapse",
-      "gank"
+      "gank",
+      "player"
+    ]
+  },
+  {
+    "id": "parallel-positioning",
+    "term": "Parallel Positioning",
+    "definition": "As the bot laner or support, standing apart from your lane partner while maintaining approximately the same distance from the enemy laner(s). Parallel positioning aims to maximize space and threat while still ensuring neither the player nor their lane partner is the only vulnerable target.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "alternates": [
+      "trading triangle"
+    ],
+    "autoLinks": [
+      "player",
+      "space",
+      "target",
+      "threat"
     ]
   },
   {
@@ -657,7 +821,10 @@ export const glossaryData: GlossaryTerm[] = [
     "tags": [
       "strategy"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "target"
+    ]
   },
   {
     "id": "play-strategy",
@@ -673,15 +840,49 @@ export const glossaryData: GlossaryTerm[] = [
     ]
   },
   {
+    "id": "player",
+    "term": "Player",
+    "definition": "A person controlling a champion in-game.\nAuthors’ note: In this glossary, we often use \"the player” as a formalization of “you, the person doing stuff.”",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": []
+  },
+  {
+    "id": "playmaker",
+    "term": "Playmaker",
+    "definition": "A champion that excels at creating an advantageous situation for their team (make a play). Champions considered playmakers commonly have reliable crowd-control which they use to start a fight, but rely on their teammates to deal damage and finish a fight. The general capability to make plays is also called “playmaking.”",
+    "tags": [
+      "vernacular"
+    ],
+    "links": [],
+    "autoLinks": [
+      "fight"
+    ]
+  },
+  {
+    "id": "power-budget",
+    "term": "Power Budget",
+    "definition": "The abstract limits on a champion’s fair output. A target’s power budget is the quantitative",
+    "tags": [
+      "abstract-concepts",
+      "design"
+    ],
+    "links": [],
+    "autoLinks": [
+      "target"
+    ]
+  },
+  {
     "id": "pressure",
     "term": "Pressure",
-    "definition": "A threat that requires a response from the opponent. Pressure relies on an active threat: an actor with pressure threatens to take action which, if left unanswered, will create an advantage for themselves. Pressure can be applied at all three game scales. Example: a laner applies pressure to their opponent by denying minions, a splitpusher applies pressure to the map by pushing waves, and a team applies pressure to the enemy by starting a neutral objective.",
+    "definition": "A threat that requires a response from the opponent. Pressure relies on an active threat: a player with pressure threatens to take action which, if left unanswered, will create an advantage for themselves. Pressure can be applied at all three game scales. Example: a laner applies pressure to their opponent by denying minions, a splitpusher applies pressure to the map by pushing waves, and a team applies pressure to the enemy by starting a neutral objective.",
     "tags": [
       "abstract-concepts"
     ],
     "links": [],
     "autoLinks": [
-      "actor",
+      "player",
       "splitpusher",
       "threat"
     ]
@@ -698,6 +899,7 @@ export const glossaryData: GlossaryTerm[] = [
     "autoLinks": [
       "collapse",
       "crash",
+      "player",
       "tempo",
       "wave"
     ]
@@ -725,6 +927,7 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [],
     "autoLinks": [
+      "player",
       "tempo"
     ]
   },
@@ -740,6 +943,22 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "autoLinks": [
       "variance"
+    ]
+  },
+  {
+    "id": "roam",
+    "term": "Roam",
+    "definition": "Leaving a lane for an extended period of time. Roaming lets a laner affect other parts of the map beyond their lane. Because a player is not present in lane during a roam to catch a wave or stop their opponent from hitting their tower, roams come with an opportunity cost. Setting up a roam requires the laner to account for this potential minion loss, such as crashing a slow push or (as a support) warding for an ally.",
+    "tags": [
+      "strategy"
+    ],
+    "links": [
+      "gank"
+    ],
+    "autoLinks": [
+      "player",
+      "slow-push",
+      "wave"
     ]
   },
   {
@@ -772,6 +991,7 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "autoLinks": [
       "crash",
+      "player",
       "wave"
     ]
   },
@@ -790,11 +1010,14 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "skill-test",
     "term": "Skill Test",
-    "definition": "A task, encountered regularly during games, whose outcome affects the game state. Skill tests are the abstract categories of problems that League of Legends asks of a player that wants to win. Skill tests can be categorized broadly and narrowly. For example, positioning is a skill test asked of all champions, while pet micromanagement only concerns champions that summon controllable pets.",
+    "definition": "A task, encountered regularly during games, whose outcome affects the game state. Skill tests are the abstract categories of problems that League of Legends asks of the player who wants to win. Skill tests can be categorized broadly and narrowly. For example, positioning is a skill test asked of all champions, while pet micromanagement only concerns champions that summon controllable pets.",
     "tags": [
       "abstract-concepts"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "player"
+    ]
   },
   {
     "id": "skirmish",
@@ -813,7 +1036,7 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "slow-push",
     "term": "Slow Push",
-    "definition": "Killing minions as slowly as possible while an actor’s wave pushes toward the enemy tower. Slow pushing is a medium-term wave tactic primarily used when a player has a longer window for manipulating a wave. Slow pushing is a common default tactic because minions naturally tend to slow push if left mostly undisturbed. Slow pushes happen over 2-4 waves and result in a large buildup of allied minions before eventually crashing. The eventual large crash gives the actor a timer to make a bigger play, such as a dive, a roam, or a recall.",
+    "definition": "Killing minions as slowly as possible while a player’s wave pushes toward the enemy tower. Slow pushing is a medium-term wave tactic primarily used when a player has a longer window for manipulating a wave. Slow pushing is a common default tactic because minions naturally tend to slow push if left mostly undisturbed. Slow pushes happen over 2-4 waves and result in a large buildup of allied minions before eventually crashing. The eventual large crash gives the player a timer to make a bigger play, such as a dive, a roam, or a recall.",
     "tags": [
       "strategy",
       "minions"
@@ -822,21 +1045,37 @@ export const glossaryData: GlossaryTerm[] = [
       "shove"
     ],
     "autoLinks": [
-      "actor",
       "crash",
       "dive",
+      "player",
+      "roam",
       "wave"
+    ]
+  },
+  {
+    "id": "space",
+    "term": "Space",
+    "definition": "Any area in the game where the player and their team has more influence than the opposing team. In practice, space is the area in combat that the allied team can move into relatively safely. Space is determined by threat and is created and changed as fights play out.",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": [],
+    "autoLinks": [
+      "combat",
+      "player",
+      "threat"
     ]
   },
   {
     "id": "spacing",
     "term": "Spacing",
-    "definition": "A player intentionally moving to maintain a specific range against an enemy. Most often, a player will be spacing one of their opponents’ abilities or combinations of abilities. Spacing is most commonly used to maintain threat on an enemy while staying out of range of an enemy’s effective range.",
+    "definition": "Intentionally moving to maintain a specific range against an enemy. Most often, a player will be spacing one of their opponents’ abilities or combinations of abilities. Spacing is most commonly used to maintain threat on an enemy while staying out of range of an enemy’s effective range.",
     "tags": [
       "strategy"
     ],
     "links": [],
     "autoLinks": [
+      "player",
       "threat"
     ]
   },
@@ -915,13 +1154,14 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "matchup",
+      "player",
       "weakside"
     ]
   },
   {
     "id": "tactics",
     "term": "Tactics",
-    "definition": "Skills and strategies that concern decisions and plans in the medium term, on the order of minion waves. Tactics cover ideas that require some foresight without significant coordination: strategies that are still selfish, but consider potential outcomes and factors slightly beyond the present.",
+    "definition": "Skills and strategies that concern decisions and plans in the medium term, on the order of 5-30 seconds. The umbrella of tactics covers ideas that utilize some foresight but not map-wide information. Examples of tactics include immediate wave management, flanking, vision plays, etc.",
     "tags": [
       "abstract-concepts"
     ],
@@ -929,6 +1169,9 @@ export const glossaryData: GlossaryTerm[] = [
     "alternates": [
       "mesostrategy",
       "meso"
+    ],
+    "autoLinks": [
+      "wave"
     ]
   },
   {
@@ -943,6 +1186,18 @@ export const glossaryData: GlossaryTerm[] = [
     ]
   },
   {
+    "id": "target",
+    "term": "Target",
+    "definition": "Something or someone being acted upon, often by the player. A target can be a champion, minion, ward, monster, and can be on any team.",
+    "tags": [
+      "abstract-concepts"
+    ],
+    "links": [],
+    "autoLinks": [
+      "player"
+    ]
+  },
+  {
     "id": "teamfight",
     "term": "Teamfight",
     "definition": "A large-scale fight involving most or all players on both teams. Teamfighting is chaotic and tense, being subject to many aspects of variance and having high, game-deciding stakes. Teamfights happen more regularly once the laning phase ends and players are less bound to individual lanes. Teamfights tend to favor champions who enjoy the setup and safety offered by teammates to output extreme damage or control large amounts of space.",
@@ -952,6 +1207,7 @@ export const glossaryData: GlossaryTerm[] = [
     "links": [],
     "autoLinks": [
       "fight",
+      "space",
       "variance"
     ]
   },
@@ -964,6 +1220,7 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [],
     "autoLinks": [
+      "player",
       "value"
     ]
   },
@@ -984,16 +1241,17 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "threat",
     "term": "Threat",
-    "definition": "The potential to act on an object. The value of a threat depends on the implied expected value of the threatened action: the theoretical EV of the action if it were taken at that instant. Once an actor takes the threatened action, the threat of the ability transforms into a realized value.\n\nExample: Blitzcrank approaches an enemy champion with its Q, Rocket Grab. When Blitz Q is off cooldown, Blitz has extremely high agency over its potential target, generating massive threat. Blitz can use the threat of its hook—the expected value of the hook hitting its target—to zone the enemy, generating value in the form of space. Once Blitz does cast its hook, it loses the associated threat, even if the hook itself generated value.",
+    "definition": "The potential to act on a target. The value of a threat depends on the implied expected value of the threatened action: the theoretical EV of the action if it were taken at that instant. Once the player takes the threatened action, the threat of the ability transforms into a realized value.\n\nExample: Blitzcrank approaches an enemy champion with its Q, Rocket Grab. When Blitz Q is off cooldown, Blitz has extremely high agency over its potential target, generating massive threat. Blitz can use the threat of its hook—the expected value of the hook hitting its target—to zone the enemy, generating value in the form of space. Once Blitz does cast its hook, it loses the associated threat, even if the hook itself generated value.",
     "tags": [
       "abstract-concepts"
     ],
     "links": [],
     "autoLinks": [
-      "actor",
       "expected-value",
       "hook",
-      "object",
+      "player",
+      "space",
+      "target",
       "value",
       "zone"
     ]
@@ -1016,25 +1274,53 @@ export const glossaryData: GlossaryTerm[] = [
   {
     "id": "value",
     "term": "Value",
-    "definition": "The quantitative measurement of an action, decision, or state. In essence, value is how much something is “worth” to an actor. An outcome’s value is its measurable quantity: gold, health, mana, cooldown, movement, etc. Value allows for comparing actions or decisions that are measured similarly. Analogous to money in real life, value is discounted over time: a given amount of value now is worth more than the same amount of value later.",
+    "definition": "The quantitative measurement of an action, decision, or state. Value is how much something is “worth” to winning a game. An outcome’s value is its measurable quantity: gold, health, mana, cooldown, movement, etc. Value allows for comparing actions or decisions that are measured similarly. Analogous to money in real life, value is discounted over time: a given amount of value now is worth more than the same amount of value later.",
     "tags": [
       "abstract-concepts"
     ],
     "links": [
       "expected-value"
-    ],
-    "autoLinks": [
-      "actor"
     ]
   },
   {
     "id": "variance",
     "term": "Variance",
-    "definition": "The measure of deviation from an expected outcome. Broadly, variance encompasses all the factors a player cannot directly control in a game. This includes probability-based outcomes, such as crit chance and matchmaking, as well as human variability in decisions and inputs. Variance is difficult to quantify and is most often discussed in terms of changes in variance (positive and negative).\n\nBoth decreasing and increasing variance can be valuable. Decreasing variance benefits a party with an advantage, since their expected outcome for a situation is positive. This also applies in reverse: for a party at a disadvantage, increased variance can result in more opportunities to obtain an unlikely outcome. Manipulating variance in as many aspects as possible is a fundamental skill of optimization.",
+    "definition": "The measure of deviation from an expected outcome. Broadly, variance encompasses all the factors the player cannot directly control in a game. This includes probability-based outcomes, such as crit chance and matchmaking, as well as human variability in decisions and inputs. Variance is difficult to quantify and is most often discussed in terms of changes in variance (positive and negative).\n\nBoth decreasing and increasing variance can be valuable. Decreasing variance benefits a party with an advantage, since their expected outcome for a situation is positive. This also applies in reverse: for a party at a disadvantage, increased variance can result in more opportunities to obtain an unlikely outcome. Manipulating variance in as many aspects as possible is a fundamental skill of optimization.",
     "tags": [
       "abstract-concepts"
     ],
-    "links": []
+    "links": [],
+    "autoLinks": [
+      "player"
+    ]
+  },
+  {
+    "id": "wave-direction",
+    "term": "Wave Direction",
+    "definition": "The current direction that a wave is pushing. Wave direction can be described relative to the player, i.e. “away from” and “towards” the player, or it can be described relative to the bases, i.e. “towards red/blue.” A wave’s direction is determined by comparing the rate at which both teams’ minions die: the minions that die more quickly is the direction the entire wave will travel over time. Wave direction is one component of an overall wave state.",
+    "tags": [
+      "strategy",
+      "minions"
+    ],
+    "links": [],
+    "autoLinks": [
+      "player",
+      "wave-state",
+      "wave"
+    ]
+  },
+  {
+    "id": "wave-state",
+    "term": "Wave State",
+    "definition": "The general conditions of a wave. A wave state is composed of a wave position and a wave direction. Because minions are both a significant source of",
+    "tags": [
+      "strategy"
+    ],
+    "links": [],
+    "autoLinks": [
+      "wave-direction",
+      "wave"
+    ]
   },
   {
     "id": "wave-thinning",
@@ -1053,6 +1339,7 @@ export const glossaryData: GlossaryTerm[] = [
       "crash",
       "dive",
       "freeze",
+      "wave-direction",
       "wave"
     ]
   },
@@ -1078,19 +1365,22 @@ export const glossaryData: GlossaryTerm[] = [
     ],
     "links": [],
     "autoLinks": [
+      "player",
       "strongside"
     ]
   },
   {
     "id": "zone",
     "term": "Zone",
-    "definition": "Creating a space through threat that disincentivizes the approach of opposing players. Zoning implies the lack of active combat. A player being zoned could still choose to ignore the threat and enter the area, though they likely would experience retaliation.",
+    "definition": "Creating space through threat that disincentivizes the approach of opposing players. Zoning implies the lack of active combat. A player being zoned could still choose to ignore the threat and enter the area, though they likely would experience retaliation.",
     "tags": [
       "strategy"
     ],
     "links": [],
     "autoLinks": [
       "combat",
+      "player",
+      "space",
       "threat"
     ]
   }

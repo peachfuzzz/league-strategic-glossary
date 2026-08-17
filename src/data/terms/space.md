@@ -3,6 +3,7 @@ id: space
 term: Space
 tags: [abstract-concepts]
 active: false
+complete: false
 ---
 
 Any area in the game where the player and their team has more influence than the opposing team. In practice, space is the area in combat that the allied team can move into relatively safely. Space is determined by threat and is created and changed as fights play out.
