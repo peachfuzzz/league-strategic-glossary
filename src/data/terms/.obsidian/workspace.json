@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "attack-reset.md",
+                "file": "C0011.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "attack-reset"
+              "title": "C0011"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "attack-reset.md",
+                "file": "C0011.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for attack-reset"
+              "title": "Backlinks for C0011"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "attack-reset.md",
+                "file": "C0011.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from attack-reset"
+              "title": "Outgoing links from C0011"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "attack-reset.md",
+                "file": "C0011.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of attack-reset"
+              "title": "Outline of C0011"
             }
           }
         ]
@@ -185,27 +185,31 @@
   },
   "active": "845b41f42e44309e",
   "lastOpenFiles": [
-    "bait.md",
-    "bounceback.md",
-    "player.md",
-    "actor.md",
-    "playmaker.md",
-    "lane-bully.md",
-    "camp.md",
-    "space.md",
-    "power-budget.md",
-    "meta.md",
-    "wave-state.md",
-    "wave-direction.md",
-    "roam.md",
-    "parallel-positioning.md",
-    "lethal.md",
-    "lane-priority.md",
-    "cheater-recall.md",
-    "execute-damage.md",
-    "all-in.md",
-    "weakside.md",
-    "wave-thinning.md",
-    "ability-rotation.md"
+    "C0015.md",
+    "C0024.md",
+    "C0011.md",
+    "C0007.md",
+    "C0004.md",
+    "C0002.md",
+    "C0001.md",
+    "C0012.md",
+    "C0091.md",
+    "C0089.md",
+    "C0092.md",
+    "C0094.md",
+    "C0085.md",
+    "C0082.md",
+    "C0083.md",
+    "C0074.md",
+    "C0069.md",
+    "C0065.md",
+    "C0056.md",
+    "C0047.md",
+    "C0038.md",
+    "C0029.md",
+    "C0025.md",
+    "C0019.md",
+    "C0016.md",
+    "C0097.md"
   ]
 }

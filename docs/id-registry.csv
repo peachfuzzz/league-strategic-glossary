@@ -1,0 +1,98 @@
+id,prefLabel_at_issue,legacy_slug,issued,status
+C0001,Ability Rotation,ability-rotation,2026-08-17,active
+C0002,Actor,actor,2026-08-17,active
+C0003,All-in,all-in,2026-08-17,active
+C0004,Attack Cancel,attack-cancel,2026-08-17,active
+C0005,Attack Reset,attack-reset,2026-08-17,active
+C0006,Backstep,backstep,2026-08-17,active
+C0007,Bait,bait,2026-08-17,active
+C0008,Bounceback,bounceback,2026-08-17,active
+C0009,Buffer,buffer,2026-08-17,active
+C0010,Camp,camp,2026-08-17,active
+C0011,CC Buffer,cc-buffer,2026-08-17,active
+C0012,Chain CC,chain-cc,2026-08-17,active
+C0013,Cheater Recall,cheater-recall,2026-08-17,active
+C0014,Cheese,cheese,2026-08-17,active
+C0015,Collapse,collapse,2026-08-17,active
+C0016,Combat,combat,2026-08-17,active
+C0017,Contest,contest,2026-08-17,active
+C0018,Counterjungle,counterjungle,2026-08-17,active
+C0019,Counterpick,counterpick,2026-08-17,active
+C0020,Crash,crash,2026-08-17,active
+C0021,Crossmap,crossmap,2026-08-17,active
+C0022,Dance,dance,2026-08-17,active
+C0023,Dive,dive,2026-08-17,active
+C0024,Duel,duel,2026-08-17,active
+C0025,Engage,engage,2026-08-17,active
+C0026,Execute (damage),execute-damage,2026-08-17,active
+C0027,Expected Value,expected-value,2026-08-17,active
+C0028,Fight,fight,2026-08-17,active
+C0029,Flash Buffer,flash-buffer,2026-08-17,active
+C0030,Flashcast,flashcast,2026-08-17,active
+C0031,Freeze,freeze,2026-08-17,active
+C0032,Gank,gank,2026-08-17,active
+C0033,Give,give,2026-08-17,active
+C0034,High Elo,high-elo,2026-08-17,active
+C0035,Hook,hook,2026-08-17,active
+C0036,Hypercarry,hypercarry,2026-08-17,active
+C0037,Interaction (Engine),interaction-engine,2026-08-17,active
+C0038,Invade,invade,2026-08-17,active
+C0039,Key Ability,key-ability,2026-08-17,active
+C0040,Kill Pressure,kill-pressure,2026-08-17,active
+C0041,Lane Assignment,lane-assignment,2026-08-17,active
+C0042,Lane Bully,lane-bully,2026-08-17,active
+C0043,Lane Priority,lane-priority,2026-08-17,active
+C0044,Lethal,lethal,2026-08-17,active
+C0045,Macro,macro,2026-08-17,active
+C0046,Matchup,matchup,2026-08-17,active
+C0047,Mechanics,mechanics,2026-08-17,active
+C0048,Meta,meta,2026-08-17,active
+C0049,Mindgame,mindgame,2026-08-17,active
+C0050,Mixup,mixup,2026-08-17,active
+C0051,Object,object,2026-08-17,active
+C0052,Objective Setup,objective-setup,2026-08-17,active
+C0053,One-trick,one-trick,2026-08-17,active
+C0054,Overextend,overextend,2026-08-17,active
+C0055,Parallel Positioning,parallel-positioning,2026-08-17,active
+C0056,Pathing,pathing,2026-08-17,active
+C0057,Peel,peel,2026-08-17,active
+C0058,Play (strategy),play-strategy,2026-08-17,active
+C0059,Player,player,2026-08-17,active
+C0060,Playmaker,playmaker,2026-08-17,active
+C0061,Power Budget,power-budget,2026-08-17,active
+C0062,Pressure,pressure,2026-08-17,active
+C0063,Proxy,proxy,2026-08-17,active
+C0064,Re-engage,re-engage,2026-08-17,active
+C0065,Recall Timing,recall-timing,2026-08-17,active
+C0066,Reliability,reliability,2026-08-17,active
+C0067,Roam,roam,2026-08-17,active
+C0068,Rotate,rotate,2026-08-17,active
+C0069,Shove,shove,2026-08-17,active
+C0070,Siege,siege,2026-08-17,active
+C0071,Skill Test,skill-test,2026-08-17,active
+C0072,Skirmish,skirmish,2026-08-17,active
+C0073,Slow Push,slow-push,2026-08-17,active
+C0074,Space,space,2026-08-17,active
+C0075,Spacing,spacing,2026-08-17,active
+C0076,Spike,spike,2026-08-17,active
+C0077,Split Map,split-map,2026-08-17,active
+C0078,Splitpush,splitpush,2026-08-17,active
+C0079,Splitpusher,splitpusher,2026-08-17,active
+C0080,Squishy,squishy,2026-08-17,active
+C0081,Strongside,strongside,2026-08-17,active
+C0082,Tactics,tactics,2026-08-17,active
+C0083,Tanky,tanky,2026-08-17,active
+C0084,Target,target,2026-08-17,active
+C0085,Teamfight,teamfight,2026-08-17,active
+C0086,Tempo,tempo,2026-08-17,active
+C0087,Tension,tension,2026-08-17,active
+C0088,Threat,threat,2026-08-17,active
+C0089,Trade,trade,2026-08-17,active
+C0090,Value,value,2026-08-17,active
+C0091,Variance,variance,2026-08-17,active
+C0092,Wave,wave,2026-08-17,active
+C0093,Wave Direction,wave-direction,2026-08-17,active
+C0094,Wave State,wave-state,2026-08-17,active
+C0095,Wave Thinning,wave-thinning,2026-08-17,active
+C0096,Weakside,weakside,2026-08-17,active
+C0097,Zone,zone,2026-08-17,active
