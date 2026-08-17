@@ -4,6 +4,7 @@ term: Buffer
 tags: [game-mechanics]
 alternates: ["input buffer", "buffer window"]
 links: [cc-buffer]
+active: true
 ---
 
 Inputting an action before it can be performed. Upon buffering an input, the game will attempt to execute it as soon as the conditions for performing the input are met. Some examples include:

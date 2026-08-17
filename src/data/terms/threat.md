@@ -2,6 +2,7 @@
 id: threat
 term: Threat
 tags: [abstract-concepts]
+active: true
 ---
 
 The potential to act on a target. The value of a threat depends on the implied expected value of the threatened action: the theoretical EV of the action if it were taken at that instant. Once the player takes the threatened action, the threat of the ability transforms into a realized value.

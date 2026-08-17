@@ -2,6 +2,7 @@
 id: matchup
 term: Matchup
 tags: [strategy]
+active: true
 ---
 
 An overall evaluation of the likely outcome for specific champions during the lane phase or in isolated combat. Matchups are the total of the possible interactions that result in one or more champions holding advantages or disadvantages over the other, assuming equal champion mastery and skill between each player. Analysis of matchups can concern players in a single role, or a combination of two roles (such as bot/support or mid/jungle), but rarely the entire draft.

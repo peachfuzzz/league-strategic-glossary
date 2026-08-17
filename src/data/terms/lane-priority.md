@@ -1,0 +1,9 @@
+---
+id: lane-priority
+term: Lane Priority
+tags: [strategy]
+alternates: ["prio"]
+active: false
+---
+
+The state of being able to move from a lane before the opposing laner(s). Lane priority stems from the ability to push a wave in a manner such that the opposing laner cannot contest. A player with lane priority incurs fewer minion losses if they were to leave lane, so they tend to have first move over their opponent when joining plays outside of their lane. Lane priority is a relative comparison of several factors, including matchup, waveclear, and jungle proximity.

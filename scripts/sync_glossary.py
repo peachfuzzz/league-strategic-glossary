@@ -24,13 +24,19 @@ Google Doc Format:
         - "Tags: tag1, tag2" -> appends to section-based tag
         - "See also: term1, term2" -> links field (automatically normalized to IDs)
     - First blank line separates metadata from definition body
-    - "(IN PROGRESS)" or "(IN PROG)" in term name -> skipped
+    - "(IN PROGRESS)" or "(IN PROG)" in term name -> imported with active: false
+
+Completion status:
+    - Every term in the doc is imported, regardless of completion.
+    - Terms marked completed (✓) get `active: true` in frontmatter.
+    - In-progress and unmarked terms get `active: false`.
 
 Link Normalization:
     - "See also" can use human-readable names (e.g., "Last Hit", "Wave Management")
     - Script automatically converts to proper IDs (e.g., "last-hit", "wave-management")
     - Validates all links and reports any that can't be resolved
     - Works with term names, alternate names, and existing IDs
+    - Links resolve against ALL terms, active or not
 """
 
 import argparse
@@ -166,7 +172,10 @@ class Term:
         if self.links:
             links_str = "[" + ", ".join(self.links) + "]"
             lines.append(f"links: {links_str}")
-        
+
+        # Active flag - true only for terms marked completed (✓) in the Doc
+        lines.append(f"active: {'true' if self.is_completed else 'false'}")
+
         lines.append("---")
         lines.append("")
         lines.append(self.definition)
@@ -487,12 +496,12 @@ def sync_glossary(dry_run: bool = False, verbose: bool = False):
     print("=" * 60)
     
     # Authenticate
-    print("\n[1/4] Authenticating with Google...")
+    print("\n[1/5] Authenticating with Google...")
     creds = get_google_credentials(script_dir)
     print("  ✓ Authenticated")
     
     # Fetch document
-    print("\n[2/4] Fetching document...")
+    print("\n[2/5] Fetching document...")
     doc = fetch_document(creds, CONFIG["doc_id"])
     title = doc.get("title", "Untitled")
     print(f"  ✓ Fetched: {title}")
@@ -506,10 +515,10 @@ def sync_glossary(dry_run: bool = False, verbose: bool = False):
     in_progress = [t for t in terms if t.is_in_progress]
     no_status = [t for t in terms if not t.is_completed and not t.is_in_progress]
 
-    print(f"  Found {len(terms)} total terms:")
-    print(f"    - {len(completed)} completed (will sync)")
-    print(f"    - {len(in_progress)} in progress (skipped)")
-    print(f"    - {len(no_status)} no status (skipped)")
+    print(f"  Found {len(terms)} total terms (all will be imported):")
+    print(f"    - {len(completed)} completed  -> active: true")
+    print(f"    - {len(in_progress)} in progress -> active: false")
+    print(f"    - {len(no_status)} no status   -> active: false")
 
     if no_status and verbose:
         print(f"  Terms without status marker:")
@@ -518,20 +527,34 @@ def sync_glossary(dry_run: bool = False, verbose: bool = False):
         if len(no_status) > 5:
             print(f"    ... and {len(no_status) - 5} more")
 
+    # Detect ID collisions - two term names can normalize to the same slug,
+    # which would silently overwrite one file with the other.
+    by_id: dict[str, list[Term]] = {}
+    for term in terms:
+        by_id.setdefault(term.id, []).append(term)
+    collisions = {tid: ts for tid, ts in by_id.items() if len(ts) > 1}
+
+    if collisions:
+        print(f"\n  ⚠️  Warning: {len(collisions)} ID collision(s) detected:")
+        for tid, clashing in collisions.items():
+            names = ", ".join(f"'{t.clean_name}'" for t in clashing)
+            print(f"    • {tid}.md <- {names}")
+        print("  Only the last term of each group will survive. Rename in the Doc to fix.")
+
     # Normalize and validate links
     print("\n[4/5] Normalizing and validating links...")
-    # Only normalize links for completed terms (the ones we'll sync)
-    invalid_links = normalize_and_validate_links(completed, verbose=verbose)
+    # Resolve links against every term, since all terms are now imported
+    invalid_links = normalize_and_validate_links(terms, verbose=verbose)
 
     if invalid_links:
         print(f"\n  ⚠️  Warning: Found {len(invalid_links)} term(s) with invalid links:")
         for term_id, bad_links in invalid_links.items():
-            term = next(t for t in completed if t.id == term_id)
+            term = next(t for t in terms if t.id == term_id)
             print(f"    • {term.clean_name}:")
             for bad_link in bad_links:
                 print(f"      - '{bad_link}' (not found)")
         print(f"\n  These links will be excluded from the synced files.")
-        print(f"  Check spelling or ensure the linked terms are marked as completed (✓).")
+        print(f"  Check spelling or ensure the linked term exists in the Doc.")
     else:
         print("  ✓ All links are valid")
 
@@ -539,30 +562,35 @@ def sync_glossary(dry_run: bool = False, verbose: bool = False):
     print("\n[5/5] Writing markdown files...")
     written = 0
     errors = []
-    
-    for term in completed:
+
+    for term in terms:
         filepath = output_dir / term.filename
-        
+        status = "active" if term.is_completed else "inactive"
+
         if dry_run:
-            print(f"  [DRY RUN] Would write: {term.filename}")
+            print(f"  [DRY RUN] Would write: {term.filename} ({status})")
             written += 1
         else:
             try:
                 content = term.to_markdown()
                 filepath.write_text(content, encoding="utf-8")
-                print(f"  ✓ {term.filename}")
+                print(f"  ✓ {term.filename} ({status})")
                 written += 1
             except Exception as e:
                 errors.append(f"{term.filename}: {e}")
                 print(f"  ✗ {term.filename}: {e}")
-    
+
     # Summary
     print("\n" + "=" * 60)
     print("Summary")
     print("=" * 60)
     print(f"  Written: {written} files")
-    print(f"  Skipped: {len(in_progress) + len(no_status)} (not completed)")
+    print(f"    - {len(completed)} active")
+    print(f"    - {len(in_progress) + len(no_status)} inactive")
     print(f"  Errors: {len(errors)}")
+
+    if collisions:
+        print(f"  ID collisions: {len(collisions)} (files overwritten)")
 
     if invalid_links:
         print(f"  Invalid links: {len(invalid_links)} terms affected")

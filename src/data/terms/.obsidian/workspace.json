@@ -1,0 +1,211 @@
+{
+  "main": {
+    "id": "bc3e73a225cde968",
+    "type": "split",
+    "children": [
+      {
+        "id": "248097aec3269b2f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "845b41f42e44309e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "attack-reset.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "attack-reset"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "095aed77770dadc4",
+    "type": "split",
+    "children": [
+      {
+        "id": "fb3cb6f1c8862f9e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "82436d50157c171f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "d6d97293598dde42",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "f26a7e47c1ed6db2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f9fbff23b06c68ca",
+    "type": "split",
+    "children": [
+      {
+        "id": "bc477f948abc6253",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c38aed0a26a43f1c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "attack-reset.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for attack-reset"
+            }
+          },
+          {
+            "id": "cf273e94eacc3c55",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "attack-reset.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from attack-reset"
+            }
+          },
+          {
+            "id": "6dbc88a42403f20e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "0892a6838baea0cf",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "66c22b40e9f0c860",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "attack-reset.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of attack-reset"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "845b41f42e44309e",
+  "lastOpenFiles": [
+    "bait.md",
+    "bounceback.md",
+    "player.md",
+    "actor.md",
+    "playmaker.md",
+    "lane-bully.md",
+    "camp.md",
+    "space.md",
+    "power-budget.md",
+    "meta.md",
+    "wave-state.md",
+    "wave-direction.md",
+    "roam.md",
+    "parallel-positioning.md",
+    "lethal.md",
+    "lane-priority.md",
+    "cheater-recall.md",
+    "execute-damage.md",
+    "all-in.md",
+    "weakside.md",
+    "wave-thinning.md",
+    "ability-rotation.md"
+  ]
+}

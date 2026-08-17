@@ -242,8 +242,30 @@ The header should be a wordmark and a search field. That's close to all of it.
 - **Search:** always-visible input, `bg-paper-2`, 1px `--color-rule` border,
   no radius above 2px. Placeholder: `Search terms`. It is the primary action of a
   glossary and should be the largest interactive element on the page.
-- **View switcher:** three text labels (`All` / `List` / `Graph`). No icons. Active
-  state is ink weight + a 2px signal underline, not a filled pill.
+
+  It lives in `Header.tsx`, but renders only on `/`, `/term/*`, and the glossary
+  views. Omit it on `/about` and `/credits` — those are prose pages about the
+  project, and a search field there implies it will find text on the page rather
+  than glossary terms.
+
+  Because the header sits above the page tree, search state cannot live in
+  `GlossaryGraph.tsx`. On routes where no glossary view is mounted, selecting a
+  result navigates to `/term/{slug}`.
+
+  Keep the ⌘K shortcut; remove the badge that advertises it.
+- **Two controls, not one.** Mode (Explore / View All) and presentation
+  (List / Graph) are orthogonal axes — all four combinations are meaningful — and
+  must not be collapsed into a single segmented control. The current UI renders
+  `View All | List | Graph` as one row, which is the bug.
+
+  **View switcher:** two text labels, `List` and `Graph`. No icons. Active state
+  is ink weight plus a 2px signal underline, not a filled pill.
+
+  **Mode toggle:** `Explore` / `View All`, separate control, inactive side in
+  `--color-ink-3`. The discovery count belongs here and nowhere else.
+
+  Both live in the glossary toolbar, not the header. The header is a wordmark and
+  a search field; adding four controls to it defeats the point.
 - **Graph controls** (zoom, fit, fullscreen) move into the graph view itself,
   bottom-right, and only render there.
 - Delete the help `?` icon button; put a one-line instruction under the graph.

@@ -3,6 +3,7 @@ import { Newsreader, Inter, JetBrains_Mono, Spectral} from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SearchProvider } from "@/context/SearchContext";
 
 const newsreader = Newsreader({
   variable: "--font-newsreader",
@@ -44,10 +45,12 @@ export default function RootLayout({
       className={`${newsreader.variable} ${spectral.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="antialiased flex flex-col h-screen overflow-hidden">
-        <Header />
-        <main className="flex-1 flex flex-col overflow-y-auto">
-          {children}
-        </main>
+        <SearchProvider>
+          <Header />
+          <main className="flex-1 flex flex-col overflow-y-auto">
+            {children}
+          </main>
+        </SearchProvider>
         <Footer />
       </body>
     </html>

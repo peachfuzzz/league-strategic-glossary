@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { X } from 'lucide-react';
+import { X, ZoomIn, ZoomOut, Maximize2, Maximize, Minimize } from 'lucide-react';
 import { GlossaryTerm, tagColors } from '@/data/glossaryData';
 import { GRAPH_PHYSICS_CONFIG } from '@/config/graph.config';
 import MediaGallery from '@/components/MediaGallery';
@@ -62,10 +62,33 @@ export default function GraphView({
   onToggleTag
 }: GraphViewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
   const isPanning = useRef(false);
   const lastPanPos = useRef({ x: 0, y: 0 });
   const timeRef = useRef<number>(0);
+
+  // Graph controls (zoom, fit, fullscreen) — render only here, bottom-right.
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  useEffect(() => {
+    const handleFullscreenChange = () => setIsFullscreen(document.fullscreenElement === containerRef.current);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const handleZoomIn = () => setZoom(prev => Math.min(3, prev * 1.2));
+  const handleZoomOut = () => setZoom(prev => Math.max(0.5, prev * 0.8));
+  const handleFit = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      containerRef.current?.requestFullscreen();
+    }
+  };
 
   // Canvas can't use Tailwind classes — resolve the CSS tokens it needs once
   // on mount and cache them, rather than calling getComputedStyle per frame.
@@ -717,7 +740,7 @@ export default function GraphView({
   }, [pan.x, pan.y, zoom, setZoom, setPan]);
 
   return (
-    <>
+    <div ref={containerRef} className="relative w-full h-full bg-paper">
       <canvas
         ref={canvasRef}
         className="w-full h-full cursor-grab active:cursor-grabbing"
@@ -823,10 +846,45 @@ export default function GraphView({
         </div>
       )}
 
-      {/* Instructions overlay */}
-      <div className="absolute top-2 left-4 bg-paper-2/95 border border-rule rounded px-3 py-2 text-xs text-ink-3">
-        <div>Click & drag nodes • Scroll to zoom • Drag background to pan</div>
+      {/* Graph controls — zoom, fit, fullscreen. Render only here. */}
+      <div className="absolute bottom-4 right-4 z-50 flex items-center gap-1 bg-paper-2/95 border border-rule rounded px-2 py-1.5">
+        <button
+          onClick={handleZoomOut}
+          className="p-1 text-ink-2 hover:text-signal transition-colors"
+          title="Zoom out"
+          aria-label="Zoom out"
+        >
+          <ZoomOut size={16} />
+        </button>
+        <span className="text-xs text-ink-3 w-10 text-center tabular-nums">
+          {Math.round(zoom * 100)}%
+        </span>
+        <button
+          onClick={handleZoomIn}
+          className="p-1 text-ink-2 hover:text-signal transition-colors"
+          title="Zoom in"
+          aria-label="Zoom in"
+        >
+          <ZoomIn size={16} />
+        </button>
+        <span className="w-px h-4 bg-rule mx-1" />
+        <button
+          onClick={handleFit}
+          className="p-1 text-ink-2 hover:text-signal transition-colors"
+          title="Fit view"
+          aria-label="Fit view"
+        >
+          <Maximize2 size={16} />
+        </button>
+        <button
+          onClick={toggleFullscreen}
+          className="p-1 text-ink-2 hover:text-signal transition-colors"
+          title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+          aria-label="Toggle fullscreen"
+        >
+          {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
+        </button>
       </div>
-    </>
+    </div>
   );
 }

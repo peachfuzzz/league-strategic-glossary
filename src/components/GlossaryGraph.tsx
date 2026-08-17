@@ -1,22 +1,19 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Search, ZoomIn, ZoomOut, Maximize2, List, Network, Eye, BookOpen, RotateCcw, Shuffle, HelpCircle } from 'lucide-react';
-import { glossaryData, GlossaryTerm, tagColors } from '@/data/glossaryData';
+import React, { useState, useEffect } from 'react';
+import { RotateCcw, Shuffle } from 'lucide-react';
+import { glossaryData, GlossaryTerm } from '@/data/glossaryData';
 import { SHUFFLE_CONFIG } from '@/config/shuffle.config';
+import { useSearch } from '@/context/SearchContext';
 import GraphView from './GraphView';
 import ListView from './ListView';
-import SearchOverlay from './SearchOverlay';
 import TagFilterDropdown from './TagFilterDropdown';
-import HelpCard from './HelpCard';
 
 // LocalStorage keys
 const STORAGE_KEYS = {
   VIEW_MODE: 'glossary_viewMode',
   DISCOVERED_TERMS: 'glossary_discoveredTerms',
   STARTING_TERM: 'glossary_startingTerm',
-  SEARCH_MODE: 'glossary_searchOnlyDiscovered',
-  HAS_SEEN_HELP: 'glossary_hasSeenHelp',
   SIDEBAR_OPEN: 'glossary_sidebarOpen'
 };
 
@@ -71,17 +68,13 @@ export default function GlossaryGraph() {
   const [view, setView] = useState<'graph' | 'list'>('graph');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Help card state
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
-
   // Discovery mode state (use defaults initially for SSR)
   const defaultTerm = getDefaultStartingTerm();
   const [viewMode, setViewMode] = useState<'explore' | 'viewAll'>('explore');
   const [startingTermId, setStartingTermId] = useState<string>(defaultTerm);
   const [discoveredTerms, setDiscoveredTerms] = useState<Set<string>>(new Set([defaultTerm]));
-  const [searchOnlyDiscovered, setSearchOnlyDiscovered] = useState(false);
 
-  // Load from storage after mount and show help if first visit
+  // Load from storage after mount
   useEffect(() => {
     setViewMode(loadFromStorage(STORAGE_KEYS.VIEW_MODE, 'explore'));
 
@@ -95,14 +88,7 @@ export default function GlossaryGraph() {
     const validTerms = savedTerms.filter(id => glossaryData.find(t => t.id === id));
     setDiscoveredTerms(new Set(validTerms.length > 0 ? validTerms : [validStartingTerm]));
 
-    setSearchOnlyDiscovered(loadFromStorage(STORAGE_KEYS.SEARCH_MODE, false));
     setIsSidebarOpen(loadFromStorage(STORAGE_KEYS.SIDEBAR_OPEN, false));
-
-    // Show help on first visit
-    const hasSeenHelp = loadFromStorage(STORAGE_KEYS.HAS_SEEN_HELP, false);
-    if (!hasSeenHelp) {
-      setIsHelpOpen(true);
-    }
 
     setMounted(true);
   }, []);
@@ -111,10 +97,9 @@ export default function GlossaryGraph() {
   const [selectedNode, setSelectedNode] = useState<GlossaryTerm | null>(null);
   const [hoveredNode, setHoveredNode] = useState<GlossaryTerm | null>(null);
 
-  // Search state
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState(0);
+  // Search: the input lives in Header.tsx, above this component in the tree,
+  // so the live query is shared via context rather than local state.
+  const { query: searchQuery } = useSearch();
 
   // Filter state
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -140,10 +125,6 @@ export default function GlossaryGraph() {
   }, [startingTermId]);
 
   useEffect(() => {
-    saveToStorage(STORAGE_KEYS.SEARCH_MODE, searchOnlyDiscovered);
-  }, [searchOnlyDiscovered]);
-
-  useEffect(() => {
     saveToStorage(STORAGE_KEYS.SIDEBAR_OPEN, isSidebarOpen);
   }, [isSidebarOpen]);
 
@@ -154,20 +135,6 @@ export default function GlossaryGraph() {
   const baseGlossaryData = viewMode === 'explore'
     ? glossaryData.filter(term => discoveredTerms.has(term.id))
     : glossaryData;
-
-  // Search results (respects searchOnlyDiscovered toggle in explore mode)
-  const searchPool = viewMode === 'explore' && searchOnlyDiscovered
-    ? baseGlossaryData
-    : glossaryData;
-
-  const filteredSearchResults = searchQuery.trim() === ''
-    ? []
-    : searchPool.filter(term =>
-        term.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        term.definition.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        term.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (term.alternates && term.alternates.some(alt => alt.toLowerCase().includes(searchQuery.toLowerCase())))
-      );
 
   const filteredListTerms = baseGlossaryData
     .filter(term => {
@@ -209,207 +176,101 @@ export default function GlossaryGraph() {
     setNodes([]);
   };
 
-  const toggleViewMode = () => {
-    setViewMode(prev => prev === 'explore' ? 'viewAll' : 'explore');
-  };
-
-  const handleCloseHelp = () => {
-    setIsHelpOpen(false);
-    saveToStorage(STORAGE_KEYS.HAS_SEEN_HELP, true);
-  };
-
   const toggleTag = (tag: string) => {
     setSelectedTags(prev =>
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     );
-    // Show the sidebar when a tag is clicked
-    // if (!isSidebarOpen) {
-    //   setIsSidebarOpen(true);
-    // }
   };
-
-  const handleSelectTerm = (term: GlossaryTerm) => {
-    // In explore mode, discover term when selected via search
-    if (viewMode === 'explore' && !discoveredTerms.has(term.id)) {
-      handleDiscoverTerm(term.id);
-    } else {
-      setSelectedNode(term);
-    }
-    setIsSearchOpen(false);
-    setSearchQuery('');
-    setHighlightedIndex(0);
-  };
-
-  const resetView = () => {
-    setZoom(1);
-    setPan({ x: 0, y: 0 });
-  };
-
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setIsSearchOpen(true);
-      }
-
-      if (e.key === 'Escape' && isSearchOpen) {
-        setIsSearchOpen(false);
-        setSearchQuery('');
-        setHighlightedIndex(0);
-      }
-
-      if (isSearchOpen && filteredSearchResults.length > 0) {
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          setHighlightedIndex(prev => 
-            prev < filteredSearchResults.length - 1 ? prev + 1 : 0
-          );
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          setHighlightedIndex(prev => 
-            prev > 0 ? prev - 1 : filteredSearchResults.length - 1
-          );
-        } else if (e.key === 'Enter' && filteredSearchResults[highlightedIndex]) {
-          e.preventDefault();
-          handleSelectTerm(filteredSearchResults[highlightedIndex]);
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isSearchOpen, highlightedIndex, filteredSearchResults]);
-
-  // Reset highlighted index when search query changes
-  useEffect(() => {
-    setHighlightedIndex(0);
-  }, [searchQuery]);
 
   return (
     <div className="flex-1 bg-paper flex flex-col">
-      {/* Glossary Toolbar */}
-      <div className="bg-paper-2 border-b border-rule flex-shrink-0 relative z-50">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4 flex-wrap">
-          {/* View Mode Toggle */}
-          <button
-            onClick={toggleViewMode}
-            className="px-3 py-1.5 text-sm border border-rule rounded hover:border-signal hover:bg-signal/10 transition-colors text-ink"
-            title={viewMode === 'explore' ? 'Switch to View All' : 'Switch to Explore Mode'}
-          >
-            {viewMode === 'explore' ? (
-              <span>Explore • {mounted ? `${discoveryCount}/${totalCount}` : '...'}</span>
-            ) : (
-              <span>View All</span>
+      {/* Glossary Toolbar — two separate controls: mode (Explore/View All)
+          and presentation (List/Graph). Kept visually distinct per DESIGN.md
+          §4: collapsing them into one segmented row is the bug being fixed. */}
+      <div className="bg-paper-2 border-b border-rule flex-shrink-0 relative z-40">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-6 flex-wrap">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setViewMode('explore')}
+                className={`text-sm pb-0.5 transition-colors ${
+                  viewMode === 'explore'
+                    ? 'text-ink border-b-2 border-signal font-medium'
+                    : 'text-ink-3 hover:text-signal'
+                }`}
+              >
+                Explore{mounted ? ` · ${discoveryCount}/${totalCount}` : ''}
+              </button>
+              <button
+                onClick={() => setViewMode('viewAll')}
+                className={`text-sm pb-0.5 transition-colors ${
+                  viewMode === 'viewAll'
+                    ? 'text-ink border-b-2 border-signal font-medium'
+                    : 'text-ink-3 hover:text-signal'
+                }`}
+              >
+                View All
+              </button>
+            </div>
+
+            {viewMode === 'explore' && (
+              <div className="flex items-center gap-1 border-l border-rule pl-3">
+                <button
+                  onClick={handleResetDiscoveries}
+                  className="p-1.5 text-ink-2 hover:text-signal transition-colors"
+                  title="Reset discoveries (keep starting term)"
+                >
+                  <RotateCcw size={16} />
+                </button>
+                <button
+                  onClick={handleRerollStartingTerm}
+                  className="p-1.5 text-ink-2 hover:text-signal transition-colors"
+                  title="Random starting term"
+                >
+                  <Shuffle size={16} />
+                </button>
+              </div>
             )}
-          </button>
+          </div>
 
-          {/* Discovery Controls (only in explore mode) */}
-          {viewMode === 'explore' && (
-            <>
-              <button
-                onClick={handleResetDiscoveries}
-                className="p-1.5 text-ink-2 hover:text-signal transition-colors"
-                title="Reset discoveries (keep starting term)"
-              >
-                <RotateCcw size={16} />
-              </button>
-              <button
-                onClick={handleRerollStartingTerm}
-                className="p-1.5 text-ink-2 hover:text-signal transition-colors"
-                title="Random starting term"
-              >
-                <Shuffle size={16} />
-              </button>
-            </>
-          )}
-
-          <div className="flex items-center gap-4 border-l border-rule pl-4 ml-2">
+          <div className="flex items-center gap-4 border-l border-rule pl-6 ml-auto">
             <button
               onClick={() => setView('list')}
-              className={`text-sm transition-colors pb-0.5 ${
+              className={`text-sm pb-0.5 transition-colors ${
                 view === 'list'
-                  ? 'text-signal border-b-2 border-signal font-medium'
-                  : 'text-ink-2 hover:text-signal'
+                  ? 'text-ink border-b-2 border-signal font-medium'
+                  : 'text-ink-3 hover:text-signal'
               }`}
             >
               List
             </button>
             <button
               onClick={() => setView('graph')}
-              className={`text-sm transition-colors pb-0.5 ${
+              className={`text-sm pb-0.5 transition-colors ${
                 view === 'graph'
-                  ? 'text-signal border-b-2 border-signal font-medium'
-                  : 'text-ink-2 hover:text-signal'
+                  ? 'text-ink border-b-2 border-signal font-medium'
+                  : 'text-ink-3 hover:text-signal'
               }`}
             >
               Graph
             </button>
           </div>
-
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm border border-rule rounded hover:border-signal hover:bg-signal/10 transition-colors text-ink ml-auto"
-          >
-            <Search size={16} />
-            <span className="hidden sm:inline">Search</span>
-            <kbd className="hidden md:inline-block px-1.5 py-0.5 text-xs bg-ink/10 rounded border border-rule">
-              ⌘K
-            </kbd>
-          </button>
-
-          <button
-            onClick={() => setIsHelpOpen(true)}
-            className="p-1.5 text-ink-2 hover:text-signal transition-colors"
-            title="Help"
-          >
-            <HelpCircle size={18} />
-          </button>
-
-          {view === 'graph' && (
-            <div className="flex items-center gap-1 border-l border-rule pl-4">
-              <button
-                onClick={() => setZoom(prev => Math.min(3, prev * 1.2))}
-                className="px-2 py-1 text-sm text-ink-2 hover:text-signal transition-colors"
-                title="Zoom In"
-              >
-                +
-              </button>
-              <span className="text-xs text-ink-2 w-12 text-center">
-                {Math.round(zoom * 100)}%
-              </span>
-              <button
-                onClick={() => setZoom(prev => Math.max(0.5, prev * 0.8))}
-                className="px-2 py-1 text-sm text-ink-2 hover:text-signal transition-colors"
-                title="Zoom Out"
-              >
-                −
-              </button>
-              <button
-                onClick={resetView}
-                className="p-1.5 text-ink-2 hover:text-signal transition-colors ml-1"
-                title="Reset View"
-              >
-                <Maximize2 size={16} />
-              </button>
-            </div>
-          )}
         </div>
-
       </div>
 
-      <div className="flex-1 relative overflow-hidden">
-        {/* Tag Filter — overlay on content */}
-        <TagFilterDropdown
-          isOpen={isSidebarOpen}
-          onToggleOpen={() => setIsSidebarOpen(!isSidebarOpen)}
-          allTags={allTags}
-          selectedTags={selectedTags}
-          onToggleTag={toggleTag}
-          onClearTags={() => setSelectedTags([])}
-          hoveredTag={hoveredTag}
-          setHoveredTag={setHoveredTag}
-        />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 relative overflow-hidden">
+          {/* Tag Filter — overlay on content */}
+          <TagFilterDropdown
+            isOpen={isSidebarOpen}
+            onToggleOpen={() => setIsSidebarOpen(!isSidebarOpen)}
+            allTags={allTags}
+            selectedTags={selectedTags}
+            onToggleTag={toggleTag}
+            onClearTags={() => setSelectedTags([])}
+            hoveredTag={hoveredTag}
+            setHoveredTag={setHoveredTag}
+          />
           {view === 'graph' ? (
             <GraphView
               nodes={nodes}
@@ -445,30 +306,14 @@ export default function GlossaryGraph() {
               discoveredTerms={discoveredTerms}
             />
           )}
+        </div>
+
+        {view === 'graph' && (
+          <p className="shrink-0 text-center text-xs text-ink-3 py-2 border-t border-rule bg-paper-2">
+            Click and drag nodes to rearrange · scroll to zoom · drag the background to pan
+          </p>
+        )}
       </div>
-
-      <SearchOverlay
-        isOpen={isSearchOpen}
-        onClose={() => {
-          setIsSearchOpen(false);
-          setSearchQuery('');
-          setHighlightedIndex(0);
-        }}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        filteredResults={filteredSearchResults}
-        highlightedIndex={highlightedIndex}
-        onSelectTerm={handleSelectTerm}
-        view={view}
-        viewMode={viewMode}
-        searchOnlyDiscovered={searchOnlyDiscovered}
-        onToggleSearchMode={() => setSearchOnlyDiscovered(!searchOnlyDiscovered)}
-      />
-
-      <HelpCard
-        isOpen={isHelpOpen}
-        onClose={handleCloseHelp}
-      />
     </div>
   );
 }

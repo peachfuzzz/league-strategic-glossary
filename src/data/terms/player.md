@@ -2,6 +2,7 @@
 id: player
 term: Player
 tags: [abstract-concepts]
+active: true
 ---
 
 A person controlling a champion in-game.
