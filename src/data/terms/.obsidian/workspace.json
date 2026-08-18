@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "C0002.md",
+                "file": "C0001.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "C0002"
+              "title": "C0001"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "object",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,8 +74,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -95,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "C0002.md",
+                "file": "C0001.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for C0002"
+              "title": "Backlinks for C0001"
             }
           },
           {
@@ -114,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "C0002.md",
+                "file": "C0001.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from C0002"
+              "title": "Outgoing links from C0001"
             }
           },
           {
@@ -157,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "C0002.md",
+                "file": "C0001.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of C0002"
+              "title": "Outline of C0001"
             }
           }
         ]
@@ -186,21 +185,25 @@
   },
   "active": "845b41f42e44309e",
   "lastOpenFiles": [
+    "C0002.md",
+    "C0003.md",
+    "C0001.md",
+    "C0005.md",
+    "C0010.md",
+    "C0012.md",
+    "C0007.md",
+    "C0090.md",
+    "Untitled.canvas",
     "C0017.md",
     "C0056.md",
     "C0051.md",
     "C0088.md",
     "C0073.md",
     "C0013.md",
-    "C0002.md",
-    "C0001.md",
-    "C0090.md",
     "C0011.md",
     "C0015.md",
     "C0024.md",
-    "C0007.md",
     "C0004.md",
-    "C0012.md",
     "C0091.md",
     "C0089.md",
     "C0092.md",
@@ -208,9 +211,6 @@
     "C0085.md",
     "C0082.md",
     "C0083.md",
-    "C0074.md",
-    "C0069.md",
-    "C0065.md",
-    "C0047.md"
+    "C0074.md"
   ]
 }

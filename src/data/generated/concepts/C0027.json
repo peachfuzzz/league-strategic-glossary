@@ -1,7 +1,7 @@
 {
   "id": "C0027",
   "slug": "expected-value",
-  "prefLabel": "Expected Value",
+  "prefLabel": "expected value",
   "altLabel": [
     "EV"
   ],
@@ -22,7 +22,7 @@
   "backlinks": [
     {
       "id": "C0090",
-      "prefLabel": "Value",
+      "prefLabel": "value",
       "slug": "value"
     }
   ]

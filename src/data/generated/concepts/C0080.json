@@ -1,7 +1,7 @@
 {
   "id": "C0080",
   "slug": "squishy",
-  "prefLabel": "Squishy",
+  "prefLabel": "squishy",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -21,14 +21,14 @@
   "refs": {
     "C0083": {
       "id": "C0083",
-      "prefLabel": "Tanky",
+      "prefLabel": "tanky",
       "slug": "tanky"
     }
   },
   "backlinks": [
     {
       "id": "C0083",
-      "prefLabel": "Tanky",
+      "prefLabel": "tanky",
       "slug": "tanky"
     }
   ]

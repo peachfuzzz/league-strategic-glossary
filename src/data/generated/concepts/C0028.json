@@ -1,7 +1,7 @@
 {
   "id": "C0028",
   "slug": "fight",
-  "prefLabel": "Fight",
+  "prefLabel": "fight",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -22,12 +22,12 @@
   "refs": {
     "C0022": {
       "id": "C0022",
-      "prefLabel": "Dance",
+      "prefLabel": "dance",
       "slug": "dance"
     },
     "C0017": {
       "id": "C0017",
-      "prefLabel": "Contest",
+      "prefLabel": "contest",
       "slug": "contest"
     }
   },

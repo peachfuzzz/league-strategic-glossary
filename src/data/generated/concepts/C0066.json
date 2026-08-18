@@ -1,7 +1,7 @@
 {
   "id": "C0066",
   "slug": "reliability",
-  "prefLabel": "Reliability",
+  "prefLabel": "reliability",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -21,7 +21,7 @@
   "refs": {
     "C0090": {
       "id": "C0090",
-      "prefLabel": "Value",
+      "prefLabel": "value",
       "slug": "value"
     }
   },

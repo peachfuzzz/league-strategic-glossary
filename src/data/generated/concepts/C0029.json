@@ -1,7 +1,7 @@
 {
   "id": "C0029",
   "slug": "flash-buffer",
-  "prefLabel": "Flash Buffer",
+  "prefLabel": "flash buffer",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -21,14 +21,14 @@
   "refs": {
     "C0030": {
       "id": "C0030",
-      "prefLabel": "Flashcast",
+      "prefLabel": "flashcast",
       "slug": "flashcast"
     }
   },
   "backlinks": [
     {
       "id": "C0030",
-      "prefLabel": "Flashcast",
+      "prefLabel": "flashcast",
       "slug": "flashcast"
     }
   ]

@@ -1,7 +1,7 @@
 {
   "id": "C0069",
   "slug": "shove",
-  "prefLabel": "Shove",
+  "prefLabel": "shove",
   "altLabel": [
     "hard push",
     "fast push"
@@ -25,14 +25,14 @@
   "refs": {
     "C0073": {
       "id": "C0073",
-      "prefLabel": "Slow Push",
+      "prefLabel": "slow push",
       "slug": "slow-push"
     }
   },
   "backlinks": [
     {
       "id": "C0073",
-      "prefLabel": "Slow Push",
+      "prefLabel": "slow push",
       "slug": "slow-push"
     }
   ]

@@ -1,7 +1,7 @@
 {
   "id": "C0007",
   "slug": "bait",
-  "prefLabel": "Bait",
+  "prefLabel": "bait",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -21,7 +21,7 @@
   "refs": {
     "C0054": {
       "id": "C0054",
-      "prefLabel": "Overextend",
+      "prefLabel": "overextend",
       "slug": "overextend"
     }
   },

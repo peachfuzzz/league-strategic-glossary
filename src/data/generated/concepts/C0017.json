@@ -1,7 +1,7 @@
 {
   "id": "C0017",
   "slug": "contest",
-  "prefLabel": "Contest",
+  "prefLabel": "contest",
   "altLabel": [
     "contesting"
   ],
@@ -23,19 +23,19 @@
   "refs": {
     "C0033": {
       "id": "C0033",
-      "prefLabel": "Give",
+      "prefLabel": "give",
       "slug": "give"
     }
   },
   "backlinks": [
     {
       "id": "C0028",
-      "prefLabel": "Fight",
+      "prefLabel": "fight",
       "slug": "fight"
     },
     {
       "id": "C0033",
-      "prefLabel": "Give",
+      "prefLabel": "give",
       "slug": "give"
     }
   ]

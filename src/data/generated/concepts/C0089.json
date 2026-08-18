@@ -1,7 +1,7 @@
 {
   "id": "C0089",
   "slug": "trade",
-  "prefLabel": "Trade",
+  "prefLabel": "trade",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -20,7 +20,7 @@
   "backlinks": [
     {
       "id": "C0003",
-      "prefLabel": "All-in",
+      "prefLabel": "all-in",
       "slug": "all-in"
     }
   ]

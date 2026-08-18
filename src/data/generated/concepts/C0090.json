@@ -1,7 +1,7 @@
 {
   "id": "C0090",
   "slug": "value",
-  "prefLabel": "Value",
+  "prefLabel": "value",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -21,14 +21,14 @@
   "refs": {
     "C0027": {
       "id": "C0027",
-      "prefLabel": "Expected Value",
+      "prefLabel": "expected value",
       "slug": "expected-value"
     }
   },
   "backlinks": [
     {
       "id": "C0066",
-      "prefLabel": "Reliability",
+      "prefLabel": "reliability",
       "slug": "reliability"
     }
   ]

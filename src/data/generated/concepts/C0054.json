@@ -1,7 +1,7 @@
 {
   "id": "C0054",
   "slug": "overextend",
-  "prefLabel": "Overextend",
+  "prefLabel": "overextend",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -20,7 +20,7 @@
   "backlinks": [
     {
       "id": "C0007",
-      "prefLabel": "Bait",
+      "prefLabel": "bait",
       "slug": "bait"
     }
   ]

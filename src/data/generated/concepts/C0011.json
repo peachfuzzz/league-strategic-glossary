@@ -1,7 +1,7 @@
 {
   "id": "C0011",
   "slug": "cc-buffer",
-  "prefLabel": "CC Buffer",
+  "prefLabel": "CC buffer",
   "altLabel": [
     "buffering through CC"
   ],
@@ -22,7 +22,7 @@
   "backlinks": [
     {
       "id": "C0009",
-      "prefLabel": "Buffer",
+      "prefLabel": "buffer",
       "slug": "buffer"
     }
   ]

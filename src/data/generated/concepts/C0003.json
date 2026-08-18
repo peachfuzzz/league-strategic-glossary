@@ -1,7 +1,7 @@
 {
   "id": "C0003",
   "slug": "all-in",
-  "prefLabel": "All-in",
+  "prefLabel": "all-in",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -21,7 +21,7 @@
   "refs": {
     "C0089": {
       "id": "C0089",
-      "prefLabel": "Trade",
+      "prefLabel": "trade",
       "slug": "trade"
     }
   },

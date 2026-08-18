@@ -1,7 +1,7 @@
 {
   "id": "C0009",
   "slug": "buffer",
-  "prefLabel": "Buffer",
+  "prefLabel": "buffer",
   "altLabel": [
     "input buffer",
     "buffer window"
@@ -24,7 +24,7 @@
   "refs": {
     "C0011": {
       "id": "C0011",
-      "prefLabel": "CC Buffer",
+      "prefLabel": "CC buffer",
       "slug": "cc-buffer"
     }
   },

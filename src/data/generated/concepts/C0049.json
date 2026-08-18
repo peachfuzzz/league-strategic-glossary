@@ -1,7 +1,7 @@
 {
   "id": "C0049",
   "slug": "mindgame",
-  "prefLabel": "Mindgame",
+  "prefLabel": "mindgame",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -21,14 +21,14 @@
   "refs": {
     "C0050": {
       "id": "C0050",
-      "prefLabel": "Mixup",
+      "prefLabel": "mixup",
       "slug": "mixup"
     }
   },
   "backlinks": [
     {
       "id": "C0050",
-      "prefLabel": "Mixup",
+      "prefLabel": "mixup",
       "slug": "mixup"
     }
   ]

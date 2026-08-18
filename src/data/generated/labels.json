@@ -1,38 +1,38 @@
 {
-  "Ability Rotation": [
+  "ability rotation": [
     "C0001"
   ],
   "full rotation": [
     "C0001"
   ],
-  "All-in": [
+  "all-in": [
     "C0003"
   ],
-  "Attack Cancel": [
+  "attack cancel": [
     "C0004"
   ],
   "auto cancel": [
     "C0004"
   ],
-  "Attack Reset": [
+  "attack reset": [
     "C0005"
   ],
   "auto reset": [
     "C0005"
   ],
-  "Backstep": [
+  "backstep": [
     "C0006"
   ],
-  "Bait": [
+  "bait": [
     "C0007"
   ],
-  "Bounceback": [
+  "bounceback": [
     "C0008"
   ],
   "bounce": [
     "C0008"
   ],
-  "Buffer": [
+  "buffer": [
     "C0009"
   ],
   "input buffer": [
@@ -41,121 +41,121 @@
   "buffer window": [
     "C0009"
   ],
-  "CC Buffer": [
+  "CC buffer": [
     "C0011"
   ],
   "buffering through CC": [
     "C0011"
   ],
-  "Chain CC": [
+  "chain CC": [
     "C0012"
   ],
-  "Cheese": [
+  "cheese": [
     "C0014"
   ],
   "cheesy": [
     "C0014"
   ],
-  "Collapse": [
+  "collapse": [
     "C0015"
   ],
-  "Combat": [
+  "combat": [
     "C0016"
   ],
   "in-combat": [
     "C0016"
   ],
-  "Contest": [
+  "contest": [
     "C0017"
   ],
   "contesting": [
     "C0017"
   ],
-  "Counterjungle": [
+  "counterjungle": [
     "C0018"
   ],
-  "Counterpick": [
+  "counterpick": [
     "C0019"
   ],
-  "Crash": [
+  "crash": [
     "C0020"
   ],
-  "Crossmap": [
+  "crossmap": [
     "C0021"
   ],
-  "Dance": [
+  "dance": [
     "C0022"
   ],
-  "Dive": [
+  "dive": [
     "C0023"
   ],
-  "Duel": [
+  "duel": [
     "C0024"
   ],
-  "Engage": [
+  "engage": [
     "C0025"
   ],
-  "Expected Value": [
+  "expected value": [
     "C0027"
   ],
   "EV": [
     "C0027"
   ],
-  "Fight": [
+  "fight": [
     "C0028"
   ],
-  "Flash Buffer": [
+  "flash buffer": [
     "C0029"
   ],
-  "Flashcast": [
+  "flashcast": [
     "C0030"
   ],
-  "Freeze": [
+  "freeze": [
     "C0031"
   ],
-  "Gank": [
+  "gank": [
     "C0032"
   ],
-  "Give": [
+  "give": [
     "C0033"
   ],
   "giving": [
     "C0033"
   ],
-  "High Elo": [
+  "high elo": [
     "C0034"
   ],
-  "Hook": [
+  "hook": [
     "C0035"
   ],
-  "Hypercarry": [
+  "hypercarry": [
     "C0036"
   ],
-  "Interaction (Engine)": [
+  "interaction (engine)": [
     "C0037"
   ],
-  "Invade": [
+  "invade": [
     "C0038"
   ],
-  "Key Ability": [
+  "key ability": [
     "C0039"
   ],
-  "Kill Pressure": [
+  "kill pressure": [
     "C0040"
   ],
-  "Lane Assignment": [
+  "lane assignment": [
     "C0041"
   ],
-  "Macro": [
+  "macro": [
     "C0045"
   ],
   "macrostrategy": [
     "C0045"
   ],
-  "Matchup": [
+  "matchup": [
     "C0046"
   ],
-  "Mechanics": [
+  "mechanics": [
     "C0047"
   ],
   "micro": [
@@ -164,55 +164,55 @@
   "microstrategy": [
     "C0047"
   ],
-  "Mindgame": [
+  "mindgame": [
     "C0049"
   ],
-  "Mixup": [
+  "mixup": [
     "C0050"
   ],
-  "Objective Setup": [
+  "objective setup": [
     "C0052"
   ],
-  "One-trick": [
+  "one-trick": [
     "C0053"
   ],
-  "Overextend": [
+  "overextend": [
     "C0054"
   ],
-  "Pathing": [
+  "pathing": [
     "C0056"
   ],
   "jungle pathing": [
     "C0056"
   ],
-  "Peel": [
+  "peel": [
     "C0057"
   ],
-  "Play (strategy)": [
+  "play (strategy)": [
     "C0058"
   ],
-  "Player": [
+  "player": [
     "C0059"
   ],
-  "Pressure": [
+  "pressure": [
     "C0062"
   ],
-  "Proxy": [
+  "proxy": [
     "C0063"
   ],
-  "Re-engage": [
+  "re-engage": [
     "C0064"
   ],
-  "Recall Timing": [
+  "recall timing": [
     "C0065"
   ],
-  "Reliability": [
+  "reliability": [
     "C0066"
   ],
-  "Rotate": [
+  "rotate": [
     "C0068"
   ],
-  "Shove": [
+  "shove": [
     "C0069"
   ],
   "hard push": [
@@ -221,46 +221,46 @@
   "fast push": [
     "C0069"
   ],
-  "Siege": [
+  "siege": [
     "C0070"
   ],
-  "Skill Test": [
+  "skill test": [
     "C0071"
   ],
-  "Skirmish": [
+  "skirmish": [
     "C0072"
   ],
-  "Slow Push": [
+  "slow push": [
     "C0073"
   ],
-  "Spacing": [
+  "spacing": [
     "C0075"
   ],
-  "Spike": [
+  "spike": [
     "C0076"
   ],
   "powerspike": [
     "C0076"
   ],
-  "Split Map": [
+  "split map": [
     "C0077"
   ],
-  "Splitpush": [
+  "splitpush": [
     "C0078"
   ],
   "splitting": [
     "C0078"
   ],
-  "Splitpusher": [
+  "splitpusher": [
     "C0079"
   ],
-  "Squishy": [
+  "squishy": [
     "C0080"
   ],
-  "Strongside": [
+  "strongside": [
     "C0081"
   ],
-  "Tactics": [
+  "tactics": [
     "C0082"
   ],
   "mesostrategy": [
@@ -269,49 +269,49 @@
   "meso": [
     "C0082"
   ],
-  "Tanky": [
+  "tanky": [
     "C0083"
   ],
-  "Target": [
+  "target": [
     "C0084"
   ],
-  "Teamfight": [
+  "teamfight": [
     "C0085"
   ],
-  "Tempo": [
+  "tempo": [
     "C0086"
   ],
-  "Tension": [
+  "tension": [
     "C0087"
   ],
-  "Threat": [
+  "threat": [
     "C0088"
   ],
-  "Trade": [
+  "trade": [
     "C0089"
   ],
-  "Value": [
+  "value": [
     "C0090"
   ],
-  "Variance": [
+  "variance": [
     "C0091"
   ],
-  "Wave": [
+  "wave": [
     "C0092"
   ],
   "minion wave": [
     "C0092"
   ],
-  "Wave Thinning": [
+  "wave thinning": [
     "C0095"
   ],
   "trimming": [
     "C0095"
   ],
-  "Weakside": [
+  "weakside": [
     "C0096"
   ],
-  "Zone": [
+  "zone": [
     "C0097"
   ]
 }

@@ -2,7 +2,7 @@
   {
     "id": "C0001",
     "slug": "ability-rotation",
-    "prefLabel": "Ability Rotation",
+    "prefLabel": "ability rotation",
     "altLabel": [
       "full rotation"
     ],
@@ -16,7 +16,7 @@
   {
     "id": "C0003",
     "slug": "all-in",
-    "prefLabel": "All-in",
+    "prefLabel": "all-in",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -28,7 +28,7 @@
   {
     "id": "C0004",
     "slug": "attack-cancel",
-    "prefLabel": "Attack Cancel",
+    "prefLabel": "attack cancel",
     "altLabel": [
       "auto cancel"
     ],
@@ -42,7 +42,7 @@
   {
     "id": "C0005",
     "slug": "attack-reset",
-    "prefLabel": "Attack Reset",
+    "prefLabel": "attack reset",
     "altLabel": [
       "auto reset"
     ],
@@ -56,7 +56,7 @@
   {
     "id": "C0006",
     "slug": "backstep",
-    "prefLabel": "Backstep",
+    "prefLabel": "backstep",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -68,7 +68,7 @@
   {
     "id": "C0007",
     "slug": "bait",
-    "prefLabel": "Bait",
+    "prefLabel": "bait",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -80,7 +80,7 @@
   {
     "id": "C0008",
     "slug": "bounceback",
-    "prefLabel": "Bounceback",
+    "prefLabel": "bounceback",
     "altLabel": [
       "bounce"
     ],
@@ -95,7 +95,7 @@
   {
     "id": "C0009",
     "slug": "buffer",
-    "prefLabel": "Buffer",
+    "prefLabel": "buffer",
     "altLabel": [
       "input buffer",
       "buffer window"
@@ -110,7 +110,7 @@
   {
     "id": "C0011",
     "slug": "cc-buffer",
-    "prefLabel": "CC Buffer",
+    "prefLabel": "CC buffer",
     "altLabel": [
       "buffering through CC"
     ],
@@ -124,7 +124,7 @@
   {
     "id": "C0012",
     "slug": "chain-cc",
-    "prefLabel": "Chain CC",
+    "prefLabel": "chain CC",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -136,7 +136,7 @@
   {
     "id": "C0014",
     "slug": "cheese",
-    "prefLabel": "Cheese",
+    "prefLabel": "cheese",
     "altLabel": [
       "cheesy"
     ],
@@ -150,7 +150,7 @@
   {
     "id": "C0015",
     "slug": "collapse",
-    "prefLabel": "Collapse",
+    "prefLabel": "collapse",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -162,7 +162,7 @@
   {
     "id": "C0016",
     "slug": "combat",
-    "prefLabel": "Combat",
+    "prefLabel": "combat",
     "altLabel": [
       "in-combat"
     ],
@@ -176,7 +176,7 @@
   {
     "id": "C0017",
     "slug": "contest",
-    "prefLabel": "Contest",
+    "prefLabel": "contest",
     "altLabel": [
       "contesting"
     ],
@@ -190,7 +190,7 @@
   {
     "id": "C0018",
     "slug": "counterjungle",
-    "prefLabel": "Counterjungle",
+    "prefLabel": "counterjungle",
     "altLabel": [],
     "collection": [
       "strategy",
@@ -203,7 +203,7 @@
   {
     "id": "C0019",
     "slug": "counterpick",
-    "prefLabel": "Counterpick",
+    "prefLabel": "counterpick",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -215,7 +215,7 @@
   {
     "id": "C0020",
     "slug": "crash",
-    "prefLabel": "Crash",
+    "prefLabel": "crash",
     "altLabel": [],
     "collection": [
       "game-mechanics",
@@ -228,7 +228,7 @@
   {
     "id": "C0021",
     "slug": "crossmap",
-    "prefLabel": "Crossmap",
+    "prefLabel": "crossmap",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -240,7 +240,7 @@
   {
     "id": "C0022",
     "slug": "dance",
-    "prefLabel": "Dance",
+    "prefLabel": "dance",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -252,7 +252,7 @@
   {
     "id": "C0023",
     "slug": "dive",
-    "prefLabel": "Dive",
+    "prefLabel": "dive",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -264,7 +264,7 @@
   {
     "id": "C0024",
     "slug": "duel",
-    "prefLabel": "Duel",
+    "prefLabel": "duel",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -276,7 +276,7 @@
   {
     "id": "C0025",
     "slug": "engage",
-    "prefLabel": "Engage",
+    "prefLabel": "engage",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -288,7 +288,7 @@
   {
     "id": "C0027",
     "slug": "expected-value",
-    "prefLabel": "Expected Value",
+    "prefLabel": "expected value",
     "altLabel": [
       "EV"
     ],
@@ -302,7 +302,7 @@
   {
     "id": "C0028",
     "slug": "fight",
-    "prefLabel": "Fight",
+    "prefLabel": "fight",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -314,7 +314,7 @@
   {
     "id": "C0029",
     "slug": "flash-buffer",
-    "prefLabel": "Flash Buffer",
+    "prefLabel": "flash buffer",
     "altLabel": [],
     "collection": [
       "game-mechanics"
@@ -326,7 +326,7 @@
   {
     "id": "C0030",
     "slug": "flashcast",
-    "prefLabel": "Flashcast",
+    "prefLabel": "flashcast",
     "altLabel": [],
     "collection": [
       "game-mechanics"
@@ -338,7 +338,7 @@
   {
     "id": "C0031",
     "slug": "freeze",
-    "prefLabel": "Freeze",
+    "prefLabel": "freeze",
     "altLabel": [],
     "collection": [
       "strategy",
@@ -351,7 +351,7 @@
   {
     "id": "C0032",
     "slug": "gank",
-    "prefLabel": "Gank",
+    "prefLabel": "gank",
     "altLabel": [],
     "collection": [
       "strategy",
@@ -364,7 +364,7 @@
   {
     "id": "C0033",
     "slug": "give",
-    "prefLabel": "Give",
+    "prefLabel": "give",
     "altLabel": [
       "giving"
     ],
@@ -378,7 +378,7 @@
   {
     "id": "C0034",
     "slug": "high-elo",
-    "prefLabel": "High Elo",
+    "prefLabel": "high elo",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -390,7 +390,7 @@
   {
     "id": "C0035",
     "slug": "hook",
-    "prefLabel": "Hook",
+    "prefLabel": "hook",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -402,7 +402,7 @@
   {
     "id": "C0036",
     "slug": "hypercarry",
-    "prefLabel": "Hypercarry",
+    "prefLabel": "hypercarry",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -414,7 +414,7 @@
   {
     "id": "C0037",
     "slug": "interaction-engine",
-    "prefLabel": "Interaction (Engine)",
+    "prefLabel": "interaction (engine)",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -426,7 +426,7 @@
   {
     "id": "C0038",
     "slug": "invade",
-    "prefLabel": "Invade",
+    "prefLabel": "invade",
     "altLabel": [],
     "collection": [
       "strategy",
@@ -439,7 +439,7 @@
   {
     "id": "C0039",
     "slug": "key-ability",
-    "prefLabel": "Key Ability",
+    "prefLabel": "key ability",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -451,7 +451,7 @@
   {
     "id": "C0040",
     "slug": "kill-pressure",
-    "prefLabel": "Kill Pressure",
+    "prefLabel": "kill pressure",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -463,7 +463,7 @@
   {
     "id": "C0041",
     "slug": "lane-assignment",
-    "prefLabel": "Lane Assignment",
+    "prefLabel": "lane assignment",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -475,7 +475,7 @@
   {
     "id": "C0045",
     "slug": "macro",
-    "prefLabel": "Macro",
+    "prefLabel": "macro",
     "altLabel": [
       "macrostrategy"
     ],
@@ -489,7 +489,7 @@
   {
     "id": "C0046",
     "slug": "matchup",
-    "prefLabel": "Matchup",
+    "prefLabel": "matchup",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -501,7 +501,7 @@
   {
     "id": "C0047",
     "slug": "mechanics",
-    "prefLabel": "Mechanics",
+    "prefLabel": "mechanics",
     "altLabel": [
       "micro",
       "microstrategy"
@@ -516,7 +516,7 @@
   {
     "id": "C0049",
     "slug": "mindgame",
-    "prefLabel": "Mindgame",
+    "prefLabel": "mindgame",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -528,7 +528,7 @@
   {
     "id": "C0050",
     "slug": "mixup",
-    "prefLabel": "Mixup",
+    "prefLabel": "mixup",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -540,7 +540,7 @@
   {
     "id": "C0052",
     "slug": "objective-setup",
-    "prefLabel": "Objective Setup",
+    "prefLabel": "objective setup",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -552,7 +552,7 @@
   {
     "id": "C0053",
     "slug": "one-trick",
-    "prefLabel": "One-trick",
+    "prefLabel": "one-trick",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -564,7 +564,7 @@
   {
     "id": "C0054",
     "slug": "overextend",
-    "prefLabel": "Overextend",
+    "prefLabel": "overextend",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -576,7 +576,7 @@
   {
     "id": "C0056",
     "slug": "pathing",
-    "prefLabel": "Pathing",
+    "prefLabel": "pathing",
     "altLabel": [
       "jungle pathing"
     ],
@@ -591,7 +591,7 @@
   {
     "id": "C0057",
     "slug": "peel",
-    "prefLabel": "Peel",
+    "prefLabel": "peel",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -603,7 +603,7 @@
   {
     "id": "C0058",
     "slug": "play-strategy",
-    "prefLabel": "Play (strategy)",
+    "prefLabel": "play (strategy)",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -615,7 +615,7 @@
   {
     "id": "C0059",
     "slug": "player",
-    "prefLabel": "Player",
+    "prefLabel": "player",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -627,7 +627,7 @@
   {
     "id": "C0062",
     "slug": "pressure",
-    "prefLabel": "Pressure",
+    "prefLabel": "pressure",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -639,7 +639,7 @@
   {
     "id": "C0063",
     "slug": "proxy",
-    "prefLabel": "Proxy",
+    "prefLabel": "proxy",
     "altLabel": [],
     "collection": [
       "strategy",
@@ -652,7 +652,7 @@
   {
     "id": "C0064",
     "slug": "re-engage",
-    "prefLabel": "Re-engage",
+    "prefLabel": "re-engage",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -664,7 +664,7 @@
   {
     "id": "C0065",
     "slug": "recall-timing",
-    "prefLabel": "Recall Timing",
+    "prefLabel": "recall timing",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -676,7 +676,7 @@
   {
     "id": "C0066",
     "slug": "reliability",
-    "prefLabel": "Reliability",
+    "prefLabel": "reliability",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -688,7 +688,7 @@
   {
     "id": "C0068",
     "slug": "rotate",
-    "prefLabel": "Rotate",
+    "prefLabel": "rotate",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -700,7 +700,7 @@
   {
     "id": "C0069",
     "slug": "shove",
-    "prefLabel": "Shove",
+    "prefLabel": "shove",
     "altLabel": [
       "hard push",
       "fast push"
@@ -716,7 +716,7 @@
   {
     "id": "C0070",
     "slug": "siege",
-    "prefLabel": "Siege",
+    "prefLabel": "siege",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -728,7 +728,7 @@
   {
     "id": "C0071",
     "slug": "skill-test",
-    "prefLabel": "Skill Test",
+    "prefLabel": "skill test",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -740,7 +740,7 @@
   {
     "id": "C0072",
     "slug": "skirmish",
-    "prefLabel": "Skirmish",
+    "prefLabel": "skirmish",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -752,7 +752,7 @@
   {
     "id": "C0073",
     "slug": "slow-push",
-    "prefLabel": "Slow Push",
+    "prefLabel": "slow push",
     "altLabel": [],
     "collection": [
       "strategy",
@@ -765,7 +765,7 @@
   {
     "id": "C0075",
     "slug": "spacing",
-    "prefLabel": "Spacing",
+    "prefLabel": "spacing",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -777,7 +777,7 @@
   {
     "id": "C0076",
     "slug": "spike",
-    "prefLabel": "Spike",
+    "prefLabel": "spike",
     "altLabel": [
       "powerspike"
     ],
@@ -791,7 +791,7 @@
   {
     "id": "C0077",
     "slug": "split-map",
-    "prefLabel": "Split Map",
+    "prefLabel": "split map",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -803,7 +803,7 @@
   {
     "id": "C0078",
     "slug": "splitpush",
-    "prefLabel": "Splitpush",
+    "prefLabel": "splitpush",
     "altLabel": [
       "splitting"
     ],
@@ -817,7 +817,7 @@
   {
     "id": "C0079",
     "slug": "splitpusher",
-    "prefLabel": "Splitpusher",
+    "prefLabel": "splitpusher",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -829,7 +829,7 @@
   {
     "id": "C0080",
     "slug": "squishy",
-    "prefLabel": "Squishy",
+    "prefLabel": "squishy",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -841,7 +841,7 @@
   {
     "id": "C0081",
     "slug": "strongside",
-    "prefLabel": "Strongside",
+    "prefLabel": "strongside",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -853,7 +853,7 @@
   {
     "id": "C0082",
     "slug": "tactics",
-    "prefLabel": "Tactics",
+    "prefLabel": "tactics",
     "altLabel": [
       "mesostrategy",
       "meso"
@@ -868,7 +868,7 @@
   {
     "id": "C0083",
     "slug": "tanky",
-    "prefLabel": "Tanky",
+    "prefLabel": "tanky",
     "altLabel": [],
     "collection": [
       "vernacular"
@@ -880,7 +880,7 @@
   {
     "id": "C0084",
     "slug": "target",
-    "prefLabel": "Target",
+    "prefLabel": "target",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -892,7 +892,7 @@
   {
     "id": "C0085",
     "slug": "teamfight",
-    "prefLabel": "Teamfight",
+    "prefLabel": "teamfight",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -904,7 +904,7 @@
   {
     "id": "C0086",
     "slug": "tempo",
-    "prefLabel": "Tempo",
+    "prefLabel": "tempo",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -916,7 +916,7 @@
   {
     "id": "C0087",
     "slug": "tension",
-    "prefLabel": "Tension",
+    "prefLabel": "tension",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -928,7 +928,7 @@
   {
     "id": "C0088",
     "slug": "threat",
-    "prefLabel": "Threat",
+    "prefLabel": "threat",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -940,7 +940,7 @@
   {
     "id": "C0089",
     "slug": "trade",
-    "prefLabel": "Trade",
+    "prefLabel": "trade",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -952,7 +952,7 @@
   {
     "id": "C0090",
     "slug": "value",
-    "prefLabel": "Value",
+    "prefLabel": "value",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -964,7 +964,7 @@
   {
     "id": "C0091",
     "slug": "variance",
-    "prefLabel": "Variance",
+    "prefLabel": "variance",
     "altLabel": [],
     "collection": [
       "abstract-concepts"
@@ -976,7 +976,7 @@
   {
     "id": "C0092",
     "slug": "wave",
-    "prefLabel": "Wave",
+    "prefLabel": "wave",
     "altLabel": [
       "minion wave"
     ],
@@ -991,7 +991,7 @@
   {
     "id": "C0095",
     "slug": "wave-thinning",
-    "prefLabel": "Wave Thinning",
+    "prefLabel": "wave thinning",
     "altLabel": [
       "trimming"
     ],
@@ -1006,7 +1006,7 @@
   {
     "id": "C0096",
     "slug": "weakside",
-    "prefLabel": "Weakside",
+    "prefLabel": "weakside",
     "altLabel": [],
     "collection": [
       "strategy"
@@ -1018,7 +1018,7 @@
   {
     "id": "C0097",
     "slug": "zone",
-    "prefLabel": "Zone",
+    "prefLabel": "zone",
     "altLabel": [],
     "collection": [
       "strategy"

@@ -1,7 +1,7 @@
 {
   "id": "C0022",
   "slug": "dance",
-  "prefLabel": "Dance",
+  "prefLabel": "dance",
   "altLabel": [],
   "hiddenLabel": [],
   "collection": [
@@ -20,7 +20,7 @@
   "backlinks": [
     {
       "id": "C0028",
-      "prefLabel": "Fight",
+      "prefLabel": "fight",
       "slug": "fight"
     }
   ]
