@@ -3,14 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "import-terms": "bash scripts/auto-import.sh",
     "build-vocab": "tsx scripts/build-vocab.ts",
     "dev": "npm run build-vocab && next dev --turbopack",
     "build": "npm run build-vocab && next build --turbopack",
     "start": "next start",
     "lint": "eslint",
     "check-vocab": "bash scripts/check-vocab.sh",
-    "manage-tags": "tsx scripts/manage-tags.ts"
+    "check-design": "bash scripts/check-design.sh"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

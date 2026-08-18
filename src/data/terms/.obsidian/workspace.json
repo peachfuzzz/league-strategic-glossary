@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "object",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -185,6 +186,13 @@
   },
   "active": "845b41f42e44309e",
   "lastOpenFiles": [
+    "C0017.md",
+    "C0056.md",
+    "C0051.md",
+    "C0088.md",
+    "C0073.md",
+    "C0013.md",
+    "C0002.md",
     "C0001.md",
     "C0090.md",
     "C0011.md",
@@ -192,7 +200,6 @@
     "C0024.md",
     "C0007.md",
     "C0004.md",
-    "C0002.md",
     "C0012.md",
     "C0091.md",
     "C0089.md",
@@ -204,12 +211,6 @@
     "C0074.md",
     "C0069.md",
     "C0065.md",
-    "C0056.md",
-    "C0047.md",
-    "C0038.md",
-    "C0029.md",
-    "C0025.md",
-    "C0019.md",
-    "C0016.md"
+    "C0047.md"
   ]
 }

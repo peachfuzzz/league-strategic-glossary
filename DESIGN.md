@@ -6,6 +6,9 @@ Tailwind v4, Next.js App Router, TypeScript.
 The site is a **reference work**, not a dashboard. Every choice below follows from
 that. If a change would look at home in a SaaS admin panel, it is wrong here.
 
+The **term page is the primary surface**. The graph is a navigation aid. The list is
+an index. See `docs/adr/ADR0007-term-page-primary.md`.
+
 ---
 
 ## 0. Hard constraints
@@ -18,11 +21,14 @@ These are checkable. A change that violates one is a bug.
 2. **No bordered/elevated cards for glossary entries.** No `border rounded-lg` box
    per term. Entries are separated by whitespace and hairline rules only.
 3. **No pill/badge components.** Category labels are uppercase mono text, not chips.
-4. **Body measure capped at 68–72 characters.** Use `max-w-[68ch]`, not full-width.
+4. **Body measure capped at 68–72 characters.** Use `max-w-(--measure)`, not
+   full-width.
 5. **No icons on text buttons.** Icons only where there is no text (graph controls).
 6. **Search is a visible input**, not a button that opens a modal. No `⌘K` badge.
 7. **Every color and font decision derives from the token block.** If a value is
    needed that isn't a token, add a token — don't inline a hex.
+8. **Relation type is encoded visually and stated in text.** A reader must be able to
+   tell hierarchy from association without hovering anything (§5).
 
 ---
 
@@ -73,7 +79,7 @@ All tokens live in `app/globals.css` inside `@theme`. There is no
 }
 ```
 
-Usage: `bg-paper text-ink font-body max-w-[--measure]`.
+Usage: `bg-paper text-ink font-body max-w-(--measure)`.
 
 ### Why this palette
 
@@ -84,7 +90,7 @@ thing (this is a term you can follow) at very small area, against paper.
 **Palettes to avoid**, because they are the current generative defaults and will
 undo the whole point of this exercise:
 
-- Dark navy/slate with a blue accent (what the site has now).
+- Dark navy/slate with a blue accent.
 - Cream `#F4F1EA` + high-contrast serif + terracotta/clay `#D97757` accent.
 - Near-black with a single acid-green or bright-vermilion accent.
 - Purple or blue gradients, anywhere, for any reason.
@@ -102,16 +108,13 @@ If a palette change is proposed, check it against this list first.
 | Category | mono | 0.6875rem | `--color-ink-3`, uppercase, tracking-wide |
 | Definition | body (Spectral) | 1.0625rem | `--color-ink-2`, line-height 1.65 |
 | Cross-reference | inherits body | — | `--color-signal`, `decoration-1`, 40% opacity |
-| See-also list | ui (Spectral) | 0.875rem | label uppercase + tracking, terms in signal |
+| Relation label | ui (Spectral) | 0.875rem | uppercase + tracking, `--color-ink-3` |
+| Relation target | ui (Spectral) | 0.875rem | `--color-signal` |
+| Stub marker | mono | 0.6875rem | `--color-ink-3`, uppercase |
 
 Underline cross-references at `decoration-1` (1px). Browsers derive `auto`
 thickness from the font, which at 17px lands near 2px and turns a
 cross-reference-dense paragraph into stripes.
-
-Both discovered and undiscovered terms are underlined and clickable — following
-an undiscovered link is how discovery works, so hiding the affordance would hide
-the mechanic. Color carries the distinction: signal for discovered, ink-3 for
-undiscovered, each with its underline at matching opacity.
 
 ### Also-known-as is italic
 
@@ -124,6 +127,9 @@ receding, not the slant), and the **category label never uses italic**. Category
 is a classification, not a variant name; it stays mono uppercase so the two are
 never confused.
 
+This renders `altLabel`, not `aliases`. `aliases` is Obsidian's field and never
+reaches the site.
+
 ### No synthesized small caps
 
 Neither Newsreader nor Spectral ships the `smcp` OpenType feature, so
@@ -131,9 +137,8 @@ Neither Newsreader nor Spectral ships the `smcp` OpenType feature, so
 full capitals, which thins the strokes and reads flat and squat. Never use it
 with these faces.
 
-Where this document says "mono uppercase" (category label, `last_revised`,
-see-also label), that means literal uppercase with tracking, not
-`font-variant-caps`:
+Where this document says "mono uppercase," that means literal uppercase with
+tracking, not `font-variant-caps`:
 
 ```
 uppercase tracking-[0.08em] text-[0.6875rem] font-medium
@@ -150,34 +155,49 @@ Newsreader is variable; Spectral is not.
 
 ## 3. The entry
 
-Delete `EntryCard` (or equivalent). Rebuild as a semantic unit:
+Two contexts render an entry: the **term page** (full, primary) and the **index**
+(compact). They share the headword treatment and diverge below it.
+
+### 3.1 Term page
 
 ```
-BLINDSPOT                                          GAME MECHANICS
-also known as: fog gap
+ECONOMY                                                ABSTRACT
+also known as: resources                                 DRAFT
 
-  The region of the map an actor cannot observe given current ward
-  coverage and vision score. Blindspots are where tempo is spent...
+  The accrued gold and experience available to a player or team...
 
-  SEE ALSO   crash · freeze · slow push
+  KIND OF        value
+  KINDS          yield · income
+  PART OF        —
+  PARTS          gold · experience
+  SEE ALSO       tempo · trade
+  REFERENCED BY  6 concepts
 ```
 
 - Headword flush left. Category flush right, same baseline, mono uppercase.
-- Also-known-as sits inside the `<dt>`, flush left with the headword — not
-  indented with the definition.
+- Also-known-as sits under the headword, flush left with it.
+- Stub marker (`complete: false`) sits under the category, flush right, mono
+  uppercase, `--color-ink-3`. It says the prose is unfinished, not that the concept
+  is unimportant.
 - Definition indented from the headword by `1.5rem`, capped at `--measure`.
 - Cross-references inside the definition are inline links in signal color, 1px
-  underline at 40% opacity. Both discovered and undiscovered terms are
-  underlined and clickable; only the color differs (signal vs. `--color-ink-3`).
-  They are not extracted into a separate list; the whole point is that the prose
-  is the graph.
-- "See also" is a genuinely different relation (§5) and stays a trailing list.
-  It keeps the same discovered/undiscovered color distinction as inline
-  cross-references.
+  underline at 40% opacity.
+- **Relation sections** follow the definition. Label in mono uppercase, targets in
+  signal. One line per relation type. Omit a section entirely when empty rather than
+  rendering an em dash — an absent relation should not occupy space.
+
+**The relation sections carry the structure, not the graph.** Text states the
+relation exactly; a graph only suggests it. A reader who never opens the graph must
+still be able to see how the vocabulary decomposes. This is the load-bearing part of
+the design.
+
+### 3.2 Index
+
+One continuous column, not a stack of objects. Headword, category, and the 200-char
+summary from `index.json`. No relation sections — those live on the term page.
+
 - Entries separated by `--spacing-entry` and a single hairline rule at
   `--color-rule`. No box, no shadow, no radius.
-
-The list view becomes one continuous column, not a stack of objects.
 
 ### Implementation constraints
 
@@ -191,13 +211,11 @@ element.
 **Tailwind v4 custom property syntax.** `max-w-(--measure)` compiles to
 `var(--measure)`. `max-w-[--measure]` compiles to the bare token `--measure`,
 which browsers drop silently: no error, no effect, no visible failure. Use the
-paren form. This applies to every arbitrary custom-property reference, not just
-`max-w`.
+paren form. This applies to every arbitrary custom-property reference.
 
 **Entry spacing.** `space-y` and margin are one-sided — v4 applies them to
 `:not(:last-child)` on the bottom edge only — so they cannot center the hairline
-in the gap. The rule ends up flush against one entry with the whole gap on the
-other side. Use `divide-y` for the rule and split the gap across both sides of
+in the gap. Use `divide-y` for the rule and split the gap across both sides of
 the border with per-entry padding instead:
 
 ```
@@ -214,24 +232,14 @@ is correct; padding *in addition to* it doubles the gap.
 **Unlayered CSS wins.** A rule in `globals.css` outside any `@layer` beats every
 Tailwind utility regardless of specificity. That makes conflicts invisible
 rather than loud — a wrong utility class appears to work because the unlayered
-rule is quietly overriding it. Keep one source of truth per property: if
-`.also-known-as` sets size and color, no utility class should also set them.
+rule is quietly overriding it. Keep one source of truth per property.
 
-**Multiple tags.** Show only the first tag as the category label. Joining them
+**Multiple collections.** Show only the first as the category label. Joining them
 recreates the pill row the entry is meant to remove.
 
-### The category label vs. the tagColors carve-out
-
-These conflict, and this section wins. The category label on an entry becomes
-`--color-ink-3` mono uppercase — which means it stops reading `tagColors`, even
-though tag color removal is otherwise deferred to Pass 4.
-
-The carve-out narrows accordingly. From Pass 2 onward it covers only the
-**filter and search UI** — `TagSidebar`, `TagFilterDropdown`, and the colored dots
-in `SearchOverlay`. Entry-level category display is Pass 2's job.
-
-Rationale: an entry cannot be "one continuous column with no boxes" while its
-category is still a colored pill. The two constraints are the same change.
+**Cross-reference labels come from `refs`.** Each concept file carries the
+`prefLabel` and `slug` of everything it references. Never load a second concept file
+to resolve a label.
 
 ---
 
@@ -244,29 +252,17 @@ The header should be a wordmark and a search field. That's close to all of it.
   glossary and should be the largest interactive element on the page.
 
   It lives in `Header.tsx`, but renders only on `/`, `/term/*`, and the glossary
-  views. Omit it on `/about` and `/credits` — those are prose pages about the
-  project, and a search field there implies it will find text on the page rather
-  than glossary terms.
+  views. Omit it on `/about` and `/credits`.
 
-  Because the header sits above the page tree, search state cannot live in
-  `GlossaryGraph.tsx`. On routes where no glossary view is mounted, selecting a
-  result navigates to `/term/{slug}`.
+  Search matches `prefLabel`, `altLabel`, and `hiddenLabel`. Hidden labels match but
+  never display. Selecting a result navigates to `/term/{slug}`.
 
   Keep the ⌘K shortcut; remove the badge that advertises it.
-- **Two controls, not one.** Mode (Explore / View All) and presentation
-  (List / Graph) are orthogonal axes — all four combinations are meaningful — and
-  must not be collapsed into a single segmented control. The current UI renders
-  `View All | List | Graph` as one row, which is the bug.
+- **View switcher:** two text labels, `Index` and `Graph`. No icons. Active state is
+  ink weight plus a 2px signal underline, not a filled pill.
 
-  **View switcher:** two text labels, `List` and `Graph`. No icons. Active state
-  is ink weight plus a 2px signal underline, not a filled pill.
-
-  **Mode toggle:** `Explore` / `View All`, separate control, inactive side in
-  `--color-ink-3`. The discovery count belongs here and nowhere else.
-
-  Both live in the glossary toolbar, not the header. The header is a wordmark and
-  a search field; adding four controls to it defeats the point.
-- **Graph controls** (zoom, fit, fullscreen) move into the graph view itself,
+  The mode toggle (Explore / View All) is removed with Explore mode — see §8.
+- **Graph controls** (zoom, fit, fullscreen) live inside the graph view,
   bottom-right, and only render there.
 - Delete the help `?` icon button; put a one-line instruction under the graph.
 
@@ -274,141 +270,135 @@ The header should be a wordmark and a search field. That's close to all of it.
 
 ## 5. The graph
 
-This is a hand-rolled HTML5 Canvas force simulation in `GraphView.tsx`, not a
-library. Every node currently renders at the same radius, so a six-edge hub and an
-isolated term look identical — the visualization encodes no information. Fix in
-order.
+Hand-rolled HTML5 Canvas force simulation in `GraphView.tsx`, not a library.
 
-1. **Size nodes by degree.** Radius scales with `links.length + autoLinks.length`.
-   Hubs should be visibly hubs.
-2. **Two edge types, visually distinct.**
-   - *Definitional* — the `autoLinks` field: terms written in backticks inside
-     another term's definition. **Directional.** Thin arrow, `--color-ink-3`.
-   - *Associative* — the `links` field: curated "Also see" references from
-     frontmatter. **Undirected.** Dotted line, lighter.
+**The graph is currently sparse and that is correct.** Automatic linking was deleted
+in Phase 1. Until wikilink conversion finishes, most nodes are isolated. Do not add
+derived edges to make it look fuller. Do not judge this design against the current
+render.
 
-   Both fields already exist on `GlossaryTerm` and the build script already
-   populates them. Do not invent a new schema; read what's there.
-3. **Layered layout mode.** This is the signature element of the site and the
-   thing worth spending effort on.
+### 5.1 Two graphs, two jobs
 
-   The definitional edges form a near-DAG. Primitives (`actor`, `object`, `value`,
-   `threat`) sit at the bottom; composites (`pressure`, `tension`, `kill pressure`)
-   sit above them. Compute depth from the definitional subgraph and lay out by
-   depth rather than force.
+**Local graph** — embedded on the term page. One concept and its immediate
+neighbours. Typed edges are legible at this scale. This is navigation.
 
-   Cycles will exist. Do not error on them — collapse each strongly-connected
-   component into a single layer and note it in the UI. Mutually-defined terms are
-   an interesting finding about the vocabulary, not a data bug.
+**Global graph** — a separate view showing the whole vocabulary. This is a
+demonstration of structure, viewed once, not a working tool. It needs to be legible
+and zoomable. It does not need state tracking, search-within-graph, or session
+persistence.
 
-   Ship force-directed and layered as two toggleable modes. Layered is the default.
+### 5.2 Four edge types
 
-   **Persist the computed depth on each term.** It is not only a layout coordinate.
-   Depth is a prerequisite ordering: a reader cannot hold `pressure` before
-   `threat`, or `threat` before `object` and `value`. Expose it as a field so other
-   features can read it — Explore mode ordering, a "start here" set (depth 0), and
-   a per-term "you should know these first" list all fall out of the same number.
+Each makes a different claim and must render distinctly.
 
-### Explore mode
+| Relation | Direction | Treatment |
+|---|---|---|
+| `broader` / `narrower` | directed | solid, arrowhead, `--color-ink-2` |
+| `partOf` / `hasPart` | directed | solid, open diamond at whole end, `--color-ink-3` |
+| `related` | undirected | dotted, `--color-ink-3`, lighter |
+| `dependsOn` | directed | thin, arrowhead, `--color-rule` |
 
-Explore mode adds a third node state (undiscovered) and a third edge state
-(trailing off to an undiscovered term). Encode both with *value*, not hue:
+Encode with **weight, dash, and terminal** — not hue. The two-color rule holds:
+`--color-ink` for nodes, `--color-signal` for hover and selection.
 
-- Discovered node: `--color-ink`, filled.
-- Undiscovered node: `--color-rule`, outline only, no label.
-- Trail edge: existing dashed treatment, `--color-rule`.
+Each type gets an independent toggle. Default: hierarchy and part relations on,
+`dependsOn` off. `dependsOn` is the densest and drowns the others when everything is
+visible at once.
 
-This keeps the two-color rule intact. Do not introduce a "discovered" accent color.
+`related` edges arrive collapsed — the build merges `A→B` and `B→A` into one
+undirected edge. The other three stay directed.
 
-Explore's default starting term should be a depth-0 primitive, not `last-hit`.
-Walking up the dependency graph from a primitive is a coherent path through the
-vocabulary; walking outward from an arbitrary term is a random walk.
+### 5.3 Node size encodes betweenness
 
-### Node color
+Radius scales with betweenness centrality computed over the `dependsOn` graph, not
+with raw degree. Betweenness measures how often a concept sits on a path between
+other concepts — it finds bridges, where degree finds hubs.
 
-`--color-ink` default, `--color-signal` on hover/selection. Two colors total.
-**Do not color-code nodes by tag** — that reintroduces a legend and a twelve-color
-palette, and it is the single biggest contributor to the current look. Tag identity
-moves to the mono uppercase label on the entry (§2).
+This is not only a layout choice. It is the visual form of a claim about the
+vocabulary, and it must report what the numbers say rather than what would look
+good. If the prominent nodes turn out to be abstract terms rather than tactical ones,
+render that. See `docs/adr/ADR0010-meso-derived.md`.
 
----
+Until Phase 3 computes real metrics, size uniformly. Do not substitute degree as a
+placeholder — a wrong signal reads as a real one.
 
-## 6. Conflicts with existing docs
+### 5.4 Layered layout
 
-`REWORK_PLAN.md` predates this file and contradicts it in four places. This file
-wins; those entries should be struck from the plan.
+The `broader` hierarchy is acyclic by construction and the build enforces it. Lay out
+by hierarchy depth rather than by force.
 
-| REWORK_PLAN says | This file says |
-|---|---|
-| Phase 1: "Search trigger (Cmd+K indicator)" | §4 — visible input, no ⌘K badge |
-| Phase 4: node icons per category, pie-chart coloring for multi-tag nodes | §5 — two colors, size by degree, no category color |
-| Phase 5: "League-inspired decorative elements (hextech patterns)" | Direction is neutral; no League visual borrowing |
-| Phase 5 marked Complete: Cinzel display font, gold accent variables | Superseded — Cinzel and the gold accent are the thing being replaced |
+`dependsOn` is not acyclic. Mutually-defined concepts will exist. Do not error on
+them — collapse each strongly-connected component into a single layer and note it in
+the UI. Mutual definition is an interesting finding about the vocabulary, not a data
+bug.
 
-`TAG_MANAGEMENT.md` recommends tag colors `#3b82f6 / #10b981 / #a855f7 / #f59e0b /
-#ef4444 / #6366f1`. That is the Tailwind default palette, and it is the origin of
-the look this file exists to remove. Tag colors stop driving anything visual; keep
-the `color` field in `tags.config.ts` only if something still reads it.
+Ship force-directed and layered as two toggleable modes.
+
+### 5.5 Node color
+
+`--color-ink` default, `--color-signal` on hover and selection. Two colors total.
+Stub concepts (`complete: false`) render outline-only rather than filled — value, not
+hue.
+
+**Do not color-code nodes by collection.** That reintroduces a legend and a
+twelve-color palette, and it is the single biggest contributor to the look this
+document exists to remove.
 
 ---
 
-## 7. The landing page
+## 6. The landing page
 
-`/` is a front door, not a view switcher. Neither List nor Graph works as one:
-List is a lookup surface that assumes you know what you want, Graph is
-orientation that assumes you already have terms.
+`/` is a front door, not a view switcher. Neither Index nor Graph works as one:
+Index is a lookup surface that assumes you know what you want, Graph is orientation
+that assumes you already have terms.
 
 Structure, top to bottom:
 
 1. **Two or three sentences** on what the glossary is. Not the About essay — a
    compressed version, with a link to the full one.
-2. **One featured entry, rendered in full** using the §3 entry treatment. Not a
-   card, not a teaser — the actual entry, so a visitor sees what the material
-   looks like and the cross-references inside it become their first clicks.
-3. **A quiet line** into List and Graph.
+2. **One featured entry, rendered in full** using the §3.1 treatment. Not a card, not
+   a teaser — the actual entry, so a visitor sees what the material looks like and
+   the cross-references inside it become their first clicks.
+3. **A quiet line** into Index and Graph.
 
 The featured term is drawn from a **curated set**, not chosen at random and not
-computed from depth. Depth 0 mixes true primitives (`actor`, `object`) with terms
-that are merely lexically isolated (`hook`, `squishy`), so it is not a
-"start here" filter. The set should favor terms whose definitions are dense with
-cross-references — an entry with four live links is a better doorway than a
-precise one with none.
+computed from graph position. The set should favor concepts whose definitions are
+dense with cross-references — an entry with four live links is a better doorway than
+a precise one with none.
 
-Store the set explicitly (`src/config/featured.config.ts` or frontmatter flag).
-Deterministic daily rotation is fine; random per-load is not, since it breaks
-sharing and makes the page feel unstable.
+Store the set explicitly (`src/config/featured.config.ts` or a frontmatter flag).
+Deterministic daily rotation is fine; random per-load is not, since it breaks sharing
+and makes the page feel unstable.
 
 ---
 
-## 8. Explore mode non-goals
+## 7. Front matter page
 
-Explore mode is a lens over the reference tool, never a gate on it. These are
-out of scope permanently, not deferred:
+A reference work explains its own organization. This page states three things:
 
-- **No content gating.** Every term is readable at every moment, in every mode.
-  Undiscovered terms are styled differently; they are never withheld.
-- **No prompts, nudges, or interruptions.** No "you haven't met X yet," no
-  prerequisite warnings, no milestone popups. If a reader is missing a
-  prerequisite, the word is already in front of them, underlined, one click
-  away. The design solves this; a notification would only interrupt reading.
-- **No forced ordering.** Readers enter wherever they like and follow whatever
-  interests them.
+1. What each relation type means.
+2. What the hierarchy claims.
+3. What the structure of the vocabulary appears to show.
 
-Depth may inform **passive** surfaces — the layered graph, a coverage figure
-someone goes looking for. It must never initiate.
+The third item is conditional on what the betweenness numbers actually show. If they
+do not support the claim, the paragraph does not appear.
 
-Rationale: following a cross-reference *is* a walk down the dependency graph,
-since a definition invokes its prerequisites. Free exploration and depth ordering
-are the same motion. Nothing needs to enforce it.
+Report counts from the data rather than asserting them: how many concepts are
+complete, how many are marked stubs. The site should describe its own state rather
+than claim a state.
 
-These signal authorship and maintenance, which is most of what credibility is.
+---
 
-- Stable slug per term; `/term/{slug}` permalinks; anchor links on headwords.
-- `last_revised` in frontmatter, rendered in mono uppercase at the entry foot.
-- Inbound reference count per term ("referenced by 7 terms"), computed from the
-  definitional graph, linking to the referrers.
-- An A–Z index rail on the list view.
-- A `revision` or edition number for the glossary as a whole.
+## 8. Explore mode — being removed
+
+Explore mode is deleted in the presentation phase. Cross-reference following happens
+on term pages now, which makes its state tracking redundant.
+
+Do not invest in it. Do not restyle it. Do not extend it. If a task would touch
+Explore mode, the correct move is usually to delete the code path rather than update
+it.
+
+Its `localStorage` keys under the `glossary_*` prefix go with it.
 
 ---
 
@@ -416,47 +406,35 @@ These signal authorship and maintenance, which is most of what credibility is.
 
 These signal authorship and maintenance, which is most of what credibility is.
 
-- Stable slug per term; `/term/{slug}` permalinks; anchor links on headwords.
-- `last_revised` in frontmatter, rendered in mono uppercase at the entry foot.
-- Inbound reference count per term ("referenced by 7 terms"), computed from the
-  definitional graph, linking to the referrers.
-- An A–Z index rail on the list view.
+- Stable slug per concept; `/term/{slug}` permalinks; anchor links on headwords.
+- Inbound reference count per concept ("referenced by 6 concepts"), linking to the
+  referrers. The build already computes `backlinks` on each concept file.
+- Previous and next in alphabetical order, over active concepts only.
+- An A–Z index rail on the index view.
 - A `revision` or edition number for the glossary as a whole.
+
+Backlinks preserve asymmetry rather than repairing it. If A lists B and B does not
+list A, that shows. It is unreviewed migration data, not a rendering fault.
 
 ---
 
 ## 10. Sequencing
 
-Do these as separate passes. Do not attempt more than one per session.
+Visual work is sequenced by the phase table in `RESTRUCTURE-PLAN.md`. This document
+does not maintain a parallel numbering.
 
-| Pass | Scope | Done when |
-|---|---|---|
-| 1 | Tokens. Add `@theme`, clear palette, migrate every component to tokens. | `check-design.sh 1` clean. Site looks unstyled-but-correct. |
-| 2 | Typography + entry rebuild. Fonts loaded via `next/font`. Cards deleted. | No `rounded` or `border` on any entry. Measure capped. Visual diff reviewed. |
-| 3 | Chrome. Search field, text-label switcher, control relocation. | Header contains a wordmark and an input. |
-| 4 | Graph: node sizing + edge types. | Hubs visibly larger; two edge styles render. |
-| 5 | Graph: layered mode + cycle handling. | Layered is default; SCCs collapse without error. |
-| 6 | List navigation (§10.2). | Clicking a cross-reference scrolls to and focuses the target, in both modes. |
-| 7 | Landing page (§7). | `/` renders preface, featured entry, and links out. |
-| 8 | Furniture (§9). | Permalinks resolve; inbound counts render. |
+Completed: tokens, typography and entry rebuild, chrome restructuring.
 
-Pass 1 is the one that makes the rest cheap. Do not skip ahead to the graph.
+Remaining visual work sits in the presentation phase, in this order:
 
-### 10.2 List navigation
+1. Term page with relation sections (§3.1) — carries the argument
+2. Chrome cleanup: remove `tagColors`, delete Explore mode, demote the list
+3. Local graph on the term page (§5.1)
+4. Global graph with typed edges (§5.2)
+5. Toggles and betweenness sizing (§5.3)
 
-The list currently renders every term and leaves position to the user, so
-following a cross-reference means scrolling to find where the target landed.
-In View All, cross-references do nothing at all. Both are the same gap: the list
-has no notion of navigating *to* a term.
-
-This is the primary interaction in a Wikipedia-style reference and it does not
-work. Fix in Pass 6:
-
-- Clicking a cross-reference scrolls the target into view and focuses it, in
-  both Explore and View All.
-- Newly discovered terms are scrolled to, not merely inserted.
-- Focus is visible (§11) and announced for screen readers.
-- Back/forward should return the reader to where they were.
+Item 1 is the one that matters. If graph work slips, the structure is still fully
+visible as text.
 
 ### 10.1 Verification
 
@@ -464,7 +442,7 @@ Checks live in `scripts/check-design.sh`, not in this document. Duplicating them
 here guarantees the two copies drift.
 
 ```bash
-./scripts/check-design.sh 1    # checks required by Pass 1; later ones show PENDING
+./scripts/check-design.sh 1    # checks required by a given pass
 ./scripts/check-design.sh      # everything
 ```
 
@@ -489,8 +467,8 @@ cache with real fallback values — an empty string assigned to `fillStyle` is a
 silent no-op, so a missing token would otherwise produce a mystery-colored graph
 instead of an obviously broken one.
 
-`tags.config.ts` and `glossaryData.ts` are the expected color exceptions; their
-values are removed in Pass 4.
+`tags.config.ts` is the expected color exception; its values are removed when
+collections are resolved.
 
 ---
 
@@ -504,9 +482,11 @@ respected, real `<dl>`/`<dt>`/`<dd>` semantics for the entry list.
 `--color-ink-2` 8.5:1, `--color-signal` 6.1:1. All clear AA comfortably.
 
 `--color-ink-3` was `#85807A` at **3.59:1**, which fails AA for normal text — and
-it is used at 11px and 13px, well below the large-text exemption. §1 now
-specifies `#75706A` (4.50:1). Darken rather than enlarge; the small sizes are
-load-bearing.
+it is used at 11px and 13px, well below the large-text exemption. §1 specifies
+`#75706A` (4.50:1). Darken rather than enlarge; the small sizes are load-bearing.
 
-Non-text UI (hairline rules, undiscovered node outlines) needs only 3:1 and is
-exempt.
+Non-text UI (hairline rules, stub node outlines) needs only 3:1 and is exempt.
+
+**Relation type must not rely on color alone.** Weight, dash pattern, and terminal
+marker carry the distinction. A reader who cannot distinguish the edge colors must
+still be able to read the graph.

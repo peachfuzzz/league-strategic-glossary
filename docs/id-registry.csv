@@ -1,6 +1,6 @@
 id,prefLabel_at_issue,legacy_slug,issued,status
 C0001,Ability Rotation,ability-rotation,2026-08-17,active
-C0002,Actor,actor,2026-08-17,active
+C0002,Actor,actor,2026-08-17,retired
 C0003,All-in,all-in,2026-08-17,active
 C0004,Attack Cancel,attack-cancel,2026-08-17,active
 C0005,Attack Reset,attack-reset,2026-08-17,active
@@ -49,7 +49,7 @@ C0047,Mechanics,mechanics,2026-08-17,active
 C0048,Meta,meta,2026-08-17,active
 C0049,Mindgame,mindgame,2026-08-17,active
 C0050,Mixup,mixup,2026-08-17,active
-C0051,Object,object,2026-08-17,active
+C0051,Object,object,2026-08-17,retired
 C0052,Objective Setup,objective-setup,2026-08-17,active
 C0053,One-trick,one-trick,2026-08-17,active
 C0054,Overextend,overextend,2026-08-17,active
