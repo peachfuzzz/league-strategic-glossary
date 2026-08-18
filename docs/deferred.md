@@ -16,6 +16,8 @@ Disambiguation pages. Cut from V2 because no label is currently ambiguous. label
 
 Runtime data fetching. Phase 1 chose static JSON imports over fetching from /public. The artifacts are already separate, so switching later does not mean redoing the generator. Revisit if bundle size becomes real.
 
+General editing pass. I don't have time for this right now lol, a strict readthrough of all terms for editing would take a minute.
+
 ## Deferred cleanup
 
 Backtick handling. stripBackticks in build-vocab.ts removes markers and keeps the text. It previously created autolinks; that mechanism is gone and no entry uses backticks. Harmless, but it is dead code with a misleading name.

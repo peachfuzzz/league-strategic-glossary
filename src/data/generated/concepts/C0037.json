@@ -1,8 +1,10 @@
 {
   "id": "C0037",
-  "slug": "interaction-engine",
-  "prefLabel": "interaction (engine)",
-  "altLabel": [],
+  "slug": "engine-interaction",
+  "prefLabel": "engine interaction",
+  "altLabel": [
+    "interaction"
+  ],
   "hiddenLabel": [],
   "collection": [
     "abstract-concepts"

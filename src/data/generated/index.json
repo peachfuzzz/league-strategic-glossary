@@ -11,7 +11,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "A string of all of a champion’s basic abilities. Most champions in League are designed to use their abilities in tandem for greater [[C0090|Value]]. Abilities in a champion’s kit usually have…"
+    "summary": "A string of all of a champion’s basic abilities. Most champions in League are designed to use their abilities in tandem for greater [[C0090|value]]. Abilities in a champion’s kit usually have…"
   },
   {
     "id": "C0003",
@@ -23,7 +23,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "A fight between opposing players with the intention to kill. An all-in is taken either when a player has sufficient kill pressure, either via a calculation of lethal, or as a natural consequence of…"
+    "summary": "A [[C0028|fight]] between opposing players with the intention to kill. An all-in is taken either when a [[C0059|player]] has sufficient [[C0040|kill pressure]], either via a calculation of…"
   },
   {
     "id": "C0004",
@@ -63,7 +63,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "Dodging an ability by briefly moving opposite the expected direction of travel. Backsteps are effectively a subclass of sidesteps that travel backwards. A backstep requires the player to input a…"
+    "summary": "Dodging an ability by briefly moving opposite the expected direction of travel. Backsteps are effectively a subclass of sidesteps that travel backwards. A backstep requires the [[C0059|player]] to…"
   },
   {
     "id": "C0007",
@@ -75,7 +75,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "When a player purposefully puts themselves in a dangerous position in an attempt to get the opponent to take an action. The act of baiting can be done on multiple scales. On a skirmishing level, a…"
+    "summary": "When a [[C0059|player]] purposefully puts themselves in a dangerous position in an attempt to get the opponent to take an action. The act of baiting can be done on multiple scales. On a…"
   },
   {
     "id": "C0008",
@@ -90,7 +90,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "The phase of a minion wave that occurs after a wave crashes into the opposing team’s tower. During a bounceback, the opposing minions will outnumber the allied minions, forcing the wave to push back…"
+    "summary": "The phase of a [[C0092|minion wave]] that occurs after it [[C0020|crashes]] into the opposing team’s tower. During a bounceback, the opposing minions will outnumber the allied minions, forcing the…"
   },
   {
     "id": "C0009",
@@ -105,7 +105,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "Inputting an action before it can be performed. Upon buffering an input, the game will attempt to execute it as soon as the conditions for performing the input are met. Some examples include: A…"
+    "summary": "Inputting an action before it can be performed. Upon buffering an input, the game will attempt to execute it as soon as the conditions for performing the input are met. Some examples include: - A…"
   },
   {
     "id": "C0011",
@@ -145,7 +145,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "An unexpected or surprising decision by a player, generally considered suboptimal, whose success relies on a lack of knowledge from the target. Picking off-meta champions can often be categorized as…"
+    "summary": "An unexpected decision by a [[C0059|player]], generally considered suboptimal, whose success relies on surprising the [[C0084|target]]. Picking off-meta champions can often be categorized as cheese,…"
   },
   {
     "id": "C0015",
@@ -157,7 +157,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "Sending multiple people to one area of the map at the same time to try to kill a target or a group of targets. Collapses are most often used to describe converging upon a player in a sidelane, but…"
+    "summary": "Sending multiple [[C0059|players]] to one area of the map at the same time to try to kill a [[C0084|target]] or a group of targets. Collapses are most often used to describe converging upon a player…"
   },
   {
     "id": "C0016",
@@ -185,7 +185,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "Threatening or fighting over something. A player can contest anything: a minion, lane priority, neutral objectives, etc. Contesting is a demonstration of intent and does not necessarily mean a full…"
+    "summary": "[[C0088|Threatening]] or [[C0028|fighting]] over something. A [[C0059|player]] can contest anything: a minion, lane priority, neutral objectives, etc. Contesting is a demonstration of intent and does…"
   },
   {
     "id": "C0018",
@@ -198,7 +198,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "Invading the opposing team’s jungle to kill their jungle camps. Counterjungling is a common response taken when the enemy jungler shows on the map, often considered a crossmap play. Unlike clearing…"
+    "summary": "[[C0038|Invading]] the opposing team’s jungle to kill their jungle camps. Counterjungling is a common response taken when the enemy jungler shows on the map, often considered a [[C0021|crossmap]]…"
   },
   {
     "id": "C0019",
@@ -210,7 +210,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "Selecting a champion in reaction to the enemy team’s picks. The player with counterpick can choose a champion that matches up well against the enemy team or their opposing laner. This term is most…"
+    "summary": "In champion select, selecting a champion in reaction to the enemy team’s picks. The [[C0059|player]] with counterpick can choose a champion that matches up well against the enemy team or their…"
   },
   {
     "id": "C0020",
@@ -223,7 +223,7 @@
     ],
     "active": true,
     "complete": false,
-    "summary": "When a wave of minions enters the opposing team’s tower range. Crashes are classified by “completeness,” determined by the location at which opposing waves meet relative to the tower. A crash is…"
+    "summary": "When a [[C0092|wave]] of minions enters the opposing team’s tower range. Crashes are classified by “completeness,” determined by the location at which opposing waves meet relative to the tower. A…"
   },
   {
     "id": "C0021",
@@ -284,6 +284,20 @@
     "active": true,
     "complete": false,
     "summary": "The act of starting a fight proactively. An engage starts an encounter by setting up for follow-up, usually in the form of a gap closer or crowd control. Engage is often used in the context of larger…"
+  },
+  {
+    "id": "C0037",
+    "slug": "engine-interaction",
+    "prefLabel": "engine interaction",
+    "altLabel": [
+      "interaction"
+    ],
+    "collection": [
+      "abstract-concepts"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "The way two actions, states, or inputs affect each other according to the game engine. Interactions refer to the specific situation or outcome of an event, especially in unintuitive or unclear…"
   },
   {
     "id": "C0027",
@@ -410,18 +424,6 @@
     "active": true,
     "complete": false,
     "summary": "A champion with a kit that scales particularly well into the late game. The specific attributes that determine a hypercarry are up for debate, but generally hypercarries have high, reliable,…"
-  },
-  {
-    "id": "C0037",
-    "slug": "interaction-engine",
-    "prefLabel": "interaction (engine)",
-    "altLabel": [],
-    "collection": [
-      "abstract-concepts"
-    ],
-    "active": true,
-    "complete": false,
-    "summary": "The way two actions, states, or inputs affect each other according to the game engine. Interactions refer to the specific situation or outcome of an event, especially in unintuitive or unclear…"
   },
   {
     "id": "C0038",
@@ -602,8 +604,8 @@
   },
   {
     "id": "C0058",
-    "slug": "play-strategy",
-    "prefLabel": "play (strategy)",
+    "slug": "play",
+    "prefLabel": "play",
     "altLabel": [],
     "collection": [
       "strategy"

@@ -295,8 +295,8 @@
     },
     {
       "id": "C0037",
-      "slug": "interaction-engine",
-      "prefLabel": "interaction (engine)",
+      "slug": "engine-interaction",
+      "prefLabel": "engine interaction",
       "collection": [
         "abstract-concepts"
       ],
@@ -432,8 +432,8 @@
     },
     {
       "id": "C0058",
-      "slug": "play-strategy",
-      "prefLabel": "play (strategy)",
+      "slug": "play",
+      "prefLabel": "play",
       "collection": [
         "strategy"
       ],

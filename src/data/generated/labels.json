@@ -131,7 +131,10 @@
   "hypercarry": [
     "C0036"
   ],
-  "interaction (engine)": [
+  "engine interaction": [
+    "C0037"
+  ],
+  "interaction": [
     "C0037"
   ],
   "invade": [
@@ -188,7 +191,7 @@
   "peel": [
     "C0057"
   ],
-  "play (strategy)": [
+  "play": [
     "C0058"
   ],
   "player": [

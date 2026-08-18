@@ -20,7 +20,7 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "Inputting an action before it can be performed. Upon buffering an input, the game will attempt to execute it as soon as the conditions for performing the input are met. Some examples include:\nA player inputs a targeted action on a target that is out of range. Upon the target entering the player’s range, their champion acts instantly.\nA player presses an ability with a significant cast time. During the cast time, they press another ability. After the first ability is cast and the player is actionable again, the game performs the second ability instantly.\nA player is inactionable. They input an action before their inactionable state ends. Upon regaining actionability, they act instantly.\nIt can be difficult to predict whether an input is bufferable in a particular state.",
+  "definition": "Inputting an action before it can be performed. Upon buffering an input, the game will attempt to execute it as soon as the conditions for performing the input are met. Some examples include:\n- A [[C0059|player]] inputs a targeted action on a [[C0084|target]] that is out of range. Upon the target entering the player’s range, their champion acts instantly.\n- A player presses an ability with a significant cast time. During the cast time, they press another ability. After the first ability is cast and the player is actionable again, the game performs the second ability instantly.\n- A player is inactionable. They input an action before their inactionable state ends. Upon regaining actionability, they act instantly. \nIt can be difficult to predict whether an input is bufferable in a particular state.",
   "refs": {
     "C0011": {
       "id": "C0011",
