@@ -1,0 +1,317 @@
+{
+  "Ability Rotation": [
+    "C0001"
+  ],
+  "full rotation": [
+    "C0001"
+  ],
+  "All-in": [
+    "C0003"
+  ],
+  "Attack Cancel": [
+    "C0004"
+  ],
+  "auto cancel": [
+    "C0004"
+  ],
+  "Attack Reset": [
+    "C0005"
+  ],
+  "auto reset": [
+    "C0005"
+  ],
+  "Backstep": [
+    "C0006"
+  ],
+  "Bait": [
+    "C0007"
+  ],
+  "Bounceback": [
+    "C0008"
+  ],
+  "bounce": [
+    "C0008"
+  ],
+  "Buffer": [
+    "C0009"
+  ],
+  "input buffer": [
+    "C0009"
+  ],
+  "buffer window": [
+    "C0009"
+  ],
+  "CC Buffer": [
+    "C0011"
+  ],
+  "buffering through CC": [
+    "C0011"
+  ],
+  "Chain CC": [
+    "C0012"
+  ],
+  "Cheese": [
+    "C0014"
+  ],
+  "cheesy": [
+    "C0014"
+  ],
+  "Collapse": [
+    "C0015"
+  ],
+  "Combat": [
+    "C0016"
+  ],
+  "in-combat": [
+    "C0016"
+  ],
+  "Contest": [
+    "C0017"
+  ],
+  "contesting": [
+    "C0017"
+  ],
+  "Counterjungle": [
+    "C0018"
+  ],
+  "Counterpick": [
+    "C0019"
+  ],
+  "Crash": [
+    "C0020"
+  ],
+  "Crossmap": [
+    "C0021"
+  ],
+  "Dance": [
+    "C0022"
+  ],
+  "Dive": [
+    "C0023"
+  ],
+  "Duel": [
+    "C0024"
+  ],
+  "Engage": [
+    "C0025"
+  ],
+  "Expected Value": [
+    "C0027"
+  ],
+  "EV": [
+    "C0027"
+  ],
+  "Fight": [
+    "C0028"
+  ],
+  "Flash Buffer": [
+    "C0029"
+  ],
+  "Flashcast": [
+    "C0030"
+  ],
+  "Freeze": [
+    "C0031"
+  ],
+  "Gank": [
+    "C0032"
+  ],
+  "Give": [
+    "C0033"
+  ],
+  "giving": [
+    "C0033"
+  ],
+  "High Elo": [
+    "C0034"
+  ],
+  "Hook": [
+    "C0035"
+  ],
+  "Hypercarry": [
+    "C0036"
+  ],
+  "Interaction (Engine)": [
+    "C0037"
+  ],
+  "Invade": [
+    "C0038"
+  ],
+  "Key Ability": [
+    "C0039"
+  ],
+  "Kill Pressure": [
+    "C0040"
+  ],
+  "Lane Assignment": [
+    "C0041"
+  ],
+  "Macro": [
+    "C0045"
+  ],
+  "macrostrategy": [
+    "C0045"
+  ],
+  "Matchup": [
+    "C0046"
+  ],
+  "Mechanics": [
+    "C0047"
+  ],
+  "micro": [
+    "C0047"
+  ],
+  "microstrategy": [
+    "C0047"
+  ],
+  "Mindgame": [
+    "C0049"
+  ],
+  "Mixup": [
+    "C0050"
+  ],
+  "Objective Setup": [
+    "C0052"
+  ],
+  "One-trick": [
+    "C0053"
+  ],
+  "Overextend": [
+    "C0054"
+  ],
+  "Pathing": [
+    "C0056"
+  ],
+  "jungle pathing": [
+    "C0056"
+  ],
+  "Peel": [
+    "C0057"
+  ],
+  "Play (strategy)": [
+    "C0058"
+  ],
+  "Player": [
+    "C0059"
+  ],
+  "Pressure": [
+    "C0062"
+  ],
+  "Proxy": [
+    "C0063"
+  ],
+  "Re-engage": [
+    "C0064"
+  ],
+  "Recall Timing": [
+    "C0065"
+  ],
+  "Reliability": [
+    "C0066"
+  ],
+  "Rotate": [
+    "C0068"
+  ],
+  "Shove": [
+    "C0069"
+  ],
+  "hard push": [
+    "C0069"
+  ],
+  "fast push": [
+    "C0069"
+  ],
+  "Siege": [
+    "C0070"
+  ],
+  "Skill Test": [
+    "C0071"
+  ],
+  "Skirmish": [
+    "C0072"
+  ],
+  "Slow Push": [
+    "C0073"
+  ],
+  "Spacing": [
+    "C0075"
+  ],
+  "Spike": [
+    "C0076"
+  ],
+  "powerspike": [
+    "C0076"
+  ],
+  "Split Map": [
+    "C0077"
+  ],
+  "Splitpush": [
+    "C0078"
+  ],
+  "splitting": [
+    "C0078"
+  ],
+  "Splitpusher": [
+    "C0079"
+  ],
+  "Squishy": [
+    "C0080"
+  ],
+  "Strongside": [
+    "C0081"
+  ],
+  "Tactics": [
+    "C0082"
+  ],
+  "mesostrategy": [
+    "C0082"
+  ],
+  "meso": [
+    "C0082"
+  ],
+  "Tanky": [
+    "C0083"
+  ],
+  "Target": [
+    "C0084"
+  ],
+  "Teamfight": [
+    "C0085"
+  ],
+  "Tempo": [
+    "C0086"
+  ],
+  "Tension": [
+    "C0087"
+  ],
+  "Threat": [
+    "C0088"
+  ],
+  "Trade": [
+    "C0089"
+  ],
+  "Value": [
+    "C0090"
+  ],
+  "Variance": [
+    "C0091"
+  ],
+  "Wave": [
+    "C0092"
+  ],
+  "minion wave": [
+    "C0092"
+  ],
+  "Wave Thinning": [
+    "C0095"
+  ],
+  "trimming": [
+    "C0095"
+  ],
+  "Weakside": [
+    "C0096"
+  ],
+  "Zone": [
+    "C0097"
+  ]
+}

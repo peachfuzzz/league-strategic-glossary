@@ -1,0 +1,42 @@
+{
+  "id": "C0017",
+  "slug": "contest",
+  "prefLabel": "Contest",
+  "altLabel": [
+    "contesting"
+  ],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [
+    "C0033"
+  ],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "Threatening or fighting over something. A player can contest anything: a minion, lane priority, neutral objectives, etc. Contesting is a demonstration of intent and does not necessarily mean a full fight over the object of the contest. Even just the threat of fighting, such as a soft contest, can be enough to achieve the goal of a contest.",
+  "refs": {
+    "C0033": {
+      "id": "C0033",
+      "prefLabel": "Give",
+      "slug": "give"
+    }
+  },
+  "backlinks": [
+    {
+      "id": "C0028",
+      "prefLabel": "Fight",
+      "slug": "fight"
+    },
+    {
+      "id": "C0033",
+      "prefLabel": "Give",
+      "slug": "give"
+    }
+  ]
+}

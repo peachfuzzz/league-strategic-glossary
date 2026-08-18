@@ -1,0 +1,29 @@
+{
+  "id": "C0003",
+  "slug": "all-in",
+  "prefLabel": "All-in",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [
+    "C0089"
+  ],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "A fight between opposing players with the intention to kill. An all-in is taken either when a player has sufficient kill pressure, either via a calculation of lethal, or as a natural consequence of prior combat.  All-ins often expend every resource and cooldown available to all champions involved.",
+  "refs": {
+    "C0089": {
+      "id": "C0089",
+      "prefLabel": "Trade",
+      "slug": "trade"
+    }
+  },
+  "backlinks": []
+}

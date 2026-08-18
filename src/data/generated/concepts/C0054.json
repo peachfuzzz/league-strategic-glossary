@@ -1,0 +1,27 @@
+{
+  "id": "C0054",
+  "slug": "overextend",
+  "prefLabel": "Overextend",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "When a player is far in the opposing team’s area of map control. The overextending player is vulnerable to a gank or a collapse. Overextension is not necessarily a mistake, as it can bait the enemy team into overcommitting resources.",
+  "refs": {},
+  "backlinks": [
+    {
+      "id": "C0007",
+      "prefLabel": "Bait",
+      "slug": "bait"
+    }
+  ]
+}

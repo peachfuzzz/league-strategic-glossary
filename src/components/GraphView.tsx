@@ -3,9 +3,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { X, ZoomIn, ZoomOut, Maximize2, Maximize, Minimize } from 'lucide-react';
-import { GlossaryTerm, tagColors } from '@/data/glossaryData';
+import { ConceptView as GlossaryTerm } from '@/data/vocab';
+import { getTagColorMap } from '@/config/tags.config';
+
+const tagColors = getTagColorMap();
 import { GRAPH_PHYSICS_CONFIG } from '@/config/graph.config';
-import MediaGallery from '@/components/MediaGallery';
 
 // Canvas fillStyle/strokeStyle/shadowColor need a resolved CSS color string;
 // colorTokensRef caches tokens as "r, g, b" triples so call sites can layer
@@ -116,105 +118,16 @@ export default function GraphView({
     };
   }, []);
 
-  // Render definition with inline autolinks
-  const renderDefinitionWithLinks = (term: GlossaryTerm) => {
-    // Strip backticks from the definition for display
-    const displayDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
-
-    if (!term.autoLinks || term.autoLinks.length === 0) {
-      return <p className="text-ink leading-relaxed">{displayDefinition}</p>;
-    }
-
-    // Build a map of term IDs to their display names and patterns (including alternates)
-    const linkMap = new Map<string, { term: GlossaryTerm; patterns: RegExp[] }>();
-    term.autoLinks.forEach(linkId => {
-      const linkedTerm = allGlossaryData.find(t => t.id === linkId);
-      if (linkedTerm) {
-        const patterns: RegExp[] = [];
-
-        // Add pattern for main term
-        const escapedTerm = linkedTerm.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        patterns.push(new RegExp(`\\b${escapedTerm}\\b`, 'gi'));
-
-        // Add patterns for alternate forms
-        if (linkedTerm.alternates && linkedTerm.alternates.length > 0) {
-          linkedTerm.alternates.forEach(alternate => {
-            const escapedAlt = alternate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            patterns.push(new RegExp(`\\b${escapedAlt}\\b`, 'gi'));
-          });
-        }
-
-        linkMap.set(linkId, { term: linkedTerm, patterns });
-      }
-    });
-
-    // Find all matches and their positions (use displayDefinition for matching)
-    const matches: Array<{ start: number; end: number; linkId: string; text: string }> = [];
-    linkMap.forEach((value, linkId) => {
-      value.patterns.forEach(pattern => {
-        let match;
-        while ((match = pattern.exec(displayDefinition)) !== null) {
-          matches.push({
-            start: match.index,
-            end: match.index + match[0].length,
-            linkId,
-            text: match[0]
-          });
-        }
-      });
-    });
-
-    // Sort matches by position
-    matches.sort((a, b) => a.start - b.start);
-
-    // Build the JSX with links
-    const parts: React.ReactNode[] = [];
-    let lastIndex = 0;
-
-    matches.forEach((match, i) => {
-      // Skip overlapping matches
-      if (match.start < lastIndex) return;
-
-      // Add text before the match
-      if (match.start > lastIndex) {
-        parts.push(displayDefinition.substring(lastIndex, match.start));
-      }
-
-      // Add the link
-      const linkedTerm = linkMap.get(match.linkId)?.term;
-      if (linkedTerm) {
-        const isDiscovered = discoveredTerms.has(linkedTerm.id);
-        parts.push(
-          <button
-            key={`${match.linkId}-${i}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (viewMode === 'explore') {
-                onDiscoverTerm(linkedTerm.id);
-              } else {
-                setSelectedNode(linkedTerm);
-              }
-            }}
-            className={`underline decoration-1 underline-offset-2 transition-colors ${
-              isDiscovered
-                ? 'text-signal hover:text-signal-2'
-                : 'text-ink/50 hover:text-signal'
-            }`}
-          >
-            {match.text}
-          </button>
-        );
-      }
-
-      lastIndex = match.end;
-    });
-
-    // Add remaining text
-    if (lastIndex < displayDefinition.length) {
-      parts.push(displayDefinition.substring(lastIndex));
-    }
-
-    return <p className="text-ink leading-relaxed">{parts}</p>;
+  /**
+   * Definition prose, rendered as plain text.
+   *
+   * Backticks escape a span from linking; strip the markers and keep the text.
+   * Cross-references become explicit wikilinks in a later phase - until then
+   * there is nothing to linkify.
+   */
+  const renderDefinition = (term: GlossaryTerm) => {
+    const displayDefinition = term.summary.replace(/`([^`]+)`/g, '$1');
+    return <p className="text-ink leading-relaxed">{displayDefinition}</p>;
   };
 
   // Initialize nodes when glossaryData changes
@@ -239,7 +152,7 @@ export default function GraphView({
     const MIN_RADIUS = 6;
     const MAX_RADIUS = 12;
     const connectionCounts = glossaryData.map(term =>
-      (term.links?.length || 0) + (term.autoLinks?.length || 0)
+      term.related.length
     );
     const maxConnections = Math.max(...connectionCounts, 1);
 
@@ -321,8 +234,7 @@ export default function GraphView({
 
           // Combine manual links and auto-detected links
           const allLinks = [
-            ...(node.links || []),
-            ...(node.autoLinks || [])
+            ...(node.related || [])
           ];
 
           allLinks.forEach((linkId: string) => {
@@ -427,11 +339,11 @@ export default function GraphView({
       }
 
       const filteredNodes = nodes.filter(node => {
-        if (!node.term || !node.tags) return false;
+        if (!node.prefLabel || !node.collection) return false;
         const matchesSearch = searchQuery === '' ||
-          node.term.toLowerCase().includes(searchQuery.toLowerCase());
+          node.prefLabel.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesTags = selectedTags.length === 0 ||
-          selectedTags.every((tag: string) => node.tags.includes(tag));
+          selectedTags.every((tag: string) => node.collection.includes(tag));
         return matchesSearch && matchesTags;
       });
 
@@ -440,8 +352,7 @@ export default function GraphView({
       filteredNodes.forEach(node => {
         // Combine manual and auto links
         const allLinks = [
-          ...(node.links || []),
-          ...(node.autoLinks || [])
+          ...(node.related || [])
         ];
 
         allLinks.forEach((linkId: string) => {
@@ -460,8 +371,7 @@ export default function GraphView({
       // Draw "trail off" lines for undiscovered connections
       filteredNodes.forEach(node => {
         const allLinks = [
-          ...(node.links || []),
-          ...(node.autoLinks || [])
+          ...(node.related || [])
         ];
 
         // Find undiscovered links (links that don't have a node in filteredNodes)
@@ -501,8 +411,7 @@ export default function GraphView({
         if (selected) {
           // Combine manual and auto links for highlighting
           const allLinks = [
-            ...(selected.links || []),
-            ...(selected.autoLinks || [])
+            ...(selected.related || [])
           ];
 
           // Draw discovered connections
@@ -556,12 +465,11 @@ export default function GraphView({
 
         // Check if node is connected to selected node (both manual and auto links)
         const isConnected = selectedNode && (
-          (selectedNode.links && selectedNode.links.includes(node.id)) ||
-          (selectedNode.autoLinks && selectedNode.autoLinks.includes(node.id))
+          (selectedNode.related && selectedNode.related.includes(node.id))
         );
 
         // Draw node as pie chart if it has multiple tags
-        const nodeTags = node.tags || [];
+        const nodeTags = node.collection || [];
         const hasMultipleTags = nodeTags.length > 1;
 
         // Hover pulse: gentle breathing effect on hovered nodes
@@ -635,7 +543,7 @@ export default function GraphView({
           const textOpacity = !selectedNode ? 0.7 : 1.0;
 
           ctx.fillStyle = rgba(colorTokensRef.current.ink, textOpacity);
-          ctx.fillText(node.term, node.x, node.y + drawRadius + 8);
+          ctx.fillText(node.prefLabel, node.x, node.y + drawRadius + 8);
         }
       });
 
@@ -757,12 +665,12 @@ export default function GraphView({
             <div className="flex-1">
               <h3 className="text-xl font-display leading-tight">
                 <Link href={`/term/${selectedNode.id}`} className="text-ink hover:text-signal transition-colors">
-                  {selectedNode.term}
+                  {selectedNode.prefLabel}
                 </Link>
               </h3>
-              {selectedNode.alternates && selectedNode.alternates.length > 0 && (
+              {selectedNode.altLabel.length > 0 && (
                 <p className="text-xs text-ink-3 italic mt-1 font-light">
-                  Also: {selectedNode.alternates.join(', ')}
+                  Also: {selectedNode.altLabel.join(', ')}
                 </p>
               )}
             </div>
@@ -776,7 +684,7 @@ export default function GraphView({
 
           {/* Tags - dots instead of pills */}
           <div className="flex gap-2 mb-3 flex-wrap">
-            {selectedNode.tags.map(tag => (
+            {selectedNode.collection.map(tag => (
               <button
                 key={tag}
                 className="flex items-center gap-1.5 hover:opacity-70 transition-opacity"
@@ -797,24 +705,17 @@ export default function GraphView({
 
           {/* Definition with inline autolinks */}
           <div className="divider-sketch">
-            {renderDefinitionWithLinks(selectedNode)}
+            {renderDefinition(selectedNode)}
           </div>
 
-          {/* Compact media */}
-          {selectedNode.media && selectedNode.media.length > 0 && (
-            <div className="divider-sketch">
-              <MediaGallery media={selectedNode.media} compact />
-            </div>
-          )}
-
           {/* Manual links */}
-          {selectedNode.links.length > 0 && (
+          {selectedNode.related.length > 0 && (
             <div className="divider-sketch">
               <p className="text-[10px] text-ink-3 mb-2 uppercase tracking-wider">
                 Related
               </p>
               <div className="flex flex-wrap gap-2">
-                {selectedNode.links.map(linkId => {
+                {selectedNode.related.map(linkId => {
                   const linkedTerm = allGlossaryData.find(t => t.id === linkId);
                   if (!linkedTerm) return null;
 
@@ -836,7 +737,7 @@ export default function GraphView({
                         }
                       }}
                     >
-                      {linkedTerm.term}
+                      {linkedTerm.prefLabel}
                     </button>
                   );
                 })}

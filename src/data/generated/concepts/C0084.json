@@ -1,0 +1,21 @@
+{
+  "id": "C0084",
+  "slug": "target",
+  "prefLabel": "Target",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "abstract-concepts"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "Something or someone being acted upon, often by the player. A target can be a champion, minion, ward, monster, and can be on any team.",
+  "refs": {},
+  "backlinks": []
+}

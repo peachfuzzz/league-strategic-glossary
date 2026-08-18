@@ -1,0 +1,24 @@
+{
+  "id": "C0047",
+  "slug": "mechanics",
+  "prefLabel": "Mechanics",
+  "altLabel": [
+    "micro",
+    "microstrategy"
+  ],
+  "hiddenLabel": [],
+  "collection": [
+    "abstract-concepts"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "Skills and strategies that concern in-the-moment decisions and inputs, on the order of seconds or less. Mechanics cover ideas that rely heavily on reaction speed, game sense, and intuition, and center around combat.",
+  "refs": {},
+  "backlinks": []
+}

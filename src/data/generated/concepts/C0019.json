@@ -1,0 +1,21 @@
+{
+  "id": "C0019",
+  "slug": "counterpick",
+  "prefLabel": "Counterpick",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "Selecting a champion in reaction to the enemy team’s picks. The player with counterpick can choose a champion that matches up well against the enemy team or their opposing laner. This term is most often used in reference to lane matchups.",
+  "refs": {},
+  "backlinks": []
+}

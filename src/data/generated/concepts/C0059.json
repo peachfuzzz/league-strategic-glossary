@@ -1,0 +1,21 @@
+{
+  "id": "C0059",
+  "slug": "player",
+  "prefLabel": "Player",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "abstract-concepts"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "A person controlling a champion in-game.\nAuthors’ note: In this glossary, we often use \"the player” as a formalization of “you, the person doing stuff.”",
+  "refs": {},
+  "backlinks": []
+}

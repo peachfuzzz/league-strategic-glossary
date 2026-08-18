@@ -137,6 +137,118 @@ for stem, fm in notes.items():
         if t in notes and stem not in (notes[t].get("related", []) or []):
             asym.append((stem, t))
 
+# ---- generated artifacts -------------------------------------------------
+import json
+
+GEN = Path("src/data/generated")
+artifacts_checked = False
+n_index = n_concepts = n_nodes = n_edges = n_labels = 0
+
+active_ids = {s for s, fm in notes.items() if fm.get("active") is True}
+inactive_ids = {s for s, fm in notes.items() if fm.get("active") is not True}
+
+if not GEN.exists():
+    fail(f"generated artifacts not found: {GEN} (run `npm run build-vocab`)")
+else:
+    artifacts_checked = True
+
+    def load(name):
+        p = GEN / name
+        if not p.exists():
+            fail(f"missing artifact: {p}")
+            return None
+        try:
+            return json.loads(p.read_text(encoding="utf-8"))
+        except Exception as e:
+            fail(f"{p}: invalid JSON ({e})")
+            return None
+
+    index = load("index.json")
+    graph = load("graph.json")
+    labels = load("labels.json")
+
+    concept_files = sorted((GEN / "concepts").glob("*.json")) if (GEN / "concepts").exists() else []
+    n_concepts = len(concept_files)
+    if not concept_files:
+        fail("no per-concept files emitted")
+
+    # index covers exactly the active notes
+    if index is not None:
+        n_index = len(index)
+        index_ids = [e["id"] for e in index]
+        for i in index_ids:
+            if i not in notes:
+                fail(f"index.json: {i} has no note")
+            elif i in inactive_ids:
+                fail(f"index.json: {i} is inactive but was emitted")
+        for i in sorted(active_ids - set(index_ids)):
+            fail(f"index.json: active note {i} is missing")
+
+        # every concept in index has a per-concept file
+        have = {p.stem for p in concept_files}
+        for i in index_ids:
+            if i not in have:
+                fail(f"index.json: {i} has no concepts/{i}.json")
+        for stem in sorted(have - set(index_ids)):
+            fail(f"concepts/{stem}.json has no index.json entry")
+
+        # slugs unique and non-empty
+        slug_owners = defaultdict(list)
+        for e in index:
+            if not e.get("slug"):
+                fail(f"index.json: {e['id']} has an empty slug")
+            slug_owners[e.get("slug")].append(e["id"])
+        for s, ids in slug_owners.items():
+            if len(ids) > 1:
+                fail(f"slug collision: {s!r} <- {', '.join(ids)}")
+
+    # graph nodes/edges resolve
+    if graph is not None:
+        nodes = graph.get("nodes", [])
+        edges = graph.get("edges", [])
+        n_nodes, n_edges = len(nodes), len(edges)
+        node_ids = {n["id"] for n in nodes}
+        for i in sorted(node_ids - active_ids):
+            fail(f"graph.json: node {i} is not an active note")
+        for i in sorted(active_ids - node_ids):
+            fail(f"graph.json: active note {i} has no node")
+        for e in edges:
+            if e.get("source") not in node_ids:
+                fail(f"graph.json: edge source {e.get('source')!r} does not resolve")
+            if e.get("target") not in node_ids:
+                fail(f"graph.json: edge target {e.get('target')!r} does not resolve")
+
+    # labels map to real concepts, one-to-many shape
+    if labels is not None:
+        n_labels = len(labels)
+        for label, ids in labels.items():
+            if not isinstance(ids, list):
+                fail(f"labels.json: {label!r} maps to a non-list")
+                continue
+            for i in ids:
+                if i not in active_ids:
+                    fail(f"labels.json: {label!r} -> {i} is not an active concept")
+
+    # per-concept internals
+    for p in concept_files:
+        try:
+            c = json.loads(p.read_text(encoding="utf-8"))
+        except Exception as e:
+            fail(f"{p.name}: invalid JSON ({e})")
+            continue
+        if c.get("id") != p.stem:
+            fail(f"{p.name}: id {c.get('id')!r} != filename stem")
+        for t in c.get("related", []) or []:
+            if t not in active_ids:
+                fail(f"{p.name}: related target {t} is not an active concept")
+            if t not in (c.get("refs") or {}):
+                fail(f"{p.name}: related target {t} missing from refs")
+
+ambiguous_labels = (
+    {l: ids for l, ids in (labels or {}).items() if isinstance(ids, list) and len(ids) > 1}
+    if artifacts_checked and labels else {}
+)
+
 print("=" * 60)
 print("Vocabulary check")
 print("=" * 60)
@@ -144,6 +256,22 @@ print(f"  Notes:          {len(files)}")
 print(f"  Registry rows:  {len(rows)}")
 print(f"  Failures:       {len(failures)}")
 print(f"  Asymmetric:     {len(asym)} (reported, not auto-fixed)")
+if artifacts_checked:
+    print()
+    print("  Artifacts")
+    print(f"    concepts/     {n_concepts}")
+    print(f"    index.json    {n_index}")
+    print(f"    graph.json    {n_nodes} nodes, {n_edges} edges")
+    print(f"    labels.json   {n_labels}")
+    print()
+    print(f"  Rendered {len(active_ids)} of {len(files)} concepts "
+          f"({len(inactive_ids)} inactive, excluded by design)")
+    if inactive_ids:
+        print(f"    inactive: {', '.join(sorted(inactive_ids))}")
+    if ambiguous_labels:
+        print(f"  Ambiguous labels: {len(ambiguous_labels)}")
+        for l, ids in sorted(ambiguous_labels.items()):
+            print(f"    {l!r} -> {', '.join(ids)}")
 print()
 
 if asym:

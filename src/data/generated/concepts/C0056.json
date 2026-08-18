@@ -1,0 +1,24 @@
+{
+  "id": "C0056",
+  "slug": "pathing",
+  "prefLabel": "Pathing",
+  "altLabel": [
+    "jungle pathing"
+  ],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy",
+    "jungle"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "The route a jungler takes on the map. Jungle pathing also encompasses the skill of planning such a route and the decision-making process of deciding where to go and when. “Pathing toward” is sometimes used in a similar context as the prioritization of the object that a jungler paths towards, e.g. “pathing towards bot.”",
+  "refs": {},
+  "backlinks": []
+}

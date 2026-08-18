@@ -7,16 +7,16 @@
 
 export interface ShuffleConfig {
   /**
-   * Minimum number of total connections (links + autoLinks) required
-   * for a term to be eligible for shuffle selection.
+   * Minimum number of `related` connections required for a concept to be
+   * eligible for shuffle selection.
    *
-   * Set to 0 to allow any term (including dead ends).
-   * Set to 1+ to ensure shuffled terms have at least that many connections.
+   * Set to 0 to allow any concept (including dead ends).
+   * Set to 1+ to ensure shuffled concepts have at least that many connections.
    *
    * Example:
-   * - minConnections: 0  -> Any term can be selected (may include dead ends)
-   * - minConnections: 1  -> Only terms with at least 1 connection
-   * - minConnections: 3  -> Only terms with at least 3 connections (well-connected terms)
+   * - minConnections: 0  -> Any concept can be selected (may include dead ends)
+   * - minConnections: 1  -> Only concepts with at least 1 connection
+   * - minConnections: 3  -> Only concepts with at least 3 connections
    */
   minConnections: number;
 }
@@ -27,5 +27,9 @@ export interface ShuffleConfig {
  * To change behavior, edit the values below and restart the dev server.
  */
 export const SHUFFLE_CONFIG: ShuffleConfig = {
-  minConnections: 2,  // Default: require at least 1 connection to avoid dead ends
+  // Cross-references are being reauthored as explicit wikilinks, so `related`
+  // is sparse right now - most concepts have no connections at all. A non-zero
+  // floor would make shuffle pick from a handful of concepts. Raise this once
+  // linking is done.
+  minConnections: 0,
 };

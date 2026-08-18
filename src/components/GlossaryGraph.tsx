@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { RotateCcw, Shuffle } from 'lucide-react';
-import { glossaryData, GlossaryTerm } from '@/data/glossaryData';
+import { conceptViews as glossaryData, ConceptView as GlossaryTerm } from '@/data/vocab';
 import { SHUFFLE_CONFIG } from '@/config/shuffle.config';
 import { useSearch } from '@/context/SearchContext';
 import GraphView from './GraphView';
@@ -42,7 +42,7 @@ const getRandomTerm = (): string => {
 
   // Filter terms based on minimum connection requirement
   const eligibleTerms = glossaryData.filter(term => {
-    const totalConnections = (term.links?.length || 0) + (term.autoLinks?.length || 0);
+    const totalConnections = term.related.length;
     return totalConnections >= SHUFFLE_CONFIG.minConnections;
   });
 
@@ -54,9 +54,9 @@ const getRandomTerm = (): string => {
 };
 
 const getDefaultStartingTerm = (): string => {
-  // Try to use 'last-hit' if it exists, otherwise use first term
-  const lastHit = glossaryData.find(t => t.id === 'last-hit');
-  if (lastHit) return 'last-hit';
+  // Prefer a well-connected concept so Explore mode opens with somewhere to go.
+  const connected = glossaryData.find(t => t.related.length > 0);
+  if (connected) return connected.id;
   return glossaryData.length > 0 ? glossaryData[0].id : '';
 };
 
@@ -129,7 +129,7 @@ export default function GlossaryGraph() {
   }, [isSidebarOpen]);
 
   // Derived data
-  const allTags = [...new Set(glossaryData.flatMap(term => term.tags))].sort();
+  const allTags = [...new Set(glossaryData.flatMap(term => term.collection))].sort();
 
   // Base glossary data (filtered by discovery in explore mode)
   const baseGlossaryData = viewMode === 'explore'
@@ -139,14 +139,14 @@ export default function GlossaryGraph() {
   const filteredListTerms = baseGlossaryData
     .filter(term => {
       const matchesSearch = searchQuery === '' ||
-        term.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        term.definition.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (term.alternates && term.alternates.some(alt => alt.toLowerCase().includes(searchQuery.toLowerCase())));
+        term.prefLabel.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        term.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        term.altLabel.some(alt => alt.toLowerCase().includes(searchQuery.toLowerCase()));
       const matchesTags = selectedTags.length === 0 ||
-        selectedTags.every(tag => term.tags.includes(tag));
+        selectedTags.every(tag => term.collection.includes(tag));
       return matchesSearch && matchesTags;
     })
-    .sort((a, b) => a.term.localeCompare(b.term));
+    .sort((a, b) => a.prefLabel.localeCompare(b.prefLabel));
 
   // Discovery stats
   const discoveryCount = discoveredTerms.size;

@@ -1,0 +1,22 @@
+{
+  "id": "C0038",
+  "slug": "invade",
+  "prefLabel": "Invade",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy",
+    "jungle"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "Entering the opposing jungle. Invades most often have the goal of counterjungling, fighting the enemy jungler, or placing deep vision. Invades tend to carry more risk than clearing the allied jungle, due to the proximity of the enemy laners, so their success often relies upon additional information or assistance from allies.",
+  "refs": {},
+  "backlinks": []
+}

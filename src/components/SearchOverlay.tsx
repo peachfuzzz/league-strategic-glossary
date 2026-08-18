@@ -2,7 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { GlossaryTerm, tagColors } from '@/data/glossaryData';
+import { ConceptView as GlossaryTerm } from '@/data/vocab';
+import { getTagColorMap } from '@/config/tags.config';
+
+const tagColors = getTagColorMap();
 
 interface SearchOverlayProps {
   query: string;
@@ -55,14 +58,14 @@ export default function SearchOverlay({
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
                 <h3 className="font-display text-ink mb-1">
-                  {highlightMatch(term.term)}
+                  {highlightMatch(term.prefLabel)}
                 </h3>
                 <p className="text-sm text-ink-2 line-clamp-2">
-                  {highlightMatch(term.definition)}
+                  {highlightMatch(term.summary)}
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5 max-w-xs items-start">
-                {term.tags.slice(0, 2).map(tag => (
+                {term.collection.slice(0, 2).map(tag => (
                   <div key={tag} className="flex items-center gap-1">
                     <div
                       className="w-2 h-2 rounded-full flex-shrink-0"
@@ -71,9 +74,9 @@ export default function SearchOverlay({
                     <span className="text-xs text-ink-3">{tag}</span>
                   </div>
                 ))}
-                {term.tags.length > 2 && (
+                {term.collection.length > 2 && (
                   <span className="text-xs text-ink-3">
-                    +{term.tags.length - 2}
+                    +{term.collection.length - 2}
                   </span>
                 )}
               </div>

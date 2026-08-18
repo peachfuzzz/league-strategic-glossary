@@ -1,7 +1,9 @@
 'use client'
 
 import React from 'react';
-import { tagColors } from '@/data/glossaryData';
+import { getTagColorMap } from '@/config/tags.config';
+
+const tagColors = getTagColorMap();
 import { Filter } from 'lucide-react';
 
 interface TagFilterDropdownProps {

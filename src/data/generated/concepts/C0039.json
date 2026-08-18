@@ -1,0 +1,21 @@
+{
+  "id": "C0039",
+  "slug": "key-ability",
+  "prefLabel": "Key Ability",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "abstract-concepts"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "An ability that swings an interaction heavily in one player’s favor if used successfully. Most commonly this will be a non-guaranteed CC tool, but can also be dashes or defensive abilities.",
+  "refs": {},
+  "backlinks": []
+}

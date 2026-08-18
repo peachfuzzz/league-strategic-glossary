@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "import-terms": "bash scripts/auto-import.sh",
-    "generate-glossary": "npm run import-terms && tsx scripts/generate-glossary-data.ts",
-    "dev": "npm run generate-glossary && next dev --turbopack",
-    "build": "npm run generate-glossary && next build --turbopack",
+    "build-vocab": "tsx scripts/build-vocab.ts",
+    "dev": "npm run build-vocab && next dev --turbopack",
+    "build": "npm run build-vocab && next build --turbopack",
     "start": "next start",
     "lint": "eslint",
+    "check-vocab": "bash scripts/check-vocab.sh",
     "manage-tags": "tsx scripts/manage-tags.ts"
   },
   "dependencies": {

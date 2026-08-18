@@ -1,0 +1,35 @@
+{
+  "id": "C0090",
+  "slug": "value",
+  "prefLabel": "Value",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "abstract-concepts"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [
+    "C0027"
+  ],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "The quantitative measurement of an action, decision, or state. Value is how much something is “worth” to winning a game. An outcome’s value is its measurable quantity: gold, health, mana, cooldown, movement, etc. Value allows for comparing actions or decisions that are measured similarly. Analogous to money in real life, value is discounted over time: a given amount of value now is worth more than the same amount of value later.",
+  "refs": {
+    "C0027": {
+      "id": "C0027",
+      "prefLabel": "Expected Value",
+      "slug": "expected-value"
+    }
+  },
+  "backlinks": [
+    {
+      "id": "C0066",
+      "prefLabel": "Reliability",
+      "slug": "reliability"
+    }
+  ]
+}

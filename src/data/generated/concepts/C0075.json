@@ -1,0 +1,21 @@
+{
+  "id": "C0075",
+  "slug": "spacing",
+  "prefLabel": "Spacing",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "Intentionally moving to maintain a specific range against an enemy. Most often, a player will be spacing one of their opponents’ abilities or combinations of abilities. Spacing is most commonly used to maintain threat on an enemy while staying out of range of an enemy’s effective range.",
+  "refs": {},
+  "backlinks": []
+}

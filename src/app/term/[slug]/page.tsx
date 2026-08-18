@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { glossaryData } from '@/data/glossaryData';
+import { vocabIndex } from '@/data/vocab';
+import { getConceptBySlug } from '@/data/vocab.server';
 import { getTagConfig } from '@/config/tags.config';
 import TermPageContent from '@/components/TermPageContent';
 
@@ -9,45 +10,43 @@ interface TermPageProps {
 }
 
 export async function generateStaticParams() {
-  return glossaryData.map((term) => ({
-    slug: term.id,
-  }));
+  return vocabIndex.map((entry) => ({ slug: entry.slug }));
 }
 
 export async function generateMetadata({ params }: TermPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const term = glossaryData.find((t) => t.id === slug);
+  const concept = getConceptBySlug(slug);
 
-  if (!term) {
+  if (!concept) {
     return { title: 'Term Not Found' };
   }
 
   // Strip backticks and truncate definition for description
-  const cleanDefinition = term.definition.replace(/`([^`]+)`/g, '$1');
+  const cleanDefinition = concept.definition.replace(/`([^`]+)`/g, '$1');
   const description =
     cleanDefinition.length > 160
       ? cleanDefinition.substring(0, 157) + '...'
       : cleanDefinition;
 
-  const tagLabels = term.tags
+  const tagLabels = concept.collection
     .map((t) => getTagConfig(t)?.label)
     .filter(Boolean)
     .join(', ');
 
   return {
-    title: `${term.term} - League Strategic Glossary`,
+    title: `${concept.prefLabel} - League Strategic Glossary`,
     description,
     openGraph: {
-      title: term.term,
+      title: concept.prefLabel,
       description,
-      url: `https://glossary.steffnstuff.com/term/${term.id}`,
+      url: `https://glossary.steffnstuff.com/term/${concept.slug}`,
       siteName: 'League Strategic Glossary',
       type: 'article',
       tags: tagLabels ? [tagLabels] : undefined,
     },
     twitter: {
       card: 'summary',
-      title: term.term,
+      title: concept.prefLabel,
       description,
     },
   };
@@ -55,40 +54,35 @@ export async function generateMetadata({ params }: TermPageProps): Promise<Metad
 
 export default async function TermPage({ params }: TermPageProps) {
   const { slug } = await params;
-  const term = glossaryData.find((t) => t.id === slug);
+  const concept = getConceptBySlug(slug);
 
-  if (!term) {
+  if (!concept) {
     notFound();
   }
 
-  // Resolve manual links
-  const manualLinks = term.links
-    .map((id) => glossaryData.find((t) => t.id === id))
-    .filter((t): t is NonNullable<typeof t> => t !== undefined);
+  // Related concepts, resolved via the refs the build already embedded.
+  const related = concept.related
+    .map((id) => concept.refs[id])
+    .filter((r): r is NonNullable<typeof r> => r !== undefined);
 
-  // Find terms that link back to this term
-  const backLinks = glossaryData.filter(
-    (t) =>
-      t.id !== term.id &&
-      (t.links.includes(term.id) || (t.autoLinks || []).includes(term.id))
-  );
+  // Alphabetical neighbours across active concepts only.
+  const currentIndex = vocabIndex.findIndex((e) => e.id === concept.id);
+  const prevEntry = currentIndex > 0 ? vocabIndex[currentIndex - 1] : null;
+  const nextEntry =
+    currentIndex >= 0 && currentIndex < vocabIndex.length - 1
+      ? vocabIndex[currentIndex + 1]
+      : null;
 
-  // Alphabetical neighbors for prev/next navigation
-  const sorted = [...glossaryData].sort((a, b) =>
-    a.term.localeCompare(b.term)
-  );
-  const currentIndex = sorted.findIndex((t) => t.id === term.id);
-  const prevTerm = currentIndex > 0 ? sorted[currentIndex - 1] : null;
-  const nextTerm =
-    currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
+  const toRef = (e: typeof prevEntry) =>
+    e ? { id: e.id, prefLabel: e.prefLabel, slug: e.slug } : null;
 
   return (
     <TermPageContent
-      term={term}
-      manualLinks={manualLinks}
-      backLinks={backLinks}
-      prevTerm={prevTerm}
-      nextTerm={nextTerm}
+      concept={concept}
+      related={related}
+      backLinks={concept.backlinks}
+      prevTerm={toRef(prevEntry)}
+      nextTerm={toRef(nextEntry)}
     />
   );
 }

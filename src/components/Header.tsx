@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { glossaryData } from '@/data/glossaryData';
+import { conceptViews as glossaryData } from '@/data/vocab';
 import { useSearch } from '@/context/SearchContext';
 import SearchOverlay from '@/components/SearchOverlay';
 
@@ -29,10 +29,10 @@ export default function Header() {
     const q = query.trim().toLowerCase();
     if (!q) return [];
     return glossaryData.filter(term =>
-      term.term.toLowerCase().includes(q) ||
-      term.definition.toLowerCase().includes(q) ||
-      term.tags.some(tag => tag.toLowerCase().includes(q)) ||
-      (term.alternates && term.alternates.some(alt => alt.toLowerCase().includes(q)))
+      term.prefLabel.toLowerCase().includes(q) ||
+      term.summary.toLowerCase().includes(q) ||
+      term.collection.some(tag => tag.toLowerCase().includes(q)) ||
+      term.altLabel.some(alt => alt.toLowerCase().includes(q))
     );
   }, [query]);
 
@@ -87,7 +87,7 @@ export default function Header() {
       e.preventDefault();
       const term = results[highlightedIndex];
       handleSelect();
-      router.push(`/term/${term.id}`);
+      router.push(`/term/${term.slug}`);
     }
   };
 

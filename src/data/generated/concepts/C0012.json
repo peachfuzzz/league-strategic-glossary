@@ -1,0 +1,21 @@
+{
+  "id": "C0012",
+  "slug": "chain-cc",
+  "prefLabel": "Chain CC",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "relatedReviewed": false,
+  "definition": "Timing several distinct sources of hard CC on the same target to apply in sequence without allowing the target to act. An optimal chain CC overlaps the duration of each source of crowd control as little as possible to maximize the time they are inactionable.",
+  "refs": {},
+  "backlinks": []
+}
