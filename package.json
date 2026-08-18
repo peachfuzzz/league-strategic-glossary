@@ -8,7 +8,7 @@
     "build": "npm run build-vocab && next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "check-vocab": "bash scripts/check-vocab.sh",
+    "check-vocab": "tsx scripts/check-vocab.ts",
     "check-design": "bash scripts/check-design.sh"
   },
   "dependencies": {
