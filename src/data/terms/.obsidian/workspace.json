@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "C0037.md",
+                "file": "C0097.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "C0037"
+              "title": "C0097"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "C0037.md",
+                "file": "C0097.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for C0037"
+              "title": "Backlinks for C0097"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "C0037.md",
+                "file": "C0097.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from C0037"
+              "title": "Outgoing links from C0097"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "C0037.md",
+                "file": "C0097.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of C0037"
+              "title": "Outline of C0097"
             }
           }
         ]
@@ -183,34 +183,34 @@
       "bases:Create new base": false
     }
   },
-  "active": "82436d50157c171f",
+  "active": "845b41f42e44309e",
   "lastOpenFiles": [
-    "C0001.md",
-    "C0002.md",
-    "C0058.md",
-    "C0014.md",
-    "C0013.md",
-    "C0011.md",
-    "C0009.md",
-    "C0007.md",
-    "C0003.md",
-    "C0037.md",
-    "C0019.md",
-    "C0072.md",
-    "C0021.md",
-    "C0020.md",
-    "C0018.md",
-    "C0038.md",
-    "C0017.md",
-    "C0016.md",
-    "C0015.md",
-    "C0059.md",
+    "C0096.md",
+    "C0095.md",
+    "C0094.md",
+    "C0093.md",
     "C0092.md",
-    "C0012.md",
-    "C0022.md",
-    "C0010.md",
-    "C0008.md",
-    "C0006.md",
-    "Untitled.canvas"
+    "Untitled.canvas",
+    "C0097.md",
+    "C0091.md",
+    "C0090.md",
+    "C0089.md",
+    "C0088.md",
+    "C0087.md",
+    "C0086.md",
+    "C0085.md",
+    "C0084.md",
+    "C0083.md",
+    "C0082.md",
+    "C0081.md",
+    "C0080.md",
+    "C0079.md",
+    "C0078.md",
+    "C0077.md",
+    "C0076.md",
+    "C0075.md",
+    "C0074.md",
+    "C0073.md",
+    "C0072.md"
   ]
 }

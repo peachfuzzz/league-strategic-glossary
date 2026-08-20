@@ -18,7 +18,7 @@ regen-aliases.ts read frontmatter with line-oriented regex, matching ^aliases:[ 
 
 aliases: [play]
   - play (strategy)     # orphaned: invalid YAML
-Three notes were affected. Two were structurally corrupt. A third (C0037) stayed valid YAML but silently carried a stale label, which is the worse failure — nothing detected it. check-vocab.sh also passed on the corrupt files, because its parser skips lines without a colon and never tried a real YAML parse.
+Three notes were affected. Two were structurally corrupt. A third (C0037) stayed valid YAML but silently carried a stale label, which is the worse failure — nothing detected it. check-vocab.ts also passed on the corrupt files, because its parser skips lines without a colon and never tried a real YAML parse.
 
 ## Rationale
 
@@ -31,7 +31,7 @@ One-time reformat: 97 files, +283 frontmatter lines (~21% growth). Non-empty arr
 No semantic change. The build, checks, and Obsidian all read identical data.
 Scripts that write notes now carry a body-preservation guard, comparing prose before and after and skipping any note that would change. Trailing-newline differences are excluded, since gray-matter always emits one.
 The class of bug is closed structurally, not by convention: no hand-rolled YAML parsing remains in the note-writing path.
-Known gap: check-vocab.sh still parses frontmatter with its own line-oriented Python, so it would not catch a recurrence. Closing that means asserting each note parses as YAML. Not done here.
+Known gap: check-vocab.ts still parses frontmatter with its own line-oriented Python, so it would not catch a recurrence. Closing that means asserting each note parses as YAML. Not done here.
 
 Follow-up. check-vocab was the last component parsing frontmatter by hand. Its line-oriented Python skipped any line without a colon, so orphaned block-sequence items were invisible to it and it reported PASS on files that were not valid YAML. After the normalization to block style it was additionally reading four list fields as empty, silently disabling the relation and symmetry checks.
 

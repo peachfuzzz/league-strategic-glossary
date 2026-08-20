@@ -237,7 +237,7 @@ So emit one file per need:
 - **`graph.json`** — nodes, typed edges, and metrics. No prose.
 - **`labels.json`** — label to identifier map. Feeds the resolver and the disambiguation pages.
 
-`check-vocab.sh` reads `graph.json` and `labels.json`.
+`check-vocab.ts` reads `graph.json` and `labels.json`.
 The validation script does not need to run the site build.
 
 Example frontmatter:
@@ -353,7 +353,7 @@ Phase 5 can start before Phase 4 finishes.
 ### Phase M — Finish the migration (DONE)
 
 **Completed 2026-08-17.** 97 concepts, identifiers C0001–C0097, no gaps.
-Registry at `docs/id-registry.csv`. Verifier at `scripts/check-vocab.sh`.
+Registry at `docs/id-registry.csv`. Verifier at `scripts/check-vocab.ts`.
 All bodies byte-identical to the originals. The site build is broken until Phase 1.
 
 Two findings changed the plan. See below.
@@ -758,8 +758,8 @@ Goal: stop the structure from breaking later.
 - [ ] Write a check that every concept is reachable from a top concept. (1 hr)
 - [ ] Write a check that every note has valid frontmatter. (1 hr)
 - [ ] Write a check that no note still has `relatedReviewed: false`. (30 min)
-- [ ] Combine the checks into `check-vocab.sh`. (1 hr)
-- [ ] Add `check-vocab.sh` to the build. (30 min)
+- [ ] Combine the checks into `check-vocab.ts`. (1 hr)
+- [ ] Add `check-vocab.ts` to the build. (30 min)
 - [ ] Extend `DESIGN.md` with the graph encodings. (1 hr)
 - [ ] Write a `vocab-reviewer` subagent definition. (1 hr)
 - [ ] Final read of `CLAUDE.md`. Confirm it matches the code. (1 hr)

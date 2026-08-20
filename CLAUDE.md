@@ -238,11 +238,11 @@ now, which makes its state tracking redundant. Do not invest in it.
 ```bash
 npm run dev
 npm run build-vocab      # rebuild artifacts from the vault
-./scripts/check-vocab.sh # structural validation
+./scripts/check-vocab.ts # structural validation
 ./scripts/check-design.sh
 ```
 
-`check-vocab.sh` validates identifiers, filenames, registry consistency, slug
+`check-vocab.ts` validates identifiers, filenames, registry consistency, slug
 uniqueness, relation targets, and artifact integrity. It has been mutation-tested
 against corrupted copies — it is not passing vacuously. Extend it rather than adding
 parallel checks.
