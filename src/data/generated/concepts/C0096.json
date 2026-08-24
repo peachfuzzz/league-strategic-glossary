@@ -15,7 +15,23 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A lane that receives comparatively fewer roams and ganks from their teammates. Designating a lane as a team’s weakside (weaksiding) incentivizes the weaksided player to play more cautiously, since they are less likely to receive assistance against enemy plays. A weakside is the cost of a strongside: investing heavily in one lane means leaving another to fend for themselves.",
-  "refs": {},
+  "definition": "A lane that receives comparatively fewer [ganks](/term/gank) from its allies. Designating a lane as a team’s weakside (weaksiding) incentivizes the weaksided [player(s)](/term/player) to play more cautiously, since they are less likely to receive assistance against enemy [plays](/term/play). A weakside is the cost of a strongside: investing heavily in one lane means leaving another to fend for themselves.",
+  "refs": {
+    "C0032": {
+      "id": "C0032",
+      "prefLabel": "gank",
+      "slug": "gank"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0058": {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    }
+  },
   "backlinks": []
 }

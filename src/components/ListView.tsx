@@ -24,21 +24,17 @@ export default function ListView({
   discoveredTerms = new Set(),
 }: ListViewProps) {
   /**
-   * Definition prose, rendered as plain text.
+   * The definition's first sentence, as plain text.
    *
-   * Backticks escape a span from linking; strip the markers and keep the text.
-   * Cross-references become explicit wikilinks in a later phase - until then
-   * there is nothing to linkify.
+   * The ellipsis marks entries whose definition continues on the term page, so
+   * this index is not mistaken for the whole reference work.
    */
-  const renderDefinition = (term: ConceptView) => {
-    const displayDefinition = term.summary.replace(/`([^`]+)`/g, '$1');
-
-    return (
-      <p className="text-ink-2 text-[1.0625rem] leading-[1.65] max-w-(--measure)">
-        {displayDefinition}
-      </p>
-    );
-  };
+  const renderDefinition = (term: ConceptView) => (
+    <p className="text-ink-2 text-[1.0625rem] leading-[1.65] max-w-(--measure)">
+      {term.summary}
+      {term.truncated && <span className="text-ink-3"> …</span>}
+    </p>
+  );
 
   return (
     <div className="h-full overflow-y-auto p-6">

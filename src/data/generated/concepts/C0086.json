@@ -15,7 +15,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "The efficiency of spent time in comparison to the opponent. In League, time on the map always competes with the collection of risk-free gold and experience—minion waves for laners and jungle camps for junglers. Tempo can be measured as the time to act without incurring a significant opportunity cost, often compared to this baseline value. For example, a player might be considered “behind tempo” if they have significant standing resources yet to collect while their counterpart has already finished.",
-  "refs": {},
+  "definition": "The efficiency of spent time in comparison to the opponent. In League, time on the map always competes with the collection of risk-free gold and experience—minion waves for laners and jungle camps for junglers. Tempo can be measured as the time to act without incurring a significant opportunity cost, often compared to this baseline [value](/term/value). For example, a [player](/term/player) might be considered “behind tempo” if they have significant standing resources yet to collect while their counterpart has already finished.",
+  "refs": {
+    "C0090": {
+      "id": "C0090",
+      "prefLabel": "value",
+      "slug": "value"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    }
+  },
   "backlinks": []
 }

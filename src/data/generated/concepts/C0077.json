@@ -15,7 +15,23 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A map state where both junglers opt to control one side (bot/top) of the map only. Split maps often form as a result of vertical jungling, creating a well-defined strongside and weakside. Because split maps incentivize junglers to focus on only one side of the map while ignoring the other, side lanes that benefit from increased jungle presence benefit more from a successful split map.",
-  "refs": {},
+  "definition": "A game state where both junglers opt to [path](/term/pathing) on one side (bot/top) of the map only. Split maps often form as a result of vertical jungling, creating a well-defined [strongside](/term/strongside) and [weakside](/term/weakside). Because split maps incentivize junglers to focus on only one side of the map while ignoring the other, side lanes that benefit from increased jungle presence benefit more from a successful split map.",
+  "refs": {
+    "C0056": {
+      "id": "C0056",
+      "prefLabel": "pathing",
+      "slug": "pathing"
+    },
+    "C0081": {
+      "id": "C0081",
+      "prefLabel": "strongside",
+      "slug": "strongside"
+    },
+    "C0096": {
+      "id": "C0096",
+      "prefLabel": "weakside",
+      "slug": "weakside"
+    }
+  },
   "backlinks": []
 }

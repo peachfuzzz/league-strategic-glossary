@@ -17,12 +17,32 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A [[C0028|fight]] between opposing players with the intention to kill. An all-in is taken either when a [[C0059|player]] has sufficient [[C0040|kill pressure]], either via a calculation of [[C0044|lethal]], or as a natural consequence of prior [[C0016|combat]].  All-ins often expend every resource and cooldown available to all champions involved.",
+  "definition": "A [fight](/term/fight) between opposing players with the intention to kill. An all-in is taken either when a [player](/term/player) has sufficient [kill pressure](/term/kill-pressure), either via a calculation of lethal, or as a natural consequence of prior [combat](/term/combat).  All-ins often expend every resource and cooldown available to all champions involved.",
   "refs": {
     "C0089": {
       "id": "C0089",
       "prefLabel": "trade",
       "slug": "trade"
+    },
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0040": {
+      "id": "C0040",
+      "prefLabel": "kill pressure",
+      "slug": "kill-pressure"
+    },
+    "C0016": {
+      "id": "C0016",
+      "prefLabel": "combat",
+      "slug": "combat"
     }
   },
   "backlinks": []

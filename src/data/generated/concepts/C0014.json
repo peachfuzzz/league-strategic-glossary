@@ -17,7 +17,23 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "An unexpected decision by a [[C0059|player]], generally considered suboptimal, whose success relies on surprising the [[C0084|target]]. Picking off-meta champions can often be categorized as cheese, since a significant advantage can be gained from the information asymmetry of an unusual pick. [[C0058|Plays]] are also sometimes labeled as cheesy if the play would only work through the element of surprise.",
-  "refs": {},
+  "definition": "An unexpected decision by a [player](/term/player), generally considered suboptimal, whose success relies on surprising the [target](/term/target). Picking off-meta champions can often be categorized as cheese, since a significant advantage can be gained from the information asymmetry of an unusual pick. [Plays](/term/play) are also sometimes labeled as cheesy if the play would only work through the element of surprise.",
+  "refs": {
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0084": {
+      "id": "C0084",
+      "prefLabel": "target",
+      "slug": "target"
+    },
+    "C0058": {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    }
+  },
   "backlinks": []
 }

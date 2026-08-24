@@ -15,7 +15,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "An ability that swings an interaction heavily in one player’s favor if used successfully. Most commonly this will be a non-guaranteed CC tool, but can also be dashes or defensive abilities.",
-  "refs": {},
+  "definition": "An ability that swings a [fight](/term/fight) heavily in one [player](/term/player)’s favor if used successfully. Most commonly this will be a CC tool but can also be dashes or defensive abilities.",
+  "refs": {
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    }
+  },
   "backlinks": []
 }

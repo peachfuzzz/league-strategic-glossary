@@ -15,7 +15,13 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "The ladder ratings at which players are considered very skilled at the game. The exact threshold of high elo is a contentious topic among the community, with definitions of “high elo” ranging from Emerald+ to 1k LP Challenger. Riot’s balance framework, as of 2020, defines Elite play as Diamond 2 and onwards.",
-  "refs": {},
+  "definition": "The ladder ratings at which [players](/term/player) are considered very skilled at the game. The exact threshold of high elo is a contentious topic among the community, with definitions of “high elo” ranging from Emerald+ to 1k LP Challenger. Riot’s balance framework, as of 2020, defines Elite play as Diamond 2 and onwards.",
+  "refs": {
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    }
+  },
   "backlinks": []
 }

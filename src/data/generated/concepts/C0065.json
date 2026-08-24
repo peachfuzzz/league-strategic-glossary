@@ -15,7 +15,23 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A window of time that is opportune for a recall. A recalling player is inactionable for a recall’s 8-second channel time, then off the map from any standing resources or potential plays until they leave base, incurring a high tempo cost. The general strategy of recall timings aims to minimize tempo costs by finding a period of time where minimal enemy minions die and action on the map is low.",
-  "refs": {},
+  "definition": "A window of time that is opportune for a recall. Recalls incur a high [tempo](/term/tempo) cost. A recalling [player](/term/player) is inactionable for a recall’s 8-second channel time, then off the map from any standing resources or potential [plays](/term/play) until they leave base. An optimal recall timing aims to minimize tempo costs by finding a period of time where minimal enemy minions die and action on the map is low.",
+  "refs": {
+    "C0086": {
+      "id": "C0086",
+      "prefLabel": "tempo",
+      "slug": "tempo"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0058": {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    }
+  },
   "backlinks": []
 }

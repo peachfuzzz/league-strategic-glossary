@@ -20,9 +20,9 @@ correct and globally wrong because the phase arc was not visible.
 | M — Migrate to Obsidian, assign identifiers | Done |
 | 0 — Audit | Mostly done. Genus draft remains |
 | 1 — Build from the vault | Done |
-| **W — Convert prose to wikilinks** | **Current** |
-| 2 — Render wikilinks, add checks | Not started |
-| 3 — Derived relations and metrics | Not started |
+| W — Convert prose to wikilinks | Done |
+| **2 — Render, derive, measure** | **Current.** 2a/2b done; 2c/2d remain |
+| 3 — Derived relations and metrics | Merged into Phase 2 |
 | 4 — Write hierarchy by hand | Not started |
 | 5 — Presentation | Not started |
 | 6 — Guardrails | Not started |
@@ -30,9 +30,10 @@ correct and globally wrong because the phase arc was not visible.
 97 concepts, `C0001`–`C0097`. 81 active. 12 graph edges.
 
 **The graph is sparse on purpose.** Automatic linking was deleted in Phase 1. Every
-cross-reference is being rewritten as an explicit wikilink. Until Phase W finishes,
-most concepts are isolated nodes. This is expected. Do not add derived edges to
-compensate, and do not judge visual work against the current graph.
+cross-reference is an explicit wikilink — 218 of them across 82 notes, rendered as
+links on term pages since Phase 2a. They do **not** yet produce graph edges; that is
+Phase 2c's `dependsOn`. Until then most nodes are isolated. Do not add derived edges
+to compensate, and do not judge visual work against the current graph.
 
 **What is coming.** Four typed relations — `broader`/`narrower`, `partOf`/`hasPart`,
 `related`, and a computed `dependsOn` from wikilinks. The hierarchy fields are empty
@@ -133,7 +134,7 @@ editorial assertion. A wikilink is usage. See `docs/adr/ADR0003-four-relation-ty
 | Artifact | Contents | Consumer |
 |---|---|---|
 | `concepts/C####.json` | one active concept, plus a `refs` map of the label and slug of everything it references, plus `backlinks` | term page |
-| `index.json` | id, slug, labels, 200-char summary | list view, search |
+| `index.json` | id, slug, labels, first-sentence summary, `truncated` | list view, search |
 | `graph.json` | nodes and typed edges, no prose | graph |
 | `labels.json` | label → array of concept ids | ambiguity check |
 
@@ -156,6 +157,13 @@ exist.
   Hierarchy edges stay directed.
 - **`backlinks` preserve asymmetry.** They are not repaired. Eight asymmetric pairs
   exist from migration and are resolved by hand in Phase 4d.
+- **Wikilinks are resolved into Markdown links** and never reach a consumer. A link to
+  an active concept becomes `[label](/term/slug)` and its target joins `refs`; to an
+  inactive concept, plain text plus a report; to an unknown one, a build failure.
+  See ADR0015.
+- **Definitions may not contain** headings, images, tables, blockquotes, horizontal
+  rules, or code fences. The build rejects each by name. Prose, lists, emphasis, and
+  links only.
 
 ---
 
@@ -204,7 +212,14 @@ Routes: `/`, `/about`, `/credits`, `/term/[slug]`.
 
 `/term/[slug]` is a **server component**. It reads one concept file through
 `vocab.server.ts` and passes props down. It never loads a second concept file — the
-`refs` map supplies every label it needs to render cross-references.
+`refs` map supplies every label it needs to render cross-references, including the
+ones the prose links to.
+
+`TermPageContent.tsx` is **also a server component**, and must stay one. It renders
+`definition` with `react-markdown` under an `allowedElements` allowlist; keeping it
+off the client is what stops the Markdown renderer from entering the browser bundle.
+The `/term/[slug]` route ships 0 B of route-specific JavaScript. Do not add
+`'use client'` to it — move any interactive piece into its own child component.
 
 The term page is the primary surface. The graph is a navigation aid, not a co-equal
 view. See `docs/adr/ADR0007-term-page-primary.md`.
@@ -267,15 +282,22 @@ superseded by a new ADR, never edited in place.
 | 0009 | `active` and `complete` as independent fields |
 | 0010 | The meso claim derived, not authored |
 | 0011 | The `vocab.ts` / `vocab.server.ts` split |
+| 0012 | Lowercase `prefLabel`s |
+| 0013 | Headword form |
+| 0014 | `gray-matter` for frontmatter parsing |
+| 0015 | Wikilinks resolved at build; restricted Markdown rendering |
 
 ---
 
 ## Known loose ends
 
-- **Backticks in prose are now inert.** `stripBackticks` removes the markers and keeps
-  the text. They previously created autolinks; that mechanism is gone. Decide during
-  Phase W whether to strip them or repurpose them as a "do not link" marker.
 - **`scripts/requirements.txt`** remains with no Python in the repo.
+- **Four inactive concepts are linked from prose** and render as unlinked text:
+  `space` (C0074, 4 links), `roam` (C0067, 3), `wave direction` (C0093, 3), and
+  `lethal` (C0044, 2). `npm run check-vocab` lists them. These are the strongest
+  missing-term candidates for Phase 4.
+- **Every active entry is multi-sentence**, so `truncated` is currently true for all 81.
+  The flag is still correct and will matter as shorter entries are written.
 - **`C0026 Execute (damage)`** is an empty stub, inactive.
 - **`Actor` (C0002) and `Object` (C0051)** may be duplicates of `Player` and `Target`,
   or may need `prefLabel` updates. Unresolved.

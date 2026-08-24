@@ -51,6 +51,8 @@ const files = fs.existsSync(TERMS_DIR)
 if (files.length === 0) fail(`no term notes found in ${TERMS_DIR}`);
 
 const notes = new Map<string, Note>();
+/** Note bodies, kept so prose wikilinks can be validated against the vault. */
+const bodies = new Map<string, string>();
 
 for (const file of files) {
   const stem = file.replace(/\.md$/, '');
@@ -66,7 +68,9 @@ for (const file of files) {
   // Parsing failure IS a check: malformed YAML must fail, never be skipped.
   let data: Note;
   try {
-    data = matter(raw).data as Note;
+    const parsed = matter(raw);
+    data = parsed.data as Note;
+    bodies.set(stem, parsed.content);
   } catch (err) {
     fail(`${file}: frontmatter is not valid YAML (${err instanceof Error ? err.message.split('\n')[0] : err})`);
     continue;
@@ -186,8 +190,43 @@ for (const [stem, fm] of notes) {
 const activeIds = new Set([...notes].filter(([, fm]) => fm.active === true).map(([s]) => s));
 const inactiveIds = new Set([...notes].filter(([, fm]) => fm.active !== true).map(([s]) => s));
 
+// ---- prose wikilinks -----------------------------------------------------
+
+const WIKILINK = /\[\[(C\d{4})\|([^\]]+)\]\]/g;
+const ANY_WIKILINK = /\[\[[^\]]*\]\]/g;
+
+/** Links to concepts that exist but are switched off. Reported, not failed. */
+const inactiveLinks: Array<[string, string]> = [];
+/** id -> ids it links to in prose. Reused for the refs cross-check below. */
+const proseTargets = new Map<string, Set<string>>();
+
+for (const [stem, body] of bodies) {
+  // Obsidian writes bare `[[label]]` by default; only the piped identifier
+  // form survives the build, so anything else is an authoring error.
+  for (const found of body.match(ANY_WIKILINK) ?? []) {
+    if (!/^\[\[C\d{4}\|[^\]]+\]\]$/.test(found)) {
+      fail(`${stem}.md: wikilink ${found} is not the [[C####|label]] form`);
+    }
+  }
+
+  const targets = new Set<string>();
+  for (const m of body.matchAll(WIKILINK)) {
+    const target = m[1];
+    if (!notes.has(target)) {
+      fail(`${stem}.md: wikilink [[${target}|${m[2]}]] points at no such concept`);
+    } else if (inactiveIds.has(target)) {
+      inactiveLinks.push([stem, target]);
+    } else {
+      targets.add(target);
+    }
+  }
+  if (targets.size > 0) proseTargets.set(stem, targets);
+}
+
 let artifactsChecked = false;
 let nIndex = 0, nConcepts = 0, nNodes = 0, nEdges = 0, nLabels = 0;
+/** Slugs of active concepts, so prose link URLs can be checked to resolve. */
+const activeSlugs = new Set<string>();
 let labels: Record<string, string[]> | null = null;
 
 const loadJson = (name: string): any => {
@@ -239,6 +278,7 @@ if (!fs.existsSync(GEN)) {
     const slugOwners = new Map<string, string[]>();
     for (const e of index) {
       if (!e.slug) fail(`index.json: ${e.id} has an empty slug`);
+      else activeSlugs.add(e.slug);
       slugOwners.set(e.slug, [...(slugOwners.get(e.slug) ?? []), e.id]);
     }
     for (const [slug, ids] of slugOwners) {
@@ -288,7 +328,53 @@ if (!fs.existsSync(GEN)) {
       if (!activeIds.has(t)) fail(`${file}: related target ${t} is not an active concept`);
       if (!(t in (c.refs ?? {}))) fail(`${file}: related target ${t} missing from refs`);
     }
+
+    // The term page renders cross-references from `refs` alone, so every
+    // concept the prose links to has to be in there.
+    for (const t of proseTargets.get(stem) ?? []) {
+      if (!(t in (c.refs ?? {}))) fail(`${file}: prose wikilink target ${t} missing from refs`);
+    }
+
+    // No wikilink may survive into the artifact, and every URL the build wrote
+    // has to resolve - a slugify change could otherwise 404 prose links while
+    // refs still looked correct.
+    const definition = String(c.definition ?? '');
+    if (/\[\[/.test(definition)) {
+      fail(`${file}: definition still contains an unresolved wikilink`);
+    }
+    for (const m of definition.matchAll(/\]\(\/term\/([^)]+)\)/g)) {
+      if (!activeSlugs.has(m[1])) {
+        fail(`${file}: definition links to /term/${m[1]}, which is not an active slug`);
+      }
+    }
   }
+}
+
+// ---- term links in components --------------------------------------------
+
+// Routes are generated per slug, so `/term/${x.id}` builds fine and 404s only
+// when a user clicks it. Catch the shape in source instead.
+const COMPONENT_DIRS = ['src/components', 'src/app'];
+
+const walk = (dir: string): string[] => {
+  const full = path.join(ROOT, dir);
+  if (!fs.existsSync(full)) return [];
+  return fs.readdirSync(full, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory()
+      ? walk(path.join(dir, e.name))
+      : e.name.endsWith('.tsx') || e.name.endsWith('.ts')
+        ? [path.join(dir, e.name)]
+        : []
+  );
+};
+
+for (const rel of COMPONENT_DIRS.flatMap(walk)) {
+  const src = fs.readFileSync(path.join(ROOT, rel), 'utf-8');
+  src.split('\n').forEach((text, i) => {
+    if (/\/term\/\$\{[^}]*\.id\}/.test(text)) {
+      fail(`${rel}:${i + 1}: links to /term/ by id; routes are generated by slug`);
+    }
+  });
 }
 
 const ambiguousLabels = labels
@@ -305,6 +391,10 @@ console.log(`  Notes:          ${files.length}`);
 console.log(`  Registry rows:  ${rows.length}`);
 console.log(`  Failures:       ${failures.length}`);
 console.log(`  Asymmetric:     ${asym.length} (reported, not auto-fixed)`);
+
+const wikilinkCount = [...bodies.values()]
+  .reduce((n, b) => n + [...b.matchAll(WIKILINK)].length, 0);
+console.log(`  Wikilinks:      ${wikilinkCount} in ${proseTargets.size} notes`);
 
 if (artifactsChecked) {
   console.log();
@@ -324,6 +414,16 @@ if (artifactsChecked) {
     for (const [l, ids] of ambiguousLabels.sort()) {
       console.log(`    ${JSON.stringify(l)} -> ${ids.join(', ')}`);
     }
+  }
+}
+
+// A link to an inactive concept is a decision not yet made, not an error:
+// the label renders as plain text until the target is written or switched on.
+if (inactiveLinks.length > 0) {
+  console.log();
+  console.log(`  Wikilinks to inactive concepts: ${inactiveLinks.length} (rendered unlinked)`);
+  for (const [from, to] of [...inactiveLinks].sort()) {
+    console.log(`    ${from} -> ${to} (${notes.get(to)?.prefLabel ?? '?'})`);
   }
 }
 console.log();

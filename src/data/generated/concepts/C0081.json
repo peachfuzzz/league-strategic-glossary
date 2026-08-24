@@ -15,7 +15,28 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A lane that receives comparatively more roams and ganks from their teammates. Designating a lane as a team’s strongside (strongsiding) incentivizes the strongsided player to play more aggressively, since they are more likely to receive assistance with their plays. Strongsiding can help swing a volatile matchup or snowball an already advantaged lane at the cost of creating a weakside.",
-  "refs": {},
+  "definition": "A lane that receives comparatively more [ganks](/term/gank) from their teammates. Designating a lane as a team’s strongside (strongsiding) incentivizes the strongsided player to play more aggressively, since they are more likely to receive assistance with their [plays](/term/play). Strongsiding can help swing a volatile [matchup](/term/matchup) or snowball an already advantaged lane at the cost of creating a [weakside](/term/weakside).",
+  "refs": {
+    "C0032": {
+      "id": "C0032",
+      "prefLabel": "gank",
+      "slug": "gank"
+    },
+    "C0058": {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    },
+    "C0046": {
+      "id": "C0046",
+      "prefLabel": "matchup",
+      "slug": "matchup"
+    },
+    "C0096": {
+      "id": "C0096",
+      "prefLabel": "weakside",
+      "slug": "weakside"
+    }
+  },
   "backlinks": []
 }

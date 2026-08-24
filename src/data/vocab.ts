@@ -27,7 +27,10 @@ export interface IndexEntry {
   collection: string[];
   active: boolean;
   complete: boolean;
+  /** First sentence of the definition, as plain text. Never Markdown. */
   summary: string;
+  /** Whether the definition continues past `summary`, so cards can say so. */
+  truncated: boolean;
 }
 
 export interface GraphNode {
@@ -59,6 +62,11 @@ export interface Concept {
   partOf: string[];
   hasPart: string[];
   relatedReviewed: boolean;
+  /**
+   * Resolved Markdown, not raw prose. The build has already rewritten every
+   * `[[C####|label]]` wikilink into a `[label](/term/slug)` link, so this must
+   * be rendered as Markdown - printing it as text shows link syntax.
+   */
   definition: string;
   refs: Record<string, ConceptRef>;
   backlinks: ConceptRef[];
@@ -72,8 +80,9 @@ export const vocabLabels = labelsJson as Record<string, string[]>;
  * The shape the client surfaces (graph, list, search) work with.
  *
  * `index.json` plus the adjacency derived from `graph.json`. Deliberately
- * prose-light: `summary` is a truncated definition, not the full text - the
- * full text lives in the per-concept files the term page reads.
+ * prose-light: `summary` is the definition's first sentence as plain text, not
+ * the full text - the full text lives in the per-concept files the term page
+ * reads.
  */
 export interface ConceptView extends IndexEntry {
   related: string[];

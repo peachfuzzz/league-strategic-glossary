@@ -1,7 +1,6 @@
-'use client';
-
 import { Fragment } from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 import { ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import type { Concept, ConceptRef } from '@/data/vocab';
 import { getTagConfig } from '@/config/tags.config';
@@ -14,20 +13,61 @@ interface TermPageContentProps {
   nextTerm: ConceptRef | null;
 }
 
+/** Shared so inline prose links and the trailing lists cannot drift apart. */
+const LINK_CLASS =
+  'text-signal decoration-signal/40 hover:text-signal-2 underline decoration-1 underline-offset-2 transition-colors';
+
 /**
- * Definition prose, rendered as plain text.
+ * What a definition may contain. An entry is a paragraph of prose, sometimes
+ * with a list - never a heading, image, table, or blockquote. Anything outside
+ * this list is dropped from the tree along with its children rather than
+ * rendered, so a stray `##` in a note cannot put an h1 inside an entry.
  *
- * Backticks escape a span from linking; strip the markers and keep the text.
- * Cross-references become explicit wikilinks in a later phase - until then
- * there is nothing to linkify.
+ * This must be `allowedElements`, not a `components` override returning null:
+ * a component override still parses the node and can surface its children.
+ */
+const ALLOWED_ELEMENTS = ['p', 'ul', 'ol', 'li', 'em', 'strong', 'a', 'code'];
+
+/**
+ * Definition prose, rendered as Markdown.
+ *
+ * `definition` arrives already resolved - the build rewrote every wikilink
+ * into a Markdown link - so this only has to render and style it.
  */
 function renderDefinition(concept: Concept) {
-  const displayDefinition = concept.definition.replace(/`([^`]+)`/g, '$1');
-
   return (
-    <p className="text-ink-2 text-[1.0625rem] leading-[1.65] max-w-(--measure)">
-      {displayDefinition}
-    </p>
+    <div className="text-ink-2 text-[1.0625rem] leading-[1.65] max-w-(--measure) space-y-4">
+      <ReactMarkdown
+        allowedElements={ALLOWED_ELEMENTS}
+        components={{
+          a: ({ href, children }) => {
+            const target = href ?? '';
+            return target.startsWith('/') ? (
+              <Link href={target} className={LINK_CLASS}>
+                {children}
+              </Link>
+            ) : (
+              <a
+                href={target}
+                rel="noopener noreferrer"
+                target="_blank"
+                className={LINK_CLASS}
+              >
+                {children}
+              </a>
+            );
+          },
+          ul: ({ children }) => (
+            <ul className="list-disc pl-5 space-y-1.5">{children}</ul>
+          ),
+          ol: ({ children }) => (
+            <ol className="list-decimal pl-5 space-y-1.5">{children}</ol>
+          ),
+        }}
+      >
+        {concept.definition}
+      </ReactMarkdown>
+    </div>
   );
 }
 
@@ -42,10 +82,7 @@ function TrailingList({ label, terms }: { label: string; terms: ConceptRef[] }) 
       {terms.map((linked, i) => (
         <Fragment key={linked.id}>
           {i > 0 && <span className="text-ink-3"> · </span>}
-          <Link
-            href={`/term/${linked.slug}`}
-            className="text-signal decoration-signal/40 hover:text-signal-2 underline decoration-1 underline-offset-2 transition-colors"
-          >
+          <Link href={`/term/${linked.slug}`} className={LINK_CLASS}>
             {linked.prefLabel}
           </Link>
         </Fragment>

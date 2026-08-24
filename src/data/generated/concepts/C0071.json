@@ -15,7 +15,13 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A task, encountered regularly during games, whose outcome affects the game state. Skill tests are the abstract categories of problems that League of Legends asks of the player who wants to win. Skill tests can be categorized broadly and narrowly. For example, positioning is a skill test asked of all champions, while pet micromanagement only concerns champions that summon controllable pets.",
-  "refs": {},
+  "definition": "A task, encountered regularly during games, whose outcome affects the game state. Skill tests are the abstract categories of problems that League of Legends asks of the [player](/term/player) in order to win. Skill tests can be categorized broadly and narrowly. For example, positioning is a skill test asked of all champions, while pet micromanagement only concerns champions that summon controllable pets.",
+  "refs": {
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    }
+  },
   "backlinks": []
 }

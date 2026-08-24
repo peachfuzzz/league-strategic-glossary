@@ -18,7 +18,13 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "Skills and strategies that concern in-the-moment decisions and inputs, on the order of seconds or less. Mechanics cover ideas that rely heavily on reaction speed, game sense, and intuition, and center around combat.",
-  "refs": {},
+  "definition": "Skills and strategies that concern in-the-moment decisions and inputs, on the order of seconds or less. Mechanics cover ideas that rely heavily on reaction speed, game sense, and intuition, and center around [combat](/term/combat).",
+  "refs": {
+    "C0016": {
+      "id": "C0016",
+      "prefLabel": "combat",
+      "slug": "combat"
+    }
+  },
   "backlinks": []
 }

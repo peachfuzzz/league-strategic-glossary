@@ -15,7 +15,23 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "Attempting to kill enemy champion(s) under their tower. Dives have a high risk-reward ratio: the ramping tower damage makes dives very dangerous, but the reward of killing an enemy under their own tower is the denial of at least one, if not multiple, waves. Dives are sometimes attempted in quick succession; re-attempts are called a redive.  A successful dive requires quick execution and coordinated management of tower aggro to minimize allied deaths.",
-  "refs": {},
+  "definition": "A [fight](/term/fight) that occurs under one team's tower. Dives have a high risk-reward ratio: the ramping tower damage makes dives very dangerous, but the reward of killing a [player](/term/player) under their own tower is the denial of at least one, if not multiple, [waves](/term/wave). Dives are sometimes attempted in quick succession; re-attempts are called a redive.  A successful dive requires quick execution and coordinated management of tower aggro to minimize allied deaths.",
+  "refs": {
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0092": {
+      "id": "C0092",
+      "prefLabel": "wave",
+      "slug": "wave"
+    }
+  },
   "backlinks": []
 }

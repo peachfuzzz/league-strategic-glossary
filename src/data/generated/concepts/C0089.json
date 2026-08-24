@@ -15,8 +15,29 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A combat between opposing laners with the intention to force an expenditure of resources, rather than to threaten a kill. Trades are often evaluated as positive or negative based on how they favor each party in terms of the parity of resources exchanged. Trades can be categorized as short or long depending on the length of the engagement. Sufficient trading can generate kill pressure or lead to an all-in.",
-  "refs": {},
+  "definition": "A [fight](/term/fight) between opposing [players](/term/player) during lane that does not result in a kill. Trades are often evaluated based on the parity of resources exchanged. Trades can be categorized as short or long depending on the length of the fight. Sufficient trading can generate [kill pressure](/term/kill-pressure) or lead to an [all-in](/term/all-in)",
+  "refs": {
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0040": {
+      "id": "C0040",
+      "prefLabel": "kill pressure",
+      "slug": "kill-pressure"
+    },
+    "C0003": {
+      "id": "C0003",
+      "prefLabel": "all-in",
+      "slug": "all-in"
+    }
+  },
   "backlinks": [
     {
       "id": "C0003",

@@ -18,7 +18,7 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "The period of time and location in which combat occurs. A fight can occur at several scales, with additional descriptors depending on the encounter's duration and the number of champions involved. Fights are discrete: they have definitive endpoints and are locally contained around the action, though fights can drift and move accordingly. Periods of combat or tension without definitive endpoints are labeled differently, though they can also be called fights.",
+  "definition": "The period of time and location in which [player](/term/player) vs. player [combat](/term/combat) occurs. A fight can occur at several scales, with additional descriptors depending on the encounter's duration and the number of champions involved. Fights are discrete: they have definitive endpoints and are locally contained around the action, though fights can drift and move accordingly. Periods of combat or [tension](/term/tension) without definitive endpoints are labeled differently, though they can also be called fights.",
   "refs": {
     "C0022": {
       "id": "C0022",
@@ -29,6 +29,21 @@
       "id": "C0017",
       "prefLabel": "contest",
       "slug": "contest"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0016": {
+      "id": "C0016",
+      "prefLabel": "combat",
+      "slug": "combat"
+    },
+    "C0087": {
+      "id": "C0087",
+      "prefLabel": "tension",
+      "slug": "tension"
     }
   },
   "backlinks": []

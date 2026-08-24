@@ -17,7 +17,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "Skills and strategies that concern longer-term decisions, on the order of a minute or more. Macro covers ideas that require significant foresight and/or coordination between teammates and often aim to generate value for the team, rather than just the individual.",
-  "refs": {},
+  "definition": "Skills and strategies that concern longer-term decisions, on the order of a minute or more. Macro covers ideas that require significant foresight and/or coordination between teammates and often aim to generate [value](/term/value) for the team, rather than just the individual [player](/term/player).",
+  "refs": {
+    "C0090": {
+      "id": "C0090",
+      "prefLabel": "value",
+      "slug": "value"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    }
+  },
   "backlinks": []
 }

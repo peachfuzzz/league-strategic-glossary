@@ -10,16 +10,20 @@ Version 2. This version uses Obsidian instead of Google Docs.
 | Phase | State |
 |---|---|
 | M — Finish the migration | Done |
-| 0 — Audit | Mostly done. Genus draft remains |
-| 1 — Build from the vault | Done. Cleanup remains |
-| W — Convert prose to wikilinks | Next |
-| 2 — Rendering and checks | Not started |
-| 3 — Derived relations | Not started |
+| 0 — Audit | Done |
+| 1 — Build from the vault | Done |
+| W — Convert prose to wikilinks | Done |
+| **2 — Render, derive, measure** | **Current** |
 | 4 — Hierarchy | Not started |
 | 5 — Presentation | Not started |
 | 6 — Guardrails | Not started |
 
-97 concepts. Identifiers C0001 to C0097. 81 active, 12 graph edges.
+Phase 3 has been merged into Phase 2. Both operate on the same wikilink parse.
+
+97 concepts. Identifiers C0001 to C0097. `Actor` and `Object` retired, so 95 live.
+
+Frontmatter is block style YAML, not inline arrays. Obsidian and the build tooling
+disagreed on inline formatting. `check-vocab` is TypeScript now, using `gray-matter`.
 
 ---
 
@@ -412,7 +416,7 @@ The migration is done. There is no abort window. Delete rather than quarantine.
 
 Git holds the history. Deletion is reversible.
 
-### Phase 0 — Audit
+### Phase 0 — Audit (DONE)
 
 Goal: learn the true shape of the current data.
 
@@ -542,84 +546,135 @@ correct and globally uninformed. That is the fix.
 
 ---
 
-### Phase W — Convert prose to wikilinks
+### Phase W — Convert prose to wikilinks (DONE)
 
-Goal: make every cross-reference explicit.
+**Complete.** All 97 concepts reviewed. Roughly 20 entries per 40 minutes.
 
+Every cross-reference is now an explicit `[[C####|label]]` wikilink.
 The build no longer guesses which concept a word means.
-The author names the target. The build renders it.
 
-This is the only phase that changes body prose.
+#### What this phase produced
 
-- [ ] Check Obsidian settings. Turn on "Use [[Wikilinks]]". (15 min)
-- [ ] Set "New link format" to shortest path when possible. (15 min)
-- [ ] Write one link by hand. Confirm it inserts `[[C0091|wave]]` form. (30 min)
-- [ ] Convert one cluster of entries. Time it. Estimate the rest from that. (1 hr)
-- [ ] Convert the remaining entries in batches of ten. (1 hr per batch)
-- [ ] Open the Obsidian graph. Check that links resolve. (30 min)
-- [ ] List every unresolved link. Fix or record as a known gap. (1 hr)
+**A real missing terms list.** Built from the vault, not from the old export.
+Some of the missing terms are structurally important.
+Sort them before Phase 4: a term that several entries link to leaves a hole in the
+hierarchy and should be written. A term mentioned once is a known gap and gets
+published as one.
 
-**Obsidian shows the dependency data live.**
-The backlink panel lists every note that links to the current note.
-So you can see the depends-on relation while you write.
-No storage. No staleness.
+**Do not write them all now.** The hierarchy pass tells you which ones matter.
 
-**This phase builds the graph, it does not convert it.**
-The graph currently holds 12 edges across 81 nodes.
-Almost every connection in the glossary is unrecorded.
-So this phase is larger than the word "convert" suggests.
+#### Decisions made during this phase
 
-Time the first cluster before you estimate the rest.
+- Link the first occurrence per entry, not every occurrence.
+- Headwords are natural case, not title case. Lowercase unless inherently
+  capitalised.
+- Parenthetical disambiguations in `prefLabel` are unnecessary. The identifier
+  disambiguates. Drop the parenthetical where nothing competes; keep the bare form as
+  an `altLabel` otherwise.
+- Backticks are inert. Nothing uses them. Removal deferred.
 
 ---
 
-### Phase 2 — Rendering and checks
+### Phase 2 — Render, derive, measure
 
-Goal: render explicit links. Delete the guessing code.
+Goal: parse the wikilinks once. Get four things from that one pass.
 
-- [ ] Render wikilinks in entry prose. Target by identifier, display by label. (2 hr)
-- [ ] Rebuild `refs` and `backlinks` from wikilinks, not from `related`. (1 hr)
-- [ ] Add a check that every wikilink target exists. (1 hr)
-- [ ] Make the build fail on a dead wikilink. (30 min)
-- [ ] Build a label index. Map every label to concept identifiers. (1 hr)
-- [ ] Add a check that finds labels used by more than one concept. (1 hr)
-- [ ] Save the ambiguous label list to `reports/ambiguity.md`. (30 min)
+**Phase 3 is merged here.** Rendering, the dead link check, `dependsOn`, and the
+metrics all come from the same parse. Splitting them means writing the parser,
+shipping, then reopening the same code the next day.
 
-**The label index no longer resolves links.**
-It finds ambiguous labels. No label is ambiguous today.
-Keep the check anyway. It fires the first time you mint a shared label.
+#### Current state
 
-The automatic linker was already deleted in Phase 1. There is nothing to remove.
+**2a and 2b are done.** Wikilinks resolve in the build into Markdown links; term
+pages render them with `react-markdown` under a restricted allowlist. See ADR0015.
+2c and 2d remain.
 
-**A later helper is not part of the build.**
-You will add new terms after this project.
-A tool that suggests links in a draft is an authoring aid.
-Run it on demand. Do not put it in the pipeline.
+#### 2a. Parse and render (DONE)
 
----
+- [x] Parse `[[C####|label]]` out of the definition.
+- [x] Render each as a link. Target by identifier, display by label.
+- [x] ~~Handle the bare `[[C####]]` form.~~ Not needed — the vault has none, and the
+      bare form is now rejected by both the build and `check-vocab`.
+- [x] Add every wikilink target to the concept's `refs` map.
+- [x] Check term pages by eye.
 
-### Phase 3 — Derived relations
+Beyond the original list:
 
-Goal: get free data from the resolver.
+- Definitions render as **full Markdown** — paragraphs, lists, emphasis — not one
+  flat block. The renderer allows `p`/`ul`/`ol`/`li`/`em`/`strong`/`a`/`code` only.
+- The build **rejects** headings, images, tables, blockquotes, horizontal rules, and
+  code fences by name. A table is not parsed as one without GFM, so it would otherwise
+  survive as literal pipes; the build-time check is what catches it.
+- `TermPageContent` became a **server component** (its `'use client'` was vestigial),
+  so `react-markdown` ships 0 B to the browser.
+- `summary` is now the **first sentence**, extracted from label-stripped prose with an
+  abbreviation guard (`vs.`, `etc.`, `e.g.`, `i.e.`) and restricted to the first
+  paragraph, plus a `truncated` flag for card affordances.
+- The meta description no longer leaks raw wikilinks into OpenGraph/Twitter cards.
+- `stripBackticks`, `SUMMARY_LENGTH`, and three inline copies of the backtick regex
+  are deleted.
+
+`refs` currently covers relation field targets only. It must also carry the label and
+slug of everything the prose links to, so the term page never loads a second file.
+
+#### 2b. Check (DONE)
+
+- [x] Fail the build on a wikilink pointing at a concept that does not exist.
+- [x] Report, but do not fail, on a wikilink pointing at an inactive concept.
+- [x] Check that the ambiguous label report still runs.
+
+A dead link is an error. A link to an inactive concept is a decision you have not made
+yet, so report it and move on.
+
+Also added: malformed `[[…]]` forms fail; prose targets must appear in `refs`; and
+every `/term/<slug>` the build emits must resolve to an active slug, so a `slugify`
+change cannot silently 404 prose links. All mutation-tested.
+
+**13 wikilinks point at inactive concepts.** Four targets carry most of them and are
+the strongest missing-term candidates for Phase 4:
+
+| Target | Links |
+|---|---|
+| `space` (C0074) | 4 |
+| `roam` (C0067) | 3 |
+| `wave direction` (C0093) | 3 |
+| `lethal` (C0044) | 2 |
+
+#### 2c. Derive
 
 - [ ] Collect wikilink targets into a `dependsOn` list per concept. (1 hr)
-- [ ] Compute backlinks by reversing `dependsOn`. (1 hr)
-- [ ] Add a backlinks section to the entry page. (1 hr)
+- [ ] Emit `dependsOn` edges into `graph.json`, typed. (1 hr)
+- [ ] Rebuild `backlinks` from `dependsOn` as well as the relation fields. (1 hr)
+- [ ] Add a backlinks section to the term page. (1 hr)
+
+`dependsOn` is never stored in frontmatter. It is computed on every build.
+
+#### 2d. Measure
+
 - [ ] Compute in-degree for every concept. (30 min)
-- [ ] Compute betweenness centrality for every concept. (1 hr)
+- [ ] Compute betweenness centrality over `dependsOn`. (1 hr)
 - [ ] Save both to `reports/metrics.md`. (30 min)
-- [ ] List labels that read like terms but have no concept. (30 min)
-- [ ] Save that list to `reports/missing.md`. (30 min)
-- [ ] Read the metrics. Compare against your expectations. (1 hr)
+- [ ] Read the report. Compare against your expectations. (1 hr)
+- [ ] Save the missing terms list to `reports/missing.md`. (30 min)
 
-**Why betweenness matters.**
-Betweenness measures how often a concept sits on a path between other concepts.
-High betweenness means the concept is a bridge.
-Your hypothesis says meso concepts are bridges.
-This number tests that hypothesis without you tagging anything.
+**Read the in-degree ranking before Phase 4.**
+It is an empirical prior on what sits near the root of the hierarchy.
+Expect `combat`, `fight`, `wave`, `value` and `threat` near the top.
+If something unexpected ranks high, that is worth knowing before you draw the tree.
 
-The `dependsOn` graph comes from prose you wrote before the hypothesis existed.
-So the test is blind. This matters.
+**Betweenness tests the meso hypothesis.**
+It is computed over prose written before the hypothesis existed, so the test is blind.
+Do not tag timescale by hand. Do not look at the numbers while assigning hierarchy.
+
+#### 2e. Optional, cheap now
+
+`check-vocab` is TypeScript with real parsing, so these are a few lines each.
+Having the acyclicity check before you write hierarchy is better than after.
+
+- [ ] Check `broader` for cycles. (30 min)
+- [ ] Check `partOf` for cycles. (30 min)
+- [ ] Check that no pair holds two relation types. (30 min)
+- [ ] Check that `related` is symmetric. Report, do not fix. (30 min)
 
 ---
 
@@ -629,6 +684,10 @@ Goal: write the structure by hand.
 This phase is yours. Little code.
 
 #### 4a. Build the review file
+
+Block style YAML makes hand editing a single note easier than inline arrays did.
+The review file is still worth building. Assigning parents across 95 concepts is
+faster in one file than in 95 notes.
 
 - [ ] Write a script that dumps all relations into one file. (1 hr)
 - [ ] Write a script that reads the file and writes changes back. (2 hr)
@@ -750,12 +809,10 @@ If the numbers do not support it, leave the paragraph out.
 
 Goal: stop the structure from breaking later.
 
-- [ ] Write a check for cycles in broader relations. (1 hr)
-- [ ] Write a check for cycles in part relations. (30 min)
-- [ ] Write a check that no pair holds two relation types. (1 hr)
-- [ ] Write a check that main labels are unique. (30 min)
-- [ ] Write a check that related relations are symmetric. (30 min)
+Several structural checks moved forward into Phase 2e. What remains:
+
 - [ ] Write a check that every concept is reachable from a top concept. (1 hr)
+- [ ] Relax that check for concepts marked `complete: false`. (30 min)
 - [ ] Write a check that every note has valid frontmatter. (1 hr)
 - [ ] Write a check that no note still has `relatedReviewed: false`. (30 min)
 - [ ] Combine the checks into `check-vocab.ts`. (1 hr)
@@ -781,18 +838,18 @@ Obsidian updates links on rename. A script does not.
 Assign identifiers before you write any wikilinks.
 
 **The hierarchy phase expands.**
-This is the most likely failure.
+This is the most likely failure, and now the only large unknown.
+Phase W finished close to estimate. Phase 4 has no comparable estimate.
 Control it with batches and `deferred.md`.
+
+**The missing terms list grows.**
+Phase W found terms that should exist. Writing one reveals more.
+Write only what the hierarchy needs. Publish the rest as known gaps.
 
 **The betweenness result does not support the meso claim.**
 The bridges may be abstract concepts instead of tactical concepts.
 That result is still honest and still interesting.
 Render by betweenness anyway. Leave the meso paragraph out.
-
-**Phase W is larger than planned.**
-The graph holds 12 edges. Almost every connection is unrecorded.
-This is now the single biggest unknown in the schedule.
-Time the first cluster before committing to a date.
 
 **Graph work slips.**
 This is now survivable.

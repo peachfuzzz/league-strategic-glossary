@@ -19,12 +19,27 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "[[C0088|Threatening]] or [[C0028|fighting]] over something. A [[C0059|player]] can contest anything: a minion, lane priority, neutral objectives, etc. Contesting is a demonstration of intent and does not necessarily mean a full fight must happen. Even just the threat of fighting can be enough to achieve the goal of a contest.",
+  "definition": "[Threatening](/term/threat) or [fighting](/term/fight) over something. A [player](/term/player) can contest anything: a minion, lane priority, neutral objectives, etc. Contesting is a demonstration of intent and does not necessarily mean a full fight must happen. Even just the threat of fighting can be enough to achieve the goal of a contest.",
   "refs": {
     "C0033": {
       "id": "C0033",
       "prefLabel": "give",
       "slug": "give"
+    },
+    "C0088": {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    },
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
     }
   },
   "backlinks": [

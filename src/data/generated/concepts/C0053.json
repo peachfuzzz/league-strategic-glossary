@@ -15,7 +15,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "Refers to a player who almost exclusively plays a single champion. The player may play the same champion in multiple roles, but rarely deviates from their main unless banned out. High elo one-tricks are a common source of specific champion innovation. Watching a champion’s associated one-tricks play in high elo is also a common suggestion to players new to a champion. Originates from the phrase “one-trick pony.”",
-  "refs": {},
+  "definition": "A [player](/term/player) who almost exclusively plays a single champion. The player may play the same champion in multiple roles, but rarely deviates from their main unless banned out. [High elo](/term/high-elo) one-tricks are a common source of specific champion innovation. Watching a champion’s associated one-tricks play in high elo is also a common suggestion to players new to a champion. Originates from the phrase “one-trick pony.”",
+  "refs": {
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0034": {
+      "id": "C0034",
+      "prefLabel": "high elo",
+      "slug": "high-elo"
+    }
+  },
   "backlinks": []
 }

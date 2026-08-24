@@ -17,7 +17,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A string of all of a champion’s basic abilities. Most champions in League are designed to use their abilities in tandem for greater [[C0090|value]]. Abilities in a champion’s kit usually have differing cooldowns so an ability rotation is easiest to perform at the beginning of a [[C0028|fight]]. A full rotation of abilities becomes more difficult to perform as fights extend and the opportunity cost of holding spells increases.",
-  "refs": {},
+  "definition": "A string of all of a champion’s basic abilities. Most champions in League are designed to use their abilities in tandem for greater [value](/term/value). Abilities in a champion’s kit usually have differing cooldowns so an ability rotation is easiest to perform at the beginning of a [fight](/term/fight). A full rotation of abilities becomes more difficult to perform as fights extend and the opportunity cost of holding spells increases.",
+  "refs": {
+    "C0090": {
+      "id": "C0090",
+      "prefLabel": "value",
+      "slug": "value"
+    },
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    }
+  },
   "backlinks": []
 }

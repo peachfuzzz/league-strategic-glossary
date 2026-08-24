@@ -48,7 +48,7 @@ export default function SearchOverlay({
         results.map((term, index) => (
           <Link
             key={term.id}
-            href={`/term/${term.id}`}
+            href={`/term/${term.slug}`}
             onClick={() => onSelect(term)}
             onMouseEnter={() => onHighlight(index)}
             className={`block px-4 py-3 border-b border-rule/50 last:border-b-0 hover:bg-ink/5 transition-colors ${

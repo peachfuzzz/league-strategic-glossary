@@ -21,12 +21,9 @@ export async function generateMetadata({ params }: TermPageProps): Promise<Metad
     return { title: 'Term Not Found' };
   }
 
-  // Strip backticks and truncate definition for description
-  const cleanDefinition = concept.definition.replace(/`([^`]+)`/g, '$1');
-  const description =
-    cleanDefinition.length > 160
-      ? cleanDefinition.substring(0, 157) + '...'
-      : cleanDefinition;
+  // `definition` is resolved Markdown, so it cannot go into a meta tag as-is.
+  // The index carries the same prose already flattened to a plain sentence.
+  const description = vocabIndex.find((e) => e.id === concept.id)?.summary ?? '';
 
   const tagLabels = concept.collection
     .map((t) => getTagConfig(t)?.label)

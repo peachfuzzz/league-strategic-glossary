@@ -17,12 +17,17 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A measure of the consistency of an option, hinging upon variance. Actions or strategies that have high reliability often have low time/resource investment, carry little risk of failure or death, and have few prerequisite conditions. As an example, ranged basic attacks are highly reliable sources of damage owing to their frequency and low commitment, whereas melee skillshots are relatively unreliable since the user must be within the enemy’s effective range to cast it and their success is not guaranteed. Reliability is one of the axes upon which an output is evaluated. An option’s reliability tends to be inversely related to its value—highly reliable options tend to have lower payoffs, and vice versa.",
+  "definition": "The amount of [variance](/term/variance) in a given option. Actions or strategies that have high reliability often have low time/resource investment, carry little risk of failure or death, and have few prerequisite conditions. As an example, ranged basic attacks are highly reliable sources of damage owing to their frequency and resourceless nature, whereas melee skillshots are relatively unreliable since the player is more vulnerable to return damage and they can miss. Reliability is one of the factors through which the quality of an option is evaluated. For the sake of balance, an option’s reliability tends to be inversely related to its [value](/term/value)—highly reliable options tend to have lower payoffs, and vice versa.",
   "refs": {
     "C0090": {
       "id": "C0090",
       "prefLabel": "value",
       "slug": "value"
+    },
+    "C0091": {
+      "id": "C0091",
+      "prefLabel": "variance",
+      "slug": "variance"
     }
   },
   "backlinks": []

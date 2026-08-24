@@ -15,7 +15,23 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "Creating space through threat that disincentivizes the approach of opposing players. Zoning implies the lack of active combat. A player being zoned could still choose to ignore the threat and enter the area, though they likely would experience retaliation.",
-  "refs": {},
+  "definition": "Creating space through [threat](/term/threat) to disincentivize the approach of opposing [players](/term/player). Zoning does not require active [combat](/term/combat). A player being zoned could still choose to ignore the threat and enter the area, though they likely would experience retaliation.",
+  "refs": {
+    "C0088": {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0016": {
+      "id": "C0016",
+      "prefLabel": "combat",
+      "slug": "combat"
+    }
+  },
   "backlinks": []
 }

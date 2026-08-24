@@ -17,12 +17,27 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A situation where two opposing players have discrete right and wrong options, and each attempts to manipulate the other into making a mistake. A common example of a mindgame involves a specific interaction (engine) between two abilities that counter each other, such as Sion’s Q versus Fiora’s W, where each player wants to use their ability to negate the other’s. Mindgames primarily focus on prediction and guesswork rather than reaction-based execution.",
+  "definition": "A situation where two opposing [players](/term/player) have discrete positive and negative outcomes and each attempts to [bait](/term/bait) the other into making a mistake. Mindgames primarily focus on prediction and guesswork rather than reaction-based execution. A common example of a mindgame involves a specific [engine interaction](/term/engine-interaction) between two abilities that counter each other—e.g. Sion’s Q versus Fiora’s W—where each player wants to use their ability to negate the other’s.",
   "refs": {
     "C0050": {
       "id": "C0050",
       "prefLabel": "mixup",
       "slug": "mixup"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0007": {
+      "id": "C0007",
+      "prefLabel": "bait",
+      "slug": "bait"
+    },
+    "C0037": {
+      "id": "C0037",
+      "prefLabel": "engine interaction",
+      "slug": "engine-interaction"
     }
   },
   "backlinks": [

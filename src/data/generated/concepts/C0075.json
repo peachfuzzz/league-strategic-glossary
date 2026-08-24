@@ -15,7 +15,28 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "Intentionally moving to maintain a specific range against an enemy. Most often, a player will be spacing one of their opponents’ abilities or combinations of abilities. Spacing is most commonly used to maintain threat on an enemy while staying out of range of an enemy’s effective range.",
-  "refs": {},
+  "definition": "Intentionally staying within a specific range of a [target](/term/target). Spacing maintains [threat](/term/threat) on an enemy while staying out of range of an enemy’s response. Most often, a [player](/term/player) will be spacing a specific [key ability](/term/key-ability) or combination of abilities.",
+  "refs": {
+    "C0084": {
+      "id": "C0084",
+      "prefLabel": "target",
+      "slug": "target"
+    },
+    "C0088": {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0039": {
+      "id": "C0039",
+      "prefLabel": "key ability",
+      "slug": "key-ability"
+    }
+  },
   "backlinks": []
 }

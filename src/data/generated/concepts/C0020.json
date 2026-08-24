@@ -16,7 +16,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "When a [[C0092|wave]] of minions enters the opposing team’s tower range. Crashes are classified by “completeness,” determined by the location at which opposing waves meet relative to the tower. A crash is “full/complete” when all of the wave's minions directly attack the enemy tower. A crash is considered “partial” when some minions are not within tower range, resulting in a wave stalling just outside of tower range.\n\nCrashes are strategically desirable because a crash and the following [[C0008|bounceback]] create a period of time in which few, if any, enemy minions die. A crash opens a window for an allied player to spend time outside of the lane—such as to [[C0067|roam]] or recall—without fear of losing excess gold and experience.",
-  "refs": {},
+  "definition": "When a [wave](/term/wave) of minions enters the opposing team’s tower range. Crashes are classified by “completeness,” determined by the location at which opposing waves meet relative to the tower. A crash is “full/complete” when all of the wave's minions directly attack the enemy tower. A crash is considered “partial” when some minions are not within tower range, resulting in a wave stalling just outside of tower range.\n\nCrashes are strategically desirable because a crash and the following [bounceback](/term/bounceback) create a period of time in which few, if any, enemy minions die. A crash opens a window for an allied player to spend time outside of the lane—such as to roam or recall—without fear of losing excess gold and experience.",
+  "refs": {
+    "C0092": {
+      "id": "C0092",
+      "prefLabel": "wave",
+      "slug": "wave"
+    },
+    "C0008": {
+      "id": "C0008",
+      "prefLabel": "bounceback",
+      "slug": "bounceback"
+    }
+  },
   "backlinks": []
 }

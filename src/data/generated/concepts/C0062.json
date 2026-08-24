@@ -15,7 +15,23 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A threat that requires a response from the opponent. Pressure relies on an active threat: a player with pressure threatens to take action which, if left unanswered, will create an advantage for themselves. Pressure can be applied at all three game scales. Example: a laner applies pressure to their opponent by denying minions, a splitpusher applies pressure to the map by pushing waves, and a team applies pressure to the enemy by starting a neutral objective.",
-  "refs": {},
+  "definition": "An active [threat](/term/threat) that incentivizes a response from the opponent. A [player](/term/player) with pressure threatens the enemy to respond, and if left unanswered will create an advantage. Pressure punishes inaction and increases [tension](/term/tension); under pressure, players are more likely to make uncharacteristic decisions and actions. Pressure can be applied at all game scales. \n\nExample: a laner applies pressure to their opponent by denying minions, a splitpusher applies pressure to the map by pushing waves, and a team applies pressure to the enemy by starting a neutral objective.",
+  "refs": {
+    "C0088": {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0087": {
+      "id": "C0087",
+      "prefLabel": "tension",
+      "slug": "tension"
+    }
+  },
   "backlinks": []
 }

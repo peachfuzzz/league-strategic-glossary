@@ -17,12 +17,27 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "When a [[C0059|player]] purposefully puts themselves in a dangerous position in an attempt to get the opponent to take an action. The act of baiting can be done on multiple scales. On a [[C0072|skirmishing]] level, a player can bait to try to get an opponent to start a [[C0028|fight]], only to have their teammate(s) join once the opponents have committed to the fight. On a smaller scale, weaving in and out of the maximum range of an opponent's ability can maximize the chances of their opponent wasting a skillshot.",
+  "definition": "When a [player](/term/player) tries to deceive their opponent to make them take an action. The act of baiting can be done on multiple scales. On a [skirmishing](/term/skirmish) level, a player can bait to try to get an opponent to start a [fight](/term/fight), only to have their teammate(s) join once the opponents have committed to the fight. On a smaller scale, weaving in and out of the maximum range of an opponent's ability can maximize the chances of their opponent wasting a skillshot.",
   "refs": {
     "C0054": {
       "id": "C0054",
       "prefLabel": "overextend",
       "slug": "overextend"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0072": {
+      "id": "C0072",
+      "prefLabel": "skirmish",
+      "slug": "skirmish"
+    },
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
     }
   },
   "backlinks": []

@@ -15,7 +15,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "The act of re-initiating combat after an initial fight has already occurred. A re-engage acts as an extender to a fight, providing setup for another round of follow-up. Re-engage isn’t a specific job covered in a team comp, since any tool used for engage can also be used to re-engage.",
-  "refs": {},
+  "definition": "Performing an [engage](/term/engage) after a [fight](/term/fight) has already begun. A re-engage acts as an extender to a fight, providing setup for another round of follow-up. Re-engage isn’t a specific job covered in a team comp, since any tool used for engage can also be used to re-engage.",
+  "refs": {
+    "C0025": {
+      "id": "C0025",
+      "prefLabel": "engage",
+      "slug": "engage"
+    },
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    }
+  },
   "backlinks": []
 }

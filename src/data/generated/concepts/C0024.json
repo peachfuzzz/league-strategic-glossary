@@ -15,7 +15,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A small scale fight involving one player from each team. Duels are most common in the early game when laners are confined to their assigned lanes and much active fighting is isolated from the influence of others. Duels tend to favor champions who have particularly strong single-target damage.",
-  "refs": {},
+  "definition": "A small scale [fight](/term/fight) involving one [player](/term/player) from each team. Duels are most common in the early game when laners are confined to their assigned lanes and much active fighting is isolated from the influence of others. Duels tend to favor champions who have particularly strong single-target damage.",
+  "refs": {
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    }
+  },
   "backlinks": []
 }

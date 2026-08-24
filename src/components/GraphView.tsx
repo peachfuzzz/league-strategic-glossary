@@ -119,16 +119,15 @@ export default function GraphView({
   }, []);
 
   /**
-   * Definition prose, rendered as plain text.
-   *
-   * Backticks escape a span from linking; strip the markers and keep the text.
-   * Cross-references become explicit wikilinks in a later phase - until then
-   * there is nothing to linkify.
+   * The definition's first sentence, as plain text. The ellipsis marks entries
+   * whose definition continues on the term page.
    */
-  const renderDefinition = (term: GlossaryTerm) => {
-    const displayDefinition = term.summary.replace(/`([^`]+)`/g, '$1');
-    return <p className="text-ink leading-relaxed">{displayDefinition}</p>;
-  };
+  const renderDefinition = (term: GlossaryTerm) => (
+    <p className="text-ink leading-relaxed">
+      {term.summary}
+      {term.truncated && <span className="text-ink-3"> …</span>}
+    </p>
+  );
 
   // Initialize nodes when glossaryData changes
   useEffect(() => {
@@ -664,7 +663,7 @@ export default function GraphView({
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1">
               <h3 className="text-xl font-display leading-tight">
-                <Link href={`/term/${selectedNode.id}`} className="text-ink hover:text-signal transition-colors">
+                <Link href={`/term/${selectedNode.slug}`} className="text-ink hover:text-signal transition-colors">
                   {selectedNode.prefLabel}
                 </Link>
               </h3>

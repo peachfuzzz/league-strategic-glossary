@@ -15,7 +15,28 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A medium-scale fight involving multiple players from both teams. Skirmishes are a catch-all term for fights which are too small to be considered a teamfight, but involve more players than in a duel. Skirmishes tend to favor champions who have significant sustained damage but suffer heavily from the hard lockdown and burst present in full teamfights.",
-  "refs": {},
+  "definition": "A medium-scale [fight](/term/fight) involving multiple [players](/term/player) from both teams. Skirmishes are a catch-all term for fights which are too small to be considered a [teamfight](/term/teamfight), but involve more players than in a [duel](/term/duel). Skirmishes tend to favor champions who have significant sustained damage but suffer heavily from the hard lockdown and burst present in full teamfights.",
+  "refs": {
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0085": {
+      "id": "C0085",
+      "prefLabel": "teamfight",
+      "slug": "teamfight"
+    },
+    "C0024": {
+      "id": "C0024",
+      "prefLabel": "duel",
+      "slug": "duel"
+    }
+  },
   "backlinks": []
 }

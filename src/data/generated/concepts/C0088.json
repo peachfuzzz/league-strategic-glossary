@@ -15,7 +15,28 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "The potential to act on a target. The value of a threat depends on the implied expected value of the threatened action: the theoretical EV of the action if it were taken at that instant. Once the player takes the threatened action, the threat of the ability transforms into a realized value.\n\nExample: Blitzcrank approaches an enemy champion with its Q, Rocket Grab. When Blitz Q is off cooldown, Blitz has extremely high agency over its potential target, generating massive threat. Blitz can use the threat of its hook—the expected value of the hook hitting its target—to zone the enemy, generating value in the form of space. Once Blitz does cast its hook, it loses the associated threat, even if the hook itself generated value.",
-  "refs": {},
+  "definition": "The potential to act on a [target](/term/target). The magnitude of a threat depends on the [expected value](/term/expected-value) of the threatened action: the theoretical EV of the action if it were taken at that instant. Once the player takes the threatened action, the threat of the ability transforms into a realized [value](/term/value).\n\nExample: Blitzcrank approaches an enemy champion with its Q, Rocket Grab. When Blitz Q is off cooldown, Blitz has extremely high agency over its potential target, generating massive threat. Blitz can use the threat of its hook—the expected value of the hook hitting its target—to [zone](/term/zone) the enemy, generating value in the form of space. Once Blitz casts its hook, it loses the associated threat, even if the hook itself generated value.",
+  "refs": {
+    "C0084": {
+      "id": "C0084",
+      "prefLabel": "target",
+      "slug": "target"
+    },
+    "C0027": {
+      "id": "C0027",
+      "prefLabel": "expected value",
+      "slug": "expected-value"
+    },
+    "C0090": {
+      "id": "C0090",
+      "prefLabel": "value",
+      "slug": "value"
+    },
+    "C0097": {
+      "id": "C0097",
+      "prefLabel": "zone",
+      "slug": "zone"
+    }
+  },
   "backlinks": []
 }

@@ -15,7 +15,28 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "A large-scale fight involving most or all players on both teams. Teamfighting is chaotic and tense, being subject to many aspects of variance and having high, game-deciding stakes. Teamfights happen more regularly once the laning phase ends and players are less bound to individual lanes. Teamfights tend to favor champions who enjoy the setup and safety offered by teammates to output extreme damage or control large amounts of space.",
-  "refs": {},
+  "definition": "A large-scale [fight](/term/fight) involving most or all [player](/term/player) on both teams. Teamfighting is chaotic and [tense](/term/tension), being subject to many aspects of [variance](/term/variance) and having high, game-deciding stakes. Teamfights happen more regularly once the laning phase ends and players are less bound to individual lanes. Teamfights tend to favor champions who enjoy the setup and safety offered by teammates to output extreme damage or control large amounts of space.",
+  "refs": {
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0087": {
+      "id": "C0087",
+      "prefLabel": "tension",
+      "slug": "tension"
+    },
+    "C0091": {
+      "id": "C0091",
+      "prefLabel": "variance",
+      "slug": "variance"
+    }
+  },
   "backlinks": []
 }

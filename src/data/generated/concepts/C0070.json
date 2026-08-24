@@ -15,7 +15,18 @@
   "partOf": [],
   "hasPart": [],
   "relatedReviewed": false,
-  "definition": "The tactic of threatening defended enemy towers over an extended period of time. Sieges are generally high risk since the presence of the tower gives the defending team an advantage if a fight occurs. Sieges are most commonly a midgame tactic, and their efficacy greatly increases if Baron is slain.",
-  "refs": {},
+  "definition": "The tactic of [threatening](/term/threat) enemy towers, which are actively defended by the opposing team, over an extended period of time. Sieges carry significant risk since if a [fight](/term/fight) occurs, the presence of the tower gives the defending team an advantage. Sieges are most commonly a midgame tactic, and their efficacy greatly increases if Baron is slain.",
+  "refs": {
+    "C0088": {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    },
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    }
+  },
   "backlinks": []
 }
