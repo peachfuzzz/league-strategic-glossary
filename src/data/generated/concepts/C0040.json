@@ -14,8 +14,15 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0062",
+    "C0059",
+    "C0044",
+    "C0084",
+    "C0017"
+  ],
   "relatedReviewed": false,
-  "definition": "The [pressure](/term/pressure) created when a [player](/term/player) has lethal on a [target](/term/target). A player with kill pressure is afforded more freedom in decision-making, since their target risks their life if they attempt to [contest](/term/contest). Kill pressure is most frequently discussed in the context of the isolated lane phase.",
+  "definition": "The [pressure](/term/pressure) created when a [player](/term/player) has [lethal](/term/lethal) on a [target](/term/target). A player with kill pressure is afforded more freedom in decision-making, since their target risks their life if they attempt to [contest](/term/contest). Kill pressure is most frequently discussed in the context of the isolated lane phase.",
   "refs": {
     "C0062": {
       "id": "C0062",
@@ -26,6 +33,11 @@
       "id": "C0059",
       "prefLabel": "player",
       "slug": "player"
+    },
+    "C0044": {
+      "id": "C0044",
+      "prefLabel": "lethal",
+      "slug": "lethal"
     },
     "C0084": {
       "id": "C0084",
@@ -38,5 +50,21 @@
       "slug": "contest"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0003",
+      "prefLabel": "all-in",
+      "slug": "all-in"
+    },
+    {
+      "id": "C0043",
+      "prefLabel": "lane priority",
+      "slug": "lane-priority"
+    },
+    {
+      "id": "C0089",
+      "prefLabel": "trade",
+      "slug": "trade"
+    }
+  ]
 }

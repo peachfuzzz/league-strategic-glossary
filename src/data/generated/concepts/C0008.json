@@ -17,6 +17,12 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0092",
+    "C0020",
+    "C0087",
+    "C0031"
+  ],
   "relatedReviewed": false,
   "definition": "The phase of a [minion wave](/term/wave) that occurs after it [crashes](/term/crash) into the opposing team’s tower. During a bounceback, the opposing minions will outnumber the allied minions, forcing the wave to push back towards the allied tower. Bouncebacks are a period of higher [tension](/term/tension) during the lane phase because a death from either side results in more lost minions than an even wave. Bouncebacks can result in a [freeze](/term/freeze).",
   "refs": {
@@ -41,5 +47,16 @@
       "slug": "freeze"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0020",
+      "prefLabel": "crash",
+      "slug": "crash"
+    },
+    {
+      "id": "C0031",
+      "prefLabel": "freeze",
+      "slug": "freeze"
+    }
+  ]
 }

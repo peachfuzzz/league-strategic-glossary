@@ -14,6 +14,11 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0088",
+    "C0059",
+    "C0087"
+  ],
   "relatedReviewed": false,
   "definition": "An active [threat](/term/threat) that incentivizes a response from the opponent. A [player](/term/player) with pressure threatens the enemy to respond, and if left unanswered will create an advantage. Pressure punishes inaction and increases [tension](/term/tension); under pressure, players are more likely to make uncharacteristic decisions and actions. Pressure can be applied at all game scales. \n\nExample: a laner applies pressure to their opponent by denying minions, a splitpusher applies pressure to the map by pushing waves, and a team applies pressure to the enemy by starting a neutral objective.",
   "refs": {
@@ -33,5 +38,31 @@
       "slug": "tension"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0040",
+      "prefLabel": "kill pressure",
+      "slug": "kill-pressure"
+    },
+    {
+      "id": "C0041",
+      "prefLabel": "lane assignment",
+      "slug": "lane-assignment"
+    },
+    {
+      "id": "C0054",
+      "prefLabel": "overextend",
+      "slug": "overextend"
+    },
+    {
+      "id": "C0068",
+      "prefLabel": "rotate",
+      "slug": "rotate"
+    },
+    {
+      "id": "C0078",
+      "prefLabel": "splitpush",
+      "slug": "splitpush"
+    }
+  ]
 }

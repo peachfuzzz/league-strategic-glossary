@@ -41,10 +41,22 @@ export interface GraphNode {
   complete: boolean;
 }
 
+/**
+ * The four relation types. `mentions` is derived from prose wikilinks and is
+ * the only one the build computes; the rest are authored in frontmatter.
+ */
+export type RelationType =
+  | 'related'
+  | 'broader'
+  | 'narrower'
+  | 'partOf'
+  | 'hasPart'
+  | 'mentions';
+
 export interface GraphEdge {
   source: string;
   target: string;
-  type: string;
+  type: RelationType;
 }
 
 export interface Concept {
@@ -61,6 +73,12 @@ export interface Concept {
   narrower: string[];
   partOf: string[];
   hasPart: string[];
+  /**
+   * Concepts this entry's prose links to. Derived from wikilinks at build time,
+   * never authored. Records usage only - it makes no claim that this concept
+   * depends on those. See `docs/adr/ADR0016-mentions-not-depends-on.md`.
+   */
+  mentions: string[];
   relatedReviewed: boolean;
   /**
    * Resolved Markdown, not raw prose. The build has already rewritten every
@@ -69,6 +87,7 @@ export interface Concept {
    */
   definition: string;
   refs: Record<string, ConceptRef>;
+  /** The reverse of `mentions`: concepts whose prose links to this one. */
   backlinks: ConceptRef[];
 }
 
@@ -88,8 +107,14 @@ export interface ConceptView extends IndexEntry {
   related: string[];
 }
 
+/**
+ * Authored relations only. `mentions` is excluded deliberately: it carries 216
+ * of the graph's 229 edges, and folding derived prose links into what the list
+ * view presents as editorial cross-references would drown them.
+ */
 const adjacency = new Map<string, Set<string>>();
 for (const edge of vocabGraph.edges) {
+  if (edge.type === 'mentions') continue;
   if (!adjacency.has(edge.source)) adjacency.set(edge.source, new Set());
   if (!adjacency.has(edge.target)) adjacency.set(edge.target, new Set());
   // `related` is undirected; the build emits one edge per pair.

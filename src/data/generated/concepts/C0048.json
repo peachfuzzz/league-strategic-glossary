@@ -1,0 +1,32 @@
+{
+  "id": "C0048",
+  "slug": "meta",
+  "prefLabel": "meta",
+  "altLabel": [
+    "metagame"
+  ],
+  "hiddenLabel": [],
+  "collection": [
+    "abstract-concepts"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0059"
+  ],
+  "relatedReviewed": false,
+  "definition": "The perceived state of strategies for winning a game of League. Meta is short for “metagame,” or the game beyond the game. The meta is a product of [player](/term/player) perception and does not necessarily reflect the theoretical best strategies. Strategies perceived to deviate from the meta are called off-meta.",
+  "refs": {
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    }
+  },
+  "backlinks": []
+}

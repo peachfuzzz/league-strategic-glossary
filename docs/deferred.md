@@ -4,7 +4,7 @@ Intentionally deferred things.
 
 ## Deferred by decision
 
-The meso essay. The argument that League is meso-heavy and that its vocabulary underdescribes the operational layer. Deferred because the evidence is the glossary itself — betweenness over the dependsOn graph. Writing it after the restructure means the argument rests on computed structure rather than assertion. The military parallel (operational level of war, formalized in FM 100-5, 1982) is the precedent to cite.
+The meso essay. The argument that League is meso-heavy and that its vocabulary underdescribes the operational layer. Deferred because the evidence is the glossary itself — betweenness over the mentions graph. Writing it after the restructure means the argument rests on computed structure rather than assertion. The military parallel (operational level of war, formalized in FM 100-5, 1982) is the precedent to cite.
 
 Tree navigation view. A view organized by hierarchy rather than alphabet. Cut because the term page states hierarchy as text and the graph shows it visually. Revisit if neither turns out to be legible enough.
 
@@ -17,6 +17,8 @@ Disambiguation pages. Cut from V2 because no label is currently ambiguous. label
 Runtime data fetching. Phase 1 chose static JSON imports over fetching from /public. The artifacts are already separate, so switching later does not mean redoing the generator. Revisit if bundle size becomes real.
 
 General editing pass. I don't have time for this right now lol, a strict readthrough of all terms for editing would take a minute.
+
+"player" editing pass and differentiation. Right now, "player" represents multiple related-but-distinct concepts, and in the interest of formalization, should be separated into its constituents. Need to look through all appearances of "player" and decide on what representation to choose. Also maybe write definitions for "player" as summoner and "player" as champion in-game.
 
 ## Deferred cleanup
 
@@ -41,3 +43,42 @@ A style guide. Most of it already exists as latent convention: genus-differentia
 Real small caps. Newsreader and Spectral do not ship smcp. EB Garamond and Cormorant do. Only relevant if synthesized caps become unacceptable.
 
 ## Missing terms
+
+- opportunity cost
+- resource
+- input
+- string
+- bread-and-butter
+- skillshot
+- crowd control
+- inactionable
+- recall
+- lane
+- lane phase
+- information asymmetry
+- soft contest
+- window
+- numbers advantage
+- cast
+- cast time
+- lane assignment
+- scaling
+- target-agnostic
+- marksmen
+- class
+- job
+- risk
+- state
+- jungle proximity
+- off-meta
+- gamestate
+- sequence
+- farm
+- timer
+- effective range
+- payoff
+- snowball
+- setup
+- agency
+- push
+- wave position

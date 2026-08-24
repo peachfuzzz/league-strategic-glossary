@@ -1,0 +1,50 @@
+{
+  "id": "C0055",
+  "slug": "parallel-positioning",
+  "prefLabel": "parallel positioning",
+  "altLabel": [
+    "trading triangle"
+  ],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0074",
+    "C0088",
+    "C0059",
+    "C0084"
+  ],
+  "relatedReviewed": false,
+  "definition": "As the bot laner or support, standing apart from their lane partner while maintaining approximately the same distance from the enemy laner(s). Parallel positioning aims to maximize [space](/term/space) and [threat](/term/threat) while still ensuring neither the [player](/term/player) nor their lane partner is the only vulnerable [target](/term/target).",
+  "refs": {
+    "C0074": {
+      "id": "C0074",
+      "prefLabel": "space",
+      "slug": "space"
+    },
+    "C0088": {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0084": {
+      "id": "C0084",
+      "prefLabel": "target",
+      "slug": "target"
+    }
+  },
+  "backlinks": []
+}

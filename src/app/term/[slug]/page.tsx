@@ -77,7 +77,6 @@ export default async function TermPage({ params }: TermPageProps) {
     <TermPageContent
       concept={concept}
       related={related}
-      backLinks={concept.backlinks}
       prevTerm={toRef(prevEntry)}
       nextTerm={toRef(nextEntry)}
     />

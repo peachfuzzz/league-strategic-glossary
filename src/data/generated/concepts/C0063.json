@@ -15,6 +15,10 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0092",
+    "C0020"
+  ],
   "relatedReviewed": false,
   "definition": "Farming the enemy [minion wave](/term/wave) between standing enemy turrets. Proxying is a strategy aimed at minimizing interaction in lane. Since the proxying player kills the enemy minion waves before it can meet the allied wave, the allied wave will [crash](/term/crash) without interruption unless the opposing laner interferes. This creates a tempo advantage for the proxying player and prevents the opposing laner from pushing with their own wave for tower damage. In matchups with a particularly high disparity in waveclear, proxying can pin the lower waveclear laner under their tower while the proxying player can farm uncontested.",
   "refs": {

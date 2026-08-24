@@ -14,6 +14,10 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0062",
+    "C0052"
+  ],
   "relatedReviewed": false,
   "definition": "Moving to or from lanes. A rotation can also refer to specifically swapping lanes with another allied laner for a strategic purpose, such as maximizing farm, [pressuring](/term/pressure) sidelanes, or preparing for an upcoming [objective setup](/term/objective-setup).",
   "refs": {

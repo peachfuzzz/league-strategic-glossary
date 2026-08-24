@@ -1,0 +1,41 @@
+{
+  "id": "C0044",
+  "slug": "lethal",
+  "prefLabel": "lethal",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0066"
+  ],
+  "relatedReviewed": false,
+  "definition": "The sufficient damage necessary to kill an opponent. Lethal is a speculative estimate, not a deterministic state. Having lethal does not mean that a player can do anything and come away with a kill, but that a player with lethal has identified a specific string of actions that [reliably](/term/reliability) kills their target.",
+  "refs": {
+    "C0066": {
+      "id": "C0066",
+      "prefLabel": "reliability",
+      "slug": "reliability"
+    }
+  },
+  "backlinks": [
+    {
+      "id": "C0003",
+      "prefLabel": "all-in",
+      "slug": "all-in"
+    },
+    {
+      "id": "C0040",
+      "prefLabel": "kill pressure",
+      "slug": "kill-pressure"
+    }
+  ]
+}

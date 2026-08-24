@@ -17,6 +17,11 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0059",
+    "C0016",
+    "C0087"
+  ],
   "relatedReviewed": false,
   "definition": "The period of time and location in which [player](/term/player) vs. player [combat](/term/combat) occurs. A fight can occur at several scales, with additional descriptors depending on the encounter's duration and the number of champions involved. Fights are discrete: they have definitive endpoints and are locally contained around the action, though fights can drift and move accordingly. Periods of combat or [tension](/term/tension) without definitive endpoints are labeled differently, though they can also be called fights.",
   "refs": {
@@ -46,5 +51,91 @@
       "slug": "tension"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0001",
+      "prefLabel": "ability rotation",
+      "slug": "ability-rotation"
+    },
+    {
+      "id": "C0003",
+      "prefLabel": "all-in",
+      "slug": "all-in"
+    },
+    {
+      "id": "C0007",
+      "prefLabel": "bait",
+      "slug": "bait"
+    },
+    {
+      "id": "C0017",
+      "prefLabel": "contest",
+      "slug": "contest"
+    },
+    {
+      "id": "C0023",
+      "prefLabel": "dive",
+      "slug": "dive"
+    },
+    {
+      "id": "C0024",
+      "prefLabel": "duel",
+      "slug": "duel"
+    },
+    {
+      "id": "C0025",
+      "prefLabel": "engage",
+      "slug": "engage"
+    },
+    {
+      "id": "C0037",
+      "prefLabel": "engine interaction",
+      "slug": "engine-interaction"
+    },
+    {
+      "id": "C0038",
+      "prefLabel": "invade",
+      "slug": "invade"
+    },
+    {
+      "id": "C0039",
+      "prefLabel": "key ability",
+      "slug": "key-ability"
+    },
+    {
+      "id": "C0060",
+      "prefLabel": "playmaker",
+      "slug": "playmaker"
+    },
+    {
+      "id": "C0064",
+      "prefLabel": "re-engage",
+      "slug": "re-engage"
+    },
+    {
+      "id": "C0070",
+      "prefLabel": "siege",
+      "slug": "siege"
+    },
+    {
+      "id": "C0072",
+      "prefLabel": "skirmish",
+      "slug": "skirmish"
+    },
+    {
+      "id": "C0074",
+      "prefLabel": "space",
+      "slug": "space"
+    },
+    {
+      "id": "C0085",
+      "prefLabel": "teamfight",
+      "slug": "teamfight"
+    },
+    {
+      "id": "C0089",
+      "prefLabel": "trade",
+      "slug": "trade"
+    }
+  ]
 }

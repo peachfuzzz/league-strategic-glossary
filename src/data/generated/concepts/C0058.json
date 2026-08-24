@@ -14,6 +14,10 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0016",
+    "C0087"
+  ],
   "relatedReviewed": false,
   "definition": "A plan or sequence that advances the gamestate. Plays generally focus around [combat](/term/combat) or other moments of high [tension](/term/tension), with the beginning and end of a play defined by when champions enter and exit combat. A play describes a proactive sequence, even if not planned or fully intentional.",
   "refs": {
@@ -28,5 +32,76 @@
       "slug": "tension"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0014",
+      "prefLabel": "cheese",
+      "slug": "cheese"
+    },
+    {
+      "id": "C0018",
+      "prefLabel": "counterjungle",
+      "slug": "counterjungle"
+    },
+    {
+      "id": "C0021",
+      "prefLabel": "crossmap",
+      "slug": "crossmap"
+    },
+    {
+      "id": "C0032",
+      "prefLabel": "gank",
+      "slug": "gank"
+    },
+    {
+      "id": "C0033",
+      "prefLabel": "give",
+      "slug": "give"
+    },
+    {
+      "id": "C0043",
+      "prefLabel": "lane priority",
+      "slug": "lane-priority"
+    },
+    {
+      "id": "C0052",
+      "prefLabel": "objective setup",
+      "slug": "objective-setup"
+    },
+    {
+      "id": "C0060",
+      "prefLabel": "playmaker",
+      "slug": "playmaker"
+    },
+    {
+      "id": "C0065",
+      "prefLabel": "recall timing",
+      "slug": "recall-timing"
+    },
+    {
+      "id": "C0067",
+      "prefLabel": "roam",
+      "slug": "roam"
+    },
+    {
+      "id": "C0073",
+      "prefLabel": "slow push",
+      "slug": "slow-push"
+    },
+    {
+      "id": "C0078",
+      "prefLabel": "splitpush",
+      "slug": "splitpush"
+    },
+    {
+      "id": "C0081",
+      "prefLabel": "strongside",
+      "slug": "strongside"
+    },
+    {
+      "id": "C0096",
+      "prefLabel": "weakside",
+      "slug": "weakside"
+    }
+  ]
 }

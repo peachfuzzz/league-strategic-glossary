@@ -14,6 +14,12 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0059",
+    "C0016",
+    "C0091",
+    "C0090"
+  ],
   "relatedReviewed": false,
   "definition": "A state of raised stakes, especially with respect to the opposing team. Tension appears when two competing interests from opposing [players](/term/player) collide, even without active [combat](/term/combat). The presence of tension accentuates losses and gains—for each interest fulfilled by one side, an equivalent interest is lost for the other. Tension scales with both [variance](/term/variance) and [value](/term/value). The greater the variance in outcome or the greater the value of the outcome, the higher the tension rises.",
   "refs": {
@@ -38,5 +44,36 @@
       "slug": "value"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0008",
+      "prefLabel": "bounceback",
+      "slug": "bounceback"
+    },
+    {
+      "id": "C0022",
+      "prefLabel": "dance",
+      "slug": "dance"
+    },
+    {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    },
+    {
+      "id": "C0062",
+      "prefLabel": "pressure",
+      "slug": "pressure"
+    },
+    {
+      "id": "C0085",
+      "prefLabel": "teamfight",
+      "slug": "teamfight"
+    }
+  ]
 }

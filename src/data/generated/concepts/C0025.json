@@ -14,6 +14,9 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0028"
+  ],
   "relatedReviewed": false,
   "definition": "The act of starting a [fight](/term/fight) proactively. An engage aims to set up for follow-up, usually in the form of a gap closer or crowd control. Engage is often used in the context of larger multi-person skirmishes and teamfights, but it can also refer to moments in the isolated 1v1. Engage can also refer to the specific champion(s) or abilities used to perform the act of initiation, e.g. “Our engage this game is Ornn and his ult.”",
   "refs": {
@@ -23,5 +26,11 @@
       "slug": "fight"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0064",
+      "prefLabel": "re-engage",
+      "slug": "re-engage"
+    }
+  ]
 }

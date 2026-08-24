@@ -16,8 +16,55 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [],
   "relatedReviewed": false,
   "definition": "The state of exchanging damage or crowd control with an enemy unit. Combat is the main interface for interaction in League since most champion outputs revolve around dealing, preventing, and receiving damage. Being “in-combat” also has mechanical effects. Some items, abilities, and passives function differently in and out of combat.",
   "refs": {},
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0003",
+      "prefLabel": "all-in",
+      "slug": "all-in"
+    },
+    {
+      "id": "C0013",
+      "prefLabel": "cheater recall",
+      "slug": "cheater-recall"
+    },
+    {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    {
+      "id": "C0042",
+      "prefLabel": "lane bully",
+      "slug": "lane-bully"
+    },
+    {
+      "id": "C0046",
+      "prefLabel": "matchup",
+      "slug": "matchup"
+    },
+    {
+      "id": "C0047",
+      "prefLabel": "mechanics",
+      "slug": "mechanics"
+    },
+    {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    },
+    {
+      "id": "C0087",
+      "prefLabel": "tension",
+      "slug": "tension"
+    },
+    {
+      "id": "C0097",
+      "prefLabel": "zone",
+      "slug": "zone"
+    }
+  ]
 }

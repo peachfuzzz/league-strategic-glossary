@@ -16,6 +16,11 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0084",
+    "C0059",
+    "C0046"
+  ],
   "relatedReviewed": false,
   "definition": "A situation where a [target](/term/target) is vulnerable to multiple options from a [player](/term/player), forcing them to predict or guess the correct response. Mixups are valuable when a player can expect their opponent’s reaction to a string, either as a result of strong [matchup](/term/matchup) knowledge or conditioning. The opponent might anticipate a specific trigger to which they react, so if the player could take a non-standard option to catch them off-guard. When performing a mixup, a player may need to take a suboptimal action to break the opponent’s expectations.",
   "refs": {
@@ -40,11 +45,5 @@
       "slug": "matchup"
     }
   },
-  "backlinks": [
-    {
-      "id": "C0049",
-      "prefLabel": "mindgame",
-      "slug": "mindgame"
-    }
-  ]
+  "backlinks": []
 }

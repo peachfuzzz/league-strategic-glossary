@@ -14,6 +14,10 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0078",
+    "C0024"
+  ],
   "relatedReviewed": false,
   "definition": "A champion that excels at the [splitpush](/term/splitpush), often relying on the strategy to win games. Splitpushers commonly have strong [dueling](/term/duel) and high tower damage, but weak multi-target outputs.",
   "refs": {
@@ -28,5 +32,11 @@
       "slug": "duel"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0078",
+      "prefLabel": "splitpush",
+      "slug": "splitpush"
+    }
+  ]
 }

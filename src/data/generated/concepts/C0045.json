@@ -16,6 +16,10 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0090",
+    "C0059"
+  ],
   "relatedReviewed": false,
   "definition": "Skills and strategies that concern longer-term decisions, on the order of a minute or more. Macro covers ideas that require significant foresight and/or coordination between teammates and often aim to generate [value](/term/value) for the team, rather than just the individual [player](/term/player).",
   "refs": {
@@ -30,5 +34,11 @@
       "slug": "player"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0052",
+      "prefLabel": "objective setup",
+      "slug": "objective-setup"
+    }
+  ]
 }

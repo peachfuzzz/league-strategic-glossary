@@ -18,6 +18,11 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0058",
+    "C0059",
+    "C0021"
+  ],
   "relatedReviewed": false,
   "definition": "Allowing the enemy to make a [play](/term/play). A [player](/term/player) can give anything: a jungle camp, space, towers, etc. Giving is not necessarily a passive decision, and can be done strategically to allocate time and resources towards a more valuable play. A common reason to give is to set up a [crossmap](/term/crossmap).",
   "refs": {
@@ -42,11 +47,5 @@
       "slug": "crossmap"
     }
   },
-  "backlinks": [
-    {
-      "id": "C0017",
-      "prefLabel": "contest",
-      "slug": "contest"
-    }
-  ]
+  "backlinks": []
 }

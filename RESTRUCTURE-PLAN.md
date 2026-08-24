@@ -13,14 +13,15 @@ Version 2. This version uses Obsidian instead of Google Docs.
 | 0 — Audit | Done |
 | 1 — Build from the vault | Done |
 | W — Convert prose to wikilinks | Done |
-| **2 — Render, derive, measure** | **Current** |
-| 4 — Hierarchy | Not started |
+| 2 — Render, derive, measure | Done |
+| **4 — Hierarchy** | **Current** |
 | 5 — Presentation | Not started |
 | 6 — Guardrails | Not started |
 
 Phase 3 has been merged into Phase 2. Both operate on the same wikilink parse.
 
-97 concepts. Identifiers C0001 to C0097. `Actor` and `Object` retired, so 95 live.
+97 concepts. Identifiers C0001 to C0097. 93 active; `actor`, `object`,
+`execute (damage)` and `power budget` are inactive.
 
 Frontmatter is block style YAML, not inline arrays. Obsidian and the build tooling
 disagreed on inline formatting. `check-vocab` is TypeScript now, using `gray-matter`.
@@ -158,17 +159,18 @@ This is the current "see also".
 This relation has no direction.
 You write this relation by hand.
 
-**Depends on.**
-The prose of one entry uses another concept.
-Example: the entry for "freeze" uses "crash".
+**Mentions.**
+The prose of one entry links to another concept.
+Example: the entry for "freeze" links to "crash".
 This relation has a direction.
 The computer finds this relation. You do not write it.
+It records usage only. It does not claim that one concept depends on another.
 
 ### Why four types matter
 
 Each type makes a different claim.
 
-- "Depends on" is a fact about your text. A machine can check it.
+- "Mentions" is a fact about your text. A machine can check it.
 - "Related" is a note for readers.
 - "Broader" is your argument about how the vocabulary divides.
 - "Part of" is your argument about what contains what.
@@ -579,15 +581,16 @@ published as one.
 
 Goal: parse the wikilinks once. Get four things from that one pass.
 
-**Phase 3 is merged here.** Rendering, the dead link check, `dependsOn`, and the
+**Phase 3 is merged here.** Rendering, the dead link check, `mentions`, and the
 metrics all come from the same parse. Splitting them means writing the parser,
 shipping, then reopening the same code the next day.
 
 #### Current state
 
-**2a and 2b are done.** Wikilinks resolve in the build into Markdown links; term
-pages render them with `react-markdown` under a restricted allowlist. See ADR0015.
-2c and 2d remain.
+**Phase 2 is complete.** 2a and 2b resolved wikilinks in the build and rendered them
+with `react-markdown` under a restricted allowlist (ADR0015). 2c derived `mentions`
+from the same parse (ADR0016), 2d measured the resulting graph, and 2e added the
+structural checks. Next is Phase 4.
 
 #### 2a. Parse and render (DONE)
 
@@ -640,22 +643,60 @@ the strongest missing-term candidates for Phase 4:
 | `wave direction` (C0093) | 3 |
 | `lethal` (C0044) | 2 |
 
-#### 2c. Derive
+#### 2c. Derive (DONE)
 
-- [ ] Collect wikilink targets into a `dependsOn` list per concept. (1 hr)
-- [ ] Emit `dependsOn` edges into `graph.json`, typed. (1 hr)
-- [ ] Rebuild `backlinks` from `dependsOn` as well as the relation fields. (1 hr)
-- [ ] Add a backlinks section to the term page. (1 hr)
+- [x] Collect wikilink targets into a `mentions` list per concept. (1 hr)
+- [x] Emit `mentions` edges into `graph.json`, typed. (1 hr)
+- [x] Rebuild `backlinks` as the reverse of `mentions`. (1 hr)
+- [x] ~~Add a backlinks section to the term page.~~ Deferred to Phase 5a. The data is
+      emitted; whether to display it is a presentation decision, and the graph is the
+      better surface for reverse navigation.
 
-`dependsOn` is never stored in frontmatter. It is computed on every build.
+`mentions` is never stored in frontmatter. It is computed on every build.
 
-#### 2d. Measure
+**The relation named `mentions`, not `dependsOn`.** `dependsOn` asserts that A's
+meaning requires B. The computation establishes only that A's prose links to B.
+See `docs/adr/ADR0016-mentions-not-depends-on.md`.
 
-- [ ] Compute in-degree for every concept. (30 min)
-- [ ] Compute betweenness centrality over `dependsOn`. (1 hr)
-- [ ] Save both to `reports/metrics.md`. (30 min)
-- [ ] Read the report. Compare against your expectations. (1 hr)
-- [ ] Save the missing terms list to `reports/missing.md`. (30 min)
+**`backlinks` is the reverse of `mentions` only.** It no longer includes the relation
+fields. One field, one meaning; mixing an editorial assertion with prose usage would
+need a provenance tag to stay honest.
+
+**What this phase produced.** 216 `mentions` edges over 93 active concepts, on top of
+13 authored `related` edges. Isolated nodes fell from 60 to 6. Ten pairs mention each
+other, so `mentions` is cyclic — as expected, and not collapsed.
+
+The term page no longer renders "Referenced by". `TermPageContent` stays a server
+component and `/term/[slug]` still ships 0 B.
+
+#### 2d. Measure (DONE)
+
+- [x] Compute in-degree for every concept. (30 min)
+- [x] Compute betweenness centrality over `mentions`. (1 hr)
+- [x] Report both with and without substrate concepts. (30 min)
+- [x] Save both to `reports/metrics.md`. (30 min)
+- [x] Read the report. Compare against your expectations. (1 hr)
+- [x] Save the missing terms list to `reports/missing.md`. (30 min)
+
+**What the numbers said.** The prediction below was half right.
+
+`fight`, `wave` and `combat` do rank high, as expected. Two things did not:
+
+- **`player` (C0059) leads in-degree at 44**, against 17 for `fight`. It is the term
+  every definition presupposes, not a parent concept. `target` (C0084) behaves the
+  same way at lower frequency. Both are now excluded from metrics via
+  `src/config/substrate.config.ts`; excluding them removes 25% of all edges and leaves
+  a tightly-spaced ranking with no outlier.
+- **`value` did not rank near the top** — 7 inbound, below `crash` at 8.
+
+**Betweenness ranks differently from in-degree**, which is the point of computing it.
+`tension` and `threat` lead on betweenness while sitting 10th and 7th by in-degree.
+Bridges are not hubs. Whether that supports the meso claim is a Phase 5e question;
+do not read the numbers while assigning hierarchy in Phase 4.
+
+**No prose links to an inactive concept**, so `reports/missing.md` is empty. The four
+candidates named in Phase 2b — `space`, `roam`, `wave direction`, `lethal` — were all
+activated during the Phase 1 cleanup.
 
 **Read the in-degree ranking before Phase 4.**
 It is an empirical prior on what sits near the root of the hierarchy.
@@ -666,15 +707,31 @@ If something unexpected ranks high, that is worth knowing before you draw the tr
 It is computed over prose written before the hypothesis existed, so the test is blind.
 Do not tag timescale by hand. Do not look at the numbers while assigning hierarchy.
 
-#### 2e. Optional, cheap now
+#### 2e. Optional, cheap now (DONE)
 
 `check-vocab` is TypeScript with real parsing, so these are a few lines each.
 Having the acyclicity check before you write hierarchy is better than after.
 
-- [ ] Check `broader` for cycles. (30 min)
-- [ ] Check `partOf` for cycles. (30 min)
-- [ ] Check that no pair holds two relation types. (30 min)
-- [ ] Check that `related` is symmetric. Report, do not fix. (30 min)
+- [x] Check `broader` for cycles. (30 min)
+- [x] Check `partOf` for cycles. (30 min)
+- [x] Check that no pair holds two relation types. (30 min)
+- [x] Check that `related` is symmetric. Report, do not fix. (30 min)
+
+Cycles **fail** the run: A above B above A is incoherent under any reading. The other
+two **report only**, because each is a judgement for Phase 4 rather than a fault.
+
+Added beyond the list:
+
+- A hierarchy edge asserted from one end only — `broader` on A without `narrower` on B.
+  Reported, since a half-written edge is normal while Phase 4 is in progress.
+- `mentions` must match the prose it was derived from exactly, and `backlinks` must be
+  its true inverse across the whole set. Both catch build-versus-check drift.
+- Every graph edge type must be known, and no edge may point at itself.
+
+All seven new checks were mutation-tested against corrupted copies — cycles of two and
+three notes, a self-loop, a dropped `mentions` entry, a broken backlink, and a missing
+graph edge. `mentions` is deliberately **not** checked for cycles; it is cyclic by
+design.
 
 ---
 

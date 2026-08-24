@@ -1,0 +1,50 @@
+{
+  "id": "C0043",
+  "slug": "lane-priority",
+  "prefLabel": "lane priority",
+  "altLabel": [
+    "prio"
+  ],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0092",
+    "C0017",
+    "C0058",
+    "C0040"
+  ],
+  "relatedReviewed": false,
+  "definition": "The state of being able to move from a lane before the opposing laner(s). Lane priority stems from the ability to push a [wave](/term/wave) in a manner such that the opposing laner cannot [contest](/term/contest). A player with lane priority incurs fewer minion losses if they were to leave lane, giving them the opportunity of first move over their opponent to join [plays](/term/play) around the map. Lane priority is a relative comparison of several factors, including [kill pressure](/term/kill-pressure), waveclear, and jungle proximity.",
+  "refs": {
+    "C0092": {
+      "id": "C0092",
+      "prefLabel": "wave",
+      "slug": "wave"
+    },
+    "C0017": {
+      "id": "C0017",
+      "prefLabel": "contest",
+      "slug": "contest"
+    },
+    "C0058": {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    },
+    "C0040": {
+      "id": "C0040",
+      "prefLabel": "kill pressure",
+      "slug": "kill-pressure"
+    }
+  },
+  "backlinks": []
+}

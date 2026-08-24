@@ -17,13 +17,26 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0092",
+    "C0093",
+    "C0031",
+    "C0017",
+    "C0020",
+    "C0023"
+  ],
   "relatedReviewed": false,
-  "definition": "Killing a few minions in a [wave](/term/wave) without eliminating the entire wave. Thinning a wave is used to slow down a push or lower the possible incoming minion damage while preserving the wave direction. Thinning a wave is commonly performed to maintain a [freeze](/term/freeze), [contest](/term/contest) a [crash](/term/crash), or stall a [dive](/term/dive).",
+  "definition": "Killing a few minions in a [wave](/term/wave) without eliminating the entire wave. Thinning a wave is used to slow down a push or lower the possible incoming minion damage while preserving the [wave direction](/term/wave-direction). Thinning a wave is commonly performed to maintain a [freeze](/term/freeze), [contest](/term/contest) a [crash](/term/crash), or stall a [dive](/term/dive).",
   "refs": {
     "C0092": {
       "id": "C0092",
       "prefLabel": "wave",
       "slug": "wave"
+    },
+    "C0093": {
+      "id": "C0093",
+      "prefLabel": "wave direction",
+      "slug": "wave-direction"
     },
     "C0031": {
       "id": "C0031",

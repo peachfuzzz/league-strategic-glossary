@@ -15,8 +15,13 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0092",
+    "C0008",
+    "C0067"
+  ],
   "relatedReviewed": false,
-  "definition": "When a [wave](/term/wave) of minions enters the opposing team’s tower range. Crashes are classified by “completeness,” determined by the location at which opposing waves meet relative to the tower. A crash is “full/complete” when all of the wave's minions directly attack the enemy tower. A crash is considered “partial” when some minions are not within tower range, resulting in a wave stalling just outside of tower range.\n\nCrashes are strategically desirable because a crash and the following [bounceback](/term/bounceback) create a period of time in which few, if any, enemy minions die. A crash opens a window for an allied player to spend time outside of the lane—such as to roam or recall—without fear of losing excess gold and experience.",
+  "definition": "When a [wave](/term/wave) of minions enters the opposing team’s tower range. Crashes are classified by “completeness,” determined by the location at which opposing waves meet relative to the tower. A crash is “full/complete” when all of the wave's minions directly attack the enemy tower. A crash is considered “partial” when some minions are not within tower range, resulting in a wave stalling just outside of tower range.\n\nCrashes are strategically desirable because a crash and the following [bounceback](/term/bounceback) create a period of time in which few, if any, enemy minions die. A crash opens a window for an allied player to spend time outside of the lane—such as to [roam](/term/roam) or recall—without fear of losing excess gold and experience.",
   "refs": {
     "C0092": {
       "id": "C0092",
@@ -27,7 +32,53 @@
       "id": "C0008",
       "prefLabel": "bounceback",
       "slug": "bounceback"
+    },
+    "C0067": {
+      "id": "C0067",
+      "prefLabel": "roam",
+      "slug": "roam"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0008",
+      "prefLabel": "bounceback",
+      "slug": "bounceback"
+    },
+    {
+      "id": "C0013",
+      "prefLabel": "cheater recall",
+      "slug": "cheater-recall"
+    },
+    {
+      "id": "C0031",
+      "prefLabel": "freeze",
+      "slug": "freeze"
+    },
+    {
+      "id": "C0063",
+      "prefLabel": "proxy",
+      "slug": "proxy"
+    },
+    {
+      "id": "C0067",
+      "prefLabel": "roam",
+      "slug": "roam"
+    },
+    {
+      "id": "C0069",
+      "prefLabel": "shove",
+      "slug": "shove"
+    },
+    {
+      "id": "C0073",
+      "prefLabel": "slow push",
+      "slug": "slow-push"
+    },
+    {
+      "id": "C0095",
+      "prefLabel": "wave thinning",
+      "slug": "wave-thinning"
+    }
+  ]
 }

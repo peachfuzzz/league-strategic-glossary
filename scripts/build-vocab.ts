@@ -293,6 +293,22 @@ function main(): void {
 
   const resolved = new Map(active.map((n) => [n.id, resolveWikilinks(n)]));
 
+  // `mentions` is the fourth relation type, and the only derived one: the prose
+  // of this entry links to that concept. It records usage, not dependency - see
+  // ADR0016. Self-links are dropped, since an entry mentioning itself says
+  // nothing about the vocabulary.
+  const mentionsOf = new Map(
+    active.map((n) => [n.id, resolved.get(n.id)!.targets.filter((t) => t !== n.id)])
+  );
+
+  // Reversed once here rather than re-scanned per concept.
+  const mentionedBy = new Map<string, string[]>();
+  for (const n of active) {
+    for (const t of mentionsOf.get(n.id)!) {
+      mentionedBy.set(t, [...(mentionedBy.get(t) ?? []), n.id]);
+    }
+  }
+
   // --- per-concept files -----------------------------------------------
   // Each carries the prefLabel of everything it references, so the term page
   // never needs to load a second concept file.
@@ -314,11 +330,13 @@ function main(): void {
       refs[t] = { id: t, prefLabel: labelOf.get(t)!, slug: slugOf.get(t)! };
     }
 
-    // Concepts that reference this one, so the page can show backlinks
-    // without loading the whole set. Asymmetry is preserved, not repaired.
-    const backlinks = active
-      .filter((o) => o.id !== n.id && RELATION_FIELDS.some((f) => o[f].includes(n.id)))
-      .map((o) => ({ id: o.id, prefLabel: o.prefLabel, slug: slugOf.get(o.id)! }));
+    // Backlinks are the reverse of `mentions` and nothing else: whose prose
+    // links here. One field, one meaning - folding the relation fields in too
+    // would mix an editorial assertion with a fact about the text, and need a
+    // provenance tag to stay readable. See ADR0016.
+    const backlinks = (mentionedBy.get(n.id) ?? [])
+      .map((id) => ({ id, prefLabel: labelOf.get(id)!, slug: slugOf.get(id)! }))
+      .sort((a, b) => a.prefLabel.localeCompare(b.prefLabel));
 
     writeJson(path.join(CONCEPTS_DIR, `${n.id}.json`), {
       id: n.id,
@@ -330,6 +348,7 @@ function main(): void {
       active: n.active,
       complete: n.complete,
       ...relations,
+      mentions: mentionsOf.get(n.id)!,
       relatedReviewed: n.relatedReviewed,
       // Resolved Markdown, not raw prose. Wikilinks are already links.
       definition: resolved.get(n.id)!.markdown,
@@ -389,6 +408,18 @@ function main(): void {
       }
     }
   }
+
+  // Derived edges. Directed, and deliberately not collapsed: where A and B
+  // mention each other, both edges are emitted. Mutual definition is a finding
+  // about the vocabulary, not a duplicate to merge away (DESIGN.md 5.4).
+  for (const n of active) {
+    for (const t of mentionsOf.get(n.id)!) {
+      const key = `mentions:${n.id}|${t}`;
+      if (seenEdge.has(key)) continue;
+      seenEdge.add(key);
+      edges.push({ source: n.id, target: t, type: 'mentions' });
+    }
+  }
   writeJson(path.join(OUT_DIR, 'graph.json'), { nodes, edges });
 
   // --- labels.json ------------------------------------------------------
@@ -415,13 +446,28 @@ function main(): void {
   // --- summary ----------------------------------------------------------
   console.log(`   ✓ ${active.length} concept files`);
   console.log(`   ✓ index.json      ${index.length} entries`);
-  console.log(`   ✓ graph.json      ${nodes.length} nodes, ${edges.length} edges`);
+  const authored = edges.filter((e) => e.type !== 'mentions').length;
+  const derived = edges.length - authored;
+  console.log(
+    `   ✓ graph.json      ${nodes.length} nodes, ${edges.length} edges ` +
+      `(${authored} authored, ${derived} mentions)`
+  );
   console.log(`   ✓ labels.json     ${Object.keys(labels).length} labels`);
 
   const isolated = nodes.filter(
     (n) => !edges.some((e) => e.source === n.id || e.target === n.id)
   ).length;
-  console.log(`   ℹ ${isolated} isolated nodes (no relations yet)`);
+  // Isolated across every edge type. `reports/metrics.md` counts isolation over
+  // `mentions` alone, so its figure is higher; both are correct.
+  console.log(`   ℹ ${isolated} isolated nodes (no edges of any type)`);
+
+  const mutual = edges.filter(
+    (e) =>
+      e.type === 'mentions' &&
+      e.source < e.target &&
+      seenEdge.has(`mentions:${e.target}|${e.source}`)
+  ).length;
+  console.log(`   ℹ ${mutual} mutually-mentioning pairs`);
 
   if (ambiguous.length > 0) {
     console.log(`   ⚠ ${ambiguous.length} ambiguous label(s):`);

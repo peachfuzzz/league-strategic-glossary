@@ -14,6 +14,13 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0059",
+    "C0032",
+    "C0015",
+    "C0007",
+    "C0062"
+  ],
   "relatedReviewed": false,
   "definition": "When a [player](/term/player) is in the opposing team’s area of map control. Due to the distance from their allies and the proximity of the opposing team, an overextending player is more vulnerable to a [gank](/term/gank) or [collapse](/term/collapse). Overextension is not necessarily a mistake, as it can [bait](/term/bait) the opposing team or apply map [pressure](/term/pressure).",
   "refs": {
@@ -43,11 +50,5 @@
       "slug": "pressure"
     }
   },
-  "backlinks": [
-    {
-      "id": "C0007",
-      "prefLabel": "bait",
-      "slug": "bait"
-    }
-  ]
+  "backlinks": []
 }

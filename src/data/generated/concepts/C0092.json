@@ -17,8 +17,75 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [],
   "relatedReviewed": false,
   "definition": "A group of minions. A wave can refer to a specific group of minions spawned by either nexus on a regular interval or any arbitrary collection of minions in a lane. Minion waves spawn at regular 30-second intervals (decreasing to 25, then 20 seconds with game time as of Season 2026), and as such are often used as a measurement of time. Waves are the main source of gold and experience for laners, the main enabler of tower damage, grant vision, and deal damage to enemies. Due to their importance, minion waves are one of the primary things the game revolves around.",
   "refs": {},
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0008",
+      "prefLabel": "bounceback",
+      "slug": "bounceback"
+    },
+    {
+      "id": "C0013",
+      "prefLabel": "cheater recall",
+      "slug": "cheater-recall"
+    },
+    {
+      "id": "C0020",
+      "prefLabel": "crash",
+      "slug": "crash"
+    },
+    {
+      "id": "C0023",
+      "prefLabel": "dive",
+      "slug": "dive"
+    },
+    {
+      "id": "C0031",
+      "prefLabel": "freeze",
+      "slug": "freeze"
+    },
+    {
+      "id": "C0043",
+      "prefLabel": "lane priority",
+      "slug": "lane-priority"
+    },
+    {
+      "id": "C0063",
+      "prefLabel": "proxy",
+      "slug": "proxy"
+    },
+    {
+      "id": "C0067",
+      "prefLabel": "roam",
+      "slug": "roam"
+    },
+    {
+      "id": "C0069",
+      "prefLabel": "shove",
+      "slug": "shove"
+    },
+    {
+      "id": "C0073",
+      "prefLabel": "slow push",
+      "slug": "slow-push"
+    },
+    {
+      "id": "C0093",
+      "prefLabel": "wave direction",
+      "slug": "wave-direction"
+    },
+    {
+      "id": "C0094",
+      "prefLabel": "wave state",
+      "slug": "wave-state"
+    },
+    {
+      "id": "C0095",
+      "prefLabel": "wave thinning",
+      "slug": "wave-thinning"
+    }
+  ]
 }

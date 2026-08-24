@@ -1,0 +1,77 @@
+{
+  "id": "C0067",
+  "slug": "roam",
+  "prefLabel": "roam",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [
+    "C0032"
+  ],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0058",
+    "C0059",
+    "C0092",
+    "C0020",
+    "C0073"
+  ],
+  "relatedReviewed": false,
+  "definition": "Leaving a lane to make a [play](/term/play). Roaming lets a laner affect other parts of the map beyond their lane. Because a [player](/term/player) is not present in lane during a roam to catch a [wave](/term/wave) or stop their opponent from hitting their tower, roams come with an opportunity cost. Setting up a roam requires the laner to account for this potential minion loss, such as [crashing](/term/crash) a [slow push](/term/slow-push) or (as a support) warding for an ally.",
+  "refs": {
+    "C0032": {
+      "id": "C0032",
+      "prefLabel": "gank",
+      "slug": "gank"
+    },
+    "C0058": {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0092": {
+      "id": "C0092",
+      "prefLabel": "wave",
+      "slug": "wave"
+    },
+    "C0020": {
+      "id": "C0020",
+      "prefLabel": "crash",
+      "slug": "crash"
+    },
+    "C0073": {
+      "id": "C0073",
+      "prefLabel": "slow push",
+      "slug": "slow-push"
+    }
+  },
+  "backlinks": [
+    {
+      "id": "C0010",
+      "prefLabel": "camp",
+      "slug": "camp"
+    },
+    {
+      "id": "C0020",
+      "prefLabel": "crash",
+      "slug": "crash"
+    },
+    {
+      "id": "C0073",
+      "prefLabel": "slow push",
+      "slug": "slow-push"
+    }
+  ]
+}

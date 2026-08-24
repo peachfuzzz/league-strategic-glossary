@@ -1,0 +1,63 @@
+{
+  "id": "C0074",
+  "slug": "space",
+  "prefLabel": "space",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "abstract-concepts"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0059",
+    "C0028",
+    "C0088"
+  ],
+  "relatedReviewed": false,
+  "definition": "Any area in the game where the [player](/term/player) and their team has more influence than the opposing team. In a [fight](/term/fight), space is any area that the allied team can move into with relative safely. Space is determined by [threat](/term/threat) and is created and changed as fights play out.",
+  "refs": {
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    "C0088": {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    }
+  },
+  "backlinks": [
+    {
+      "id": "C0055",
+      "prefLabel": "parallel positioning",
+      "slug": "parallel-positioning"
+    },
+    {
+      "id": "C0085",
+      "prefLabel": "teamfight",
+      "slug": "teamfight"
+    },
+    {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    },
+    {
+      "id": "C0097",
+      "prefLabel": "zone",
+      "slug": "zone"
+    }
+  ]
+}

@@ -17,8 +17,15 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0092",
+    "C0020",
+    "C0058",
+    "C0023",
+    "C0067"
+  ],
   "relatedReviewed": false,
-  "definition": "Killing a [minion wave](/term/wave) as slowly as possible. Slow pushing is a medium-term wave tactic primarily used when a player has a longer window for manipulating a wave. Slow pushing is a common default tactic because minions naturally tend to move slowly if left undisturbed. Slow pushes happen over 2-4 waves and result in a large buildup of minions before eventually [crashing](/term/crash). The eventual crash gives the player a timer to make a [play](/term/play), such as a [dive](/term/dive), roam, or recall.",
+  "definition": "Killing a [minion wave](/term/wave) as slowly as possible. Slow pushing is a medium-term wave tactic primarily used when a player has a longer window for manipulating a wave. Slow pushing is a common default tactic because minions naturally tend to move slowly if left undisturbed. Slow pushes happen over 2-4 waves and result in a large buildup of minions before eventually [crashing](/term/crash). The eventual crash gives the player a timer to make a [play](/term/play), such as a [dive](/term/dive), [roam](/term/roam), or recall.",
   "refs": {
     "C0069": {
       "id": "C0069",
@@ -44,13 +51,18 @@
       "id": "C0023",
       "prefLabel": "dive",
       "slug": "dive"
+    },
+    "C0067": {
+      "id": "C0067",
+      "prefLabel": "roam",
+      "slug": "roam"
     }
   },
   "backlinks": [
     {
-      "id": "C0069",
-      "prefLabel": "shove",
-      "slug": "shove"
+      "id": "C0067",
+      "prefLabel": "roam",
+      "slug": "roam"
     }
   ]
 }

@@ -14,8 +14,55 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [],
   "relatedReviewed": false,
   "definition": "Something or someone being acted upon, often by the player. A target can be a champion, minion, ward, monster, and can be on any team.",
   "refs": {},
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0009",
+      "prefLabel": "buffer",
+      "slug": "buffer"
+    },
+    {
+      "id": "C0014",
+      "prefLabel": "cheese",
+      "slug": "cheese"
+    },
+    {
+      "id": "C0015",
+      "prefLabel": "collapse",
+      "slug": "collapse"
+    },
+    {
+      "id": "C0035",
+      "prefLabel": "hook",
+      "slug": "hook"
+    },
+    {
+      "id": "C0040",
+      "prefLabel": "kill pressure",
+      "slug": "kill-pressure"
+    },
+    {
+      "id": "C0050",
+      "prefLabel": "mixup",
+      "slug": "mixup"
+    },
+    {
+      "id": "C0055",
+      "prefLabel": "parallel positioning",
+      "slug": "parallel-positioning"
+    },
+    {
+      "id": "C0075",
+      "prefLabel": "spacing",
+      "slug": "spacing"
+    },
+    {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    }
+  ]
 }

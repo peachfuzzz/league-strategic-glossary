@@ -14,8 +14,15 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0084",
+    "C0027",
+    "C0090",
+    "C0097",
+    "C0074"
+  ],
   "relatedReviewed": false,
-  "definition": "The potential to act on a [target](/term/target). The magnitude of a threat depends on the [expected value](/term/expected-value) of the threatened action: the theoretical EV of the action if it were taken at that instant. Once the player takes the threatened action, the threat of the ability transforms into a realized [value](/term/value).\n\nExample: Blitzcrank approaches an enemy champion with its Q, Rocket Grab. When Blitz Q is off cooldown, Blitz has extremely high agency over its potential target, generating massive threat. Blitz can use the threat of its hook—the expected value of the hook hitting its target—to [zone](/term/zone) the enemy, generating value in the form of space. Once Blitz casts its hook, it loses the associated threat, even if the hook itself generated value.",
+  "definition": "The potential to act on a [target](/term/target). The magnitude of a threat depends on the [expected value](/term/expected-value) of the threatened action: the theoretical EV of the action if it were taken at that instant. Once the player takes the threatened action, the threat of the ability transforms into a realized [value](/term/value).\n\nExample: Blitzcrank approaches an enemy champion with its Q, Rocket Grab. When Blitz Q is off cooldown, Blitz has extremely high agency over its potential target, generating massive threat. Blitz can use the threat of its hook—the expected value of the hook hitting its target—to [zone](/term/zone) the enemy, generating value in the form of [space](/term/space). Once Blitz casts its hook, it loses the associated threat, even if the hook itself generated value.",
   "refs": {
     "C0084": {
       "id": "C0084",
@@ -36,7 +43,48 @@
       "id": "C0097",
       "prefLabel": "zone",
       "slug": "zone"
+    },
+    "C0074": {
+      "id": "C0074",
+      "prefLabel": "space",
+      "slug": "space"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0017",
+      "prefLabel": "contest",
+      "slug": "contest"
+    },
+    {
+      "id": "C0055",
+      "prefLabel": "parallel positioning",
+      "slug": "parallel-positioning"
+    },
+    {
+      "id": "C0062",
+      "prefLabel": "pressure",
+      "slug": "pressure"
+    },
+    {
+      "id": "C0070",
+      "prefLabel": "siege",
+      "slug": "siege"
+    },
+    {
+      "id": "C0074",
+      "prefLabel": "space",
+      "slug": "space"
+    },
+    {
+      "id": "C0075",
+      "prefLabel": "spacing",
+      "slug": "spacing"
+    },
+    {
+      "id": "C0097",
+      "prefLabel": "zone",
+      "slug": "zone"
+    }
+  ]
 }

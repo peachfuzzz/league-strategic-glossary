@@ -41,6 +41,9 @@
   "buffer window": [
     "C0009"
   ],
+  "camp": [
+    "C0010"
+  ],
   "CC buffer": [
     "C0011"
   ],
@@ -49,6 +52,9 @@
   ],
   "chain CC": [
     "C0012"
+  ],
+  "cheater recall": [
+    "C0013"
   ],
   "cheese": [
     "C0014"
@@ -149,6 +155,18 @@
   "lane assignment": [
     "C0041"
   ],
+  "lane bully": [
+    "C0042"
+  ],
+  "lane priority": [
+    "C0043"
+  ],
+  "prio": [
+    "C0043"
+  ],
+  "lethal": [
+    "C0044"
+  ],
   "macro": [
     "C0045"
   ],
@@ -167,6 +185,12 @@
   "microstrategy": [
     "C0047"
   ],
+  "meta": [
+    "C0048"
+  ],
+  "metagame": [
+    "C0048"
+  ],
   "mindgame": [
     "C0049"
   ],
@@ -181,6 +205,12 @@
   ],
   "overextend": [
     "C0054"
+  ],
+  "parallel positioning": [
+    "C0055"
+  ],
+  "trading triangle": [
+    "C0055"
   ],
   "pathing": [
     "C0056"
@@ -197,6 +227,9 @@
   "player": [
     "C0059"
   ],
+  "playmaker": [
+    "C0060"
+  ],
   "pressure": [
     "C0062"
   ],
@@ -211,6 +244,9 @@
   ],
   "reliability": [
     "C0066"
+  ],
+  "roam": [
+    "C0067"
   ],
   "rotate": [
     "C0068"
@@ -235,6 +271,9 @@
   ],
   "slow push": [
     "C0073"
+  ],
+  "space": [
+    "C0074"
   ],
   "spacing": [
     "C0075"
@@ -304,6 +343,12 @@
   ],
   "minion wave": [
     "C0092"
+  ],
+  "wave direction": [
+    "C0093"
+  ],
+  "wave state": [
+    "C0094"
   ],
   "wave thinning": [
     "C0095"

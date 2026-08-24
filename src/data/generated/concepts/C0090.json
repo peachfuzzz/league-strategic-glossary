@@ -16,6 +16,7 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [],
   "relatedReviewed": false,
   "definition": "The quantitative measurement of an action, decision, or state. Value is how much something is “worth” to winning a game. An outcome’s value is its measurable quantity: gold, health, mana, cooldown, movement, etc. Value allows for comparing actions or decisions that are measured similarly. Value is discounted over time: a given amount of value now is worth more than the same amount of value later.",
   "refs": {
@@ -27,9 +28,39 @@
   },
   "backlinks": [
     {
+      "id": "C0001",
+      "prefLabel": "ability rotation",
+      "slug": "ability-rotation"
+    },
+    {
+      "id": "C0027",
+      "prefLabel": "expected value",
+      "slug": "expected-value"
+    },
+    {
+      "id": "C0045",
+      "prefLabel": "macro",
+      "slug": "macro"
+    },
+    {
       "id": "C0066",
       "prefLabel": "reliability",
       "slug": "reliability"
+    },
+    {
+      "id": "C0086",
+      "prefLabel": "tempo",
+      "slug": "tempo"
+    },
+    {
+      "id": "C0087",
+      "prefLabel": "tension",
+      "slug": "tension"
+    },
+    {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
     }
   ]
 }

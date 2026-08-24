@@ -7,8 +7,12 @@ import matter from 'gray-matter';
  *
  *   npx tsx scripts/check-vocab.ts [expected_count]
  *
- * Exits non-zero if any check fails. Asymmetric `related` pairs are reported
- * but never auto-fixed, and do not fail the run.
+ * Exits non-zero if any check fails.
+ *
+ * Three things are reported but never fail the run, because each is a judgement
+ * for Phase 4 rather than a fault: asymmetric `related` pairs, pairs carrying
+ * two relation types, and hierarchy edges asserted from one end only. Cycles in
+ * `broader` or `partOf` do fail - those are incoherent under any reading.
  *
  * Frontmatter is parsed with gray-matter (see ADR0014). A note that is not
  * valid YAML throws during parsing and is reported as a failure, rather than
@@ -185,6 +189,118 @@ for (const [stem, fm] of notes) {
   }
 }
 
+/** The authored relation fields. `mentions` is derived and is not among them. */
+const RELATION_FIELDS = ['related', 'broader', 'narrower', 'partOf', 'hasPart'] as const;
+
+/**
+ * 11. `broader` and `partOf` are acyclic.
+ *
+ * A cycle means A is above B is above A, which is incoherent under either
+ * relation. This runs before Phase 4 writes any hierarchy on purpose: catching
+ * the first bad edge as it is authored is cheaper than untangling a loop later.
+ *
+ * Targets that do not resolve are skipped rather than reported here - the build
+ * drops them with its own warning, and a dangling id cannot form a cycle.
+ *
+ * `mentions` is deliberately not checked. It is cyclic by design: ten mutually
+ * mentioning pairs exist today, and mutual definition is a finding about the
+ * vocabulary rather than a fault (DESIGN.md 5.4).
+ */
+const findCycle = (field: string): string[] | null => {
+  const WHITE = 0, GREY = 1, BLACK = 2;
+  const colour = new Map<string, number>();
+  const path: string[] = [];
+
+  const walk = (id: string): string[] | null => {
+    colour.set(id, GREY);
+    path.push(id);
+    for (const t of listOf(notes.get(id), field)) {
+      if (!notes.has(t)) continue;
+      const c = colour.get(t) ?? WHITE;
+      if (c === GREY) return [...path.slice(path.indexOf(t)), t];
+      if (c === WHITE) {
+        const found = walk(t);
+        if (found) return found;
+      }
+    }
+    path.pop();
+    colour.set(id, BLACK);
+    return null;
+  };
+
+  for (const stem of notes.keys()) {
+    if ((colour.get(stem) ?? WHITE) === WHITE) {
+      const found = walk(stem);
+      if (found) return found;
+    }
+  }
+  return null;
+};
+
+for (const field of ['broader', 'partOf'] as const) {
+  const cycle = findCycle(field);
+  if (cycle) {
+    const trail = cycle.map((id) => `${id} (${notes.get(id)?.prefLabel})`).join(' -> ');
+    fail(`${field} contains a cycle: ${trail}`);
+  }
+}
+
+/**
+ * 12. No pair carries two relation types (report only).
+ *
+ * Each type makes a different claim, and asserting two at once about the same
+ * pair usually means one of them is wrong. Usually, not always - "A is a kind
+ * of B" and "see also" can both be defensible - so this is a warning for Phase
+ * 4 to adjudicate, not a failure.
+ *
+ * Pairs are normalised unordered, so `broader` on one note and `narrower` on
+ * the other - which is the correct way to write one hierarchy edge - is not
+ * reported. Those two are treated as one relation for this purpose.
+ */
+const INVERSE: Record<string, string> = {
+  broader: 'narrower',
+  narrower: 'broader',
+  partOf: 'hasPart',
+  hasPart: 'partOf',
+};
+/** Collapses each field and its inverse to one name, so a correct pair is one claim. */
+const claimOf = (field: string) =>
+  field === 'narrower' ? 'broader' : field === 'hasPart' ? 'partOf' : field;
+
+const claims = new Map<string, Set<string>>();
+for (const [stem, fm] of notes) {
+  for (const field of RELATION_FIELDS) {
+    for (const t of listOf(fm, field)) {
+      if (!notes.has(t)) continue;
+      const key = [stem, t].sort().join('|');
+      if (!claims.has(key)) claims.set(key, new Set());
+      claims.get(key)!.add(claimOf(field));
+    }
+  }
+}
+const dualTyped = [...claims.entries()]
+  .filter(([, types]) => types.size > 1)
+  .map(([key, types]) => [key, [...types].sort()] as [string, string[]]);
+
+/**
+ * 13. A hierarchy edge is asserted from both ends (report only).
+ *
+ * `broader` on A should be matched by `narrower` on B. The build emits these as
+ * two separate directed edges, so a one-sided assertion renders as half a
+ * relation. Reported rather than failed: the fields are empty today, and Phase
+ * 4 fills them note by note, where a half-written edge is work in progress.
+ */
+const oneSided: Array<[string, string, string]> = [];
+for (const [stem, fm] of notes) {
+  for (const field of ['broader', 'narrower', 'partOf', 'hasPart'] as const) {
+    for (const t of listOf(fm, field)) {
+      if (notes.has(t) && !listOf(notes.get(t), INVERSE[field]).includes(stem)) {
+        oneSided.push([stem, field, t]);
+      }
+    }
+  }
+}
+
 // ---- generated artifacts -------------------------------------------------
 
 const activeIds = new Set([...notes].filter(([, fm]) => fm.active === true).map(([s]) => s));
@@ -225,6 +341,11 @@ for (const [stem, body] of bodies) {
 
 let artifactsChecked = false;
 let nIndex = 0, nConcepts = 0, nNodes = 0, nEdges = 0, nLabels = 0;
+/** Per-concept `mentions` and `backlinks`, to check the two are true inverses. */
+const emittedMentions = new Map<string, Set<string>>();
+const emittedBacklinks = new Map<string, Set<string>>();
+/** `source|target` for every `mentions` edge in graph.json. */
+let graphMentionEdges: Set<string> | null = null;
 /** Slugs of active concepts, so prose link URLs can be checked to resolve. */
 const activeSlugs = new Set<string>();
 let labels: Record<string, string[]> | null = null;
@@ -298,10 +419,16 @@ if (!fs.existsSync(GEN)) {
     for (const i of [...activeIds].filter((x) => !nodeIds.has(x)).sort()) {
       fail(`graph.json: active note ${i} has no node`);
     }
+    const EDGE_TYPES = new Set([...RELATION_FIELDS, 'mentions']);
     for (const e of gEdges) {
       if (!nodeIds.has(e.source)) fail(`graph.json: edge source ${JSON.stringify(e.source)} does not resolve`);
       if (!nodeIds.has(e.target)) fail(`graph.json: edge target ${JSON.stringify(e.target)} does not resolve`);
+      if (!EDGE_TYPES.has(e.type)) fail(`graph.json: unknown edge type ${JSON.stringify(e.type)}`);
+      if (e.source === e.target) fail(`graph.json: ${e.type} edge from ${e.source} to itself`);
     }
+    graphMentionEdges = new Set(
+      gEdges.filter((e: any) => e.type === 'mentions').map((e: any) => `${e.source}|${e.target}`)
+    );
   }
 
   if (labels) {
@@ -335,6 +462,26 @@ if (!fs.existsSync(GEN)) {
       if (!(t in (c.refs ?? {}))) fail(`${file}: prose wikilink target ${t} missing from refs`);
     }
 
+    // `mentions` is derived, so it must agree with the prose it was derived
+    // from - no more, no less. A drift here means the build and this script
+    // disagree about what the vault says.
+    const emitted = new Set<string>(c.mentions ?? []);
+    const expected = proseTargets.get(stem) ?? new Set<string>();
+    emittedMentions.set(stem, emitted);
+    emittedBacklinks.set(
+      stem,
+      new Set<string>((c.backlinks ?? []).map((b: { id: string }) => b.id))
+    );
+    for (const t of emitted) {
+      if (!activeIds.has(t)) fail(`${file}: mentions target ${t} is not an active concept`);
+      if (!(t in (c.refs ?? {}))) fail(`${file}: mentions target ${t} missing from refs`);
+      if (t === stem) fail(`${file}: mentions includes itself`);
+      if (!expected.has(t)) fail(`${file}: mentions ${t}, which the prose does not link to`);
+    }
+    for (const t of expected) {
+      if (t !== stem && !emitted.has(t)) fail(`${file}: prose links to ${t}, missing from mentions`);
+    }
+
     // No wikilink may survive into the artifact, and every URL the build wrote
     // has to resolve - a slugify change could otherwise 404 prose links while
     // refs still looked correct.
@@ -346,6 +493,41 @@ if (!fs.existsSync(GEN)) {
       if (!activeSlugs.has(m[1])) {
         fail(`${file}: definition links to /term/${m[1]}, which is not an active slug`);
       }
+    }
+  }
+
+  // `backlinks` is the reverse of `mentions` and nothing else (ADR0016), so
+  // the two have to be exact inverses across the whole set. Checking it here
+  // rather than per file is what makes it a real check: a single file cannot
+  // see whether someone else claims to mention it.
+  for (const [stem, mentioned] of emittedMentions) {
+    for (const t of mentioned) {
+      if (!emittedBacklinks.get(t)?.has(stem)) {
+        fail(`concepts/${t}.json: backlinks omits ${stem}, whose prose mentions it`);
+      }
+    }
+  }
+  for (const [stem, back] of emittedBacklinks) {
+    for (const src of back) {
+      if (!emittedMentions.get(src)?.has(stem)) {
+        fail(`concepts/${stem}.json: backlinks claims ${src}, which does not mention it`);
+      }
+    }
+  }
+
+  // Every `mentions` edge in the graph must correspond to a concept file's
+  // `mentions`, and vice versa. The two are written from the same source in
+  // the build; this catches one being changed without the other.
+  if (graphMentionEdges) {
+    const fromFiles = new Set<string>();
+    for (const [stem, mentioned] of emittedMentions) {
+      for (const t of mentioned) fromFiles.add(`${stem}|${t}`);
+    }
+    for (const key of graphMentionEdges) {
+      if (!fromFiles.has(key)) fail(`graph.json: mentions edge ${key} is in no concept file`);
+    }
+    for (const key of fromFiles) {
+      if (!graphMentionEdges.has(key)) fail(`graph.json: missing mentions edge ${key}`);
     }
   }
 }
@@ -391,6 +573,8 @@ console.log(`  Notes:          ${files.length}`);
 console.log(`  Registry rows:  ${rows.length}`);
 console.log(`  Failures:       ${failures.length}`);
 console.log(`  Asymmetric:     ${asym.length} (reported, not auto-fixed)`);
+console.log(`  Dual-typed:     ${dualTyped.length} (reported, for Phase 4 to judge)`);
+console.log(`  One-sided:      ${oneSided.length} hierarchy edge(s) (reported)`);
 
 const wikilinkCount = [...bodies.values()]
   .reduce((n, b) => n + [...b.matchAll(WIKILINK)].length, 0);
@@ -434,6 +618,32 @@ if (asym.length > 0) {
     const la = notes.get(a)?.prefLabel;
     const lb = notes.get(b)?.prefLabel;
     console.log(`  ${a} (${la}) -> ${b} (${lb});  ${b} does not list ${a}`);
+  }
+  console.log();
+}
+
+// Two claims about one pair. Usually one is wrong, but not always - Phase 4
+// decides, so this reports rather than fails.
+if (dualTyped.length > 0) {
+  console.log('Pairs carrying more than one relation type:');
+  for (const [key, types] of [...dualTyped].sort()) {
+    const [a, b] = key.split('|');
+    const la = notes.get(a)?.prefLabel;
+    const lb = notes.get(b)?.prefLabel;
+    console.log(`  ${a} (${la}) <-> ${b} (${lb}):  ${types.join(' + ')}`);
+  }
+  console.log();
+}
+
+// A hierarchy edge asserted from one end only. Expected while Phase 4 is in
+// progress; it means the relation renders as half an edge until the other note
+// is written.
+if (oneSided.length > 0) {
+  console.log('Hierarchy edges asserted from one end only:');
+  for (const [a, field, b] of [...oneSided].sort()) {
+    const la = notes.get(a)?.prefLabel;
+    const lb = notes.get(b)?.prefLabel;
+    console.log(`  ${a} (${la}).${field} -> ${b} (${lb});  ${b} does not answer with ${INVERSE[field]}`);
   }
   console.log();
 }

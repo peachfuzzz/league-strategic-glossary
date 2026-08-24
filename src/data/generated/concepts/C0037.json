@@ -16,6 +16,10 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0046",
+    "C0028"
+  ],
   "relatedReviewed": false,
   "definition": "The way two actions, states, or inputs affect each other according to the game engine. Interactions refer to the specific situation or outcome of an event, especially in unintuitive or unclear scenarios, e.g. a Quinn’s Vault targeting a Camille using Hookshot. The outcome of key interactions is a factor in analyzing [matchups](/term/matchup) and [fights](/term/fight).",
   "refs": {
@@ -30,5 +34,11 @@
       "slug": "fight"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0049",
+      "prefLabel": "mindgame",
+      "slug": "mindgame"
+    }
+  ]
 }

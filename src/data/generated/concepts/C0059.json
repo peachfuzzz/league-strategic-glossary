@@ -14,8 +14,230 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [],
   "relatedReviewed": false,
   "definition": "A person controlling a champion in-game.\nAuthors’ note: In this glossary, we often use \"the player” as a formalization of “you, the person doing stuff.”",
   "refs": {},
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0003",
+      "prefLabel": "all-in",
+      "slug": "all-in"
+    },
+    {
+      "id": "C0006",
+      "prefLabel": "backstep",
+      "slug": "backstep"
+    },
+    {
+      "id": "C0007",
+      "prefLabel": "bait",
+      "slug": "bait"
+    },
+    {
+      "id": "C0009",
+      "prefLabel": "buffer",
+      "slug": "buffer"
+    },
+    {
+      "id": "C0011",
+      "prefLabel": "CC buffer",
+      "slug": "cc-buffer"
+    },
+    {
+      "id": "C0013",
+      "prefLabel": "cheater recall",
+      "slug": "cheater-recall"
+    },
+    {
+      "id": "C0014",
+      "prefLabel": "cheese",
+      "slug": "cheese"
+    },
+    {
+      "id": "C0015",
+      "prefLabel": "collapse",
+      "slug": "collapse"
+    },
+    {
+      "id": "C0017",
+      "prefLabel": "contest",
+      "slug": "contest"
+    },
+    {
+      "id": "C0019",
+      "prefLabel": "counterpick",
+      "slug": "counterpick"
+    },
+    {
+      "id": "C0023",
+      "prefLabel": "dive",
+      "slug": "dive"
+    },
+    {
+      "id": "C0024",
+      "prefLabel": "duel",
+      "slug": "duel"
+    },
+    {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    },
+    {
+      "id": "C0031",
+      "prefLabel": "freeze",
+      "slug": "freeze"
+    },
+    {
+      "id": "C0032",
+      "prefLabel": "gank",
+      "slug": "gank"
+    },
+    {
+      "id": "C0033",
+      "prefLabel": "give",
+      "slug": "give"
+    },
+    {
+      "id": "C0034",
+      "prefLabel": "high elo",
+      "slug": "high-elo"
+    },
+    {
+      "id": "C0039",
+      "prefLabel": "key ability",
+      "slug": "key-ability"
+    },
+    {
+      "id": "C0040",
+      "prefLabel": "kill pressure",
+      "slug": "kill-pressure"
+    },
+    {
+      "id": "C0045",
+      "prefLabel": "macro",
+      "slug": "macro"
+    },
+    {
+      "id": "C0048",
+      "prefLabel": "meta",
+      "slug": "meta"
+    },
+    {
+      "id": "C0049",
+      "prefLabel": "mindgame",
+      "slug": "mindgame"
+    },
+    {
+      "id": "C0050",
+      "prefLabel": "mixup",
+      "slug": "mixup"
+    },
+    {
+      "id": "C0053",
+      "prefLabel": "one-trick",
+      "slug": "one-trick"
+    },
+    {
+      "id": "C0054",
+      "prefLabel": "overextend",
+      "slug": "overextend"
+    },
+    {
+      "id": "C0055",
+      "prefLabel": "parallel positioning",
+      "slug": "parallel-positioning"
+    },
+    {
+      "id": "C0057",
+      "prefLabel": "peel",
+      "slug": "peel"
+    },
+    {
+      "id": "C0062",
+      "prefLabel": "pressure",
+      "slug": "pressure"
+    },
+    {
+      "id": "C0065",
+      "prefLabel": "recall timing",
+      "slug": "recall-timing"
+    },
+    {
+      "id": "C0067",
+      "prefLabel": "roam",
+      "slug": "roam"
+    },
+    {
+      "id": "C0069",
+      "prefLabel": "shove",
+      "slug": "shove"
+    },
+    {
+      "id": "C0071",
+      "prefLabel": "skill test",
+      "slug": "skill-test"
+    },
+    {
+      "id": "C0072",
+      "prefLabel": "skirmish",
+      "slug": "skirmish"
+    },
+    {
+      "id": "C0074",
+      "prefLabel": "space",
+      "slug": "space"
+    },
+    {
+      "id": "C0075",
+      "prefLabel": "spacing",
+      "slug": "spacing"
+    },
+    {
+      "id": "C0078",
+      "prefLabel": "splitpush",
+      "slug": "splitpush"
+    },
+    {
+      "id": "C0085",
+      "prefLabel": "teamfight",
+      "slug": "teamfight"
+    },
+    {
+      "id": "C0086",
+      "prefLabel": "tempo",
+      "slug": "tempo"
+    },
+    {
+      "id": "C0087",
+      "prefLabel": "tension",
+      "slug": "tension"
+    },
+    {
+      "id": "C0089",
+      "prefLabel": "trade",
+      "slug": "trade"
+    },
+    {
+      "id": "C0091",
+      "prefLabel": "variance",
+      "slug": "variance"
+    },
+    {
+      "id": "C0093",
+      "prefLabel": "wave direction",
+      "slug": "wave-direction"
+    },
+    {
+      "id": "C0096",
+      "prefLabel": "weakside",
+      "slug": "weakside"
+    },
+    {
+      "id": "C0097",
+      "prefLabel": "zone",
+      "slug": "zone"
+    }
+  ]
 }

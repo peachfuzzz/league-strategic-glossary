@@ -8,7 +8,6 @@ import { getTagConfig } from '@/config/tags.config';
 interface TermPageContentProps {
   concept: Concept;
   related: ConceptRef[];
-  backLinks: ConceptRef[];
   prevTerm: ConceptRef | null;
   nextTerm: ConceptRef | null;
 }
@@ -94,7 +93,6 @@ function TrailingList({ label, terms }: { label: string; terms: ConceptRef[] }) 
 export default function TermPageContent({
   concept,
   related,
-  backLinks,
   prevTerm,
   nextTerm,
 }: TermPageContentProps) {
@@ -144,8 +142,10 @@ export default function TermPageContent({
             <dd className="mt-3 pl-6">
               {renderDefinition(concept)}
 
+              {/* Backlinks are emitted on every concept but not rendered yet.
+                  As the reverse of `mentions` the list runs long and uneven,
+                  and how to present it is a Phase 5a decision. */}
               <TrailingList label="See also" terms={related} />
-              <TrailingList label="Referenced by" terms={backLinks} />
             </dd>
           </div>
         </dl>

@@ -1,0 +1,36 @@
+{
+  "id": "C0010",
+  "slug": "camp",
+  "prefLabel": "camp",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "vernacular"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0032",
+    "C0067"
+  ],
+  "relatedReviewed": false,
+  "definition": "Frequent [ganks](/term/gank) or [roams](/term/roam) around a specific lane. Camping is usually done by a jungler, but can involve more team members with coordination.",
+  "refs": {
+    "C0032": {
+      "id": "C0032",
+      "prefLabel": "gank",
+      "slug": "gank"
+    },
+    "C0067": {
+      "id": "C0067",
+      "prefLabel": "roam",
+      "slug": "roam"
+    }
+  },
+  "backlinks": []
+}

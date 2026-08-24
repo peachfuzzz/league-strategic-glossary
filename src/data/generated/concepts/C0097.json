@@ -14,9 +14,20 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0074",
+    "C0088",
+    "C0059",
+    "C0016"
+  ],
   "relatedReviewed": false,
-  "definition": "Creating space through [threat](/term/threat) to disincentivize the approach of opposing [players](/term/player). Zoning does not require active [combat](/term/combat). A player being zoned could still choose to ignore the threat and enter the area, though they likely would experience retaliation.",
+  "definition": "Creating [space](/term/space) through [threat](/term/threat) to disincentivize the approach of opposing [players](/term/player). Zoning does not require active [combat](/term/combat). A player being zoned could still choose to ignore the threat and enter the area, though they likely would experience retaliation.",
   "refs": {
+    "C0074": {
+      "id": "C0074",
+      "prefLabel": "space",
+      "slug": "space"
+    },
     "C0088": {
       "id": "C0088",
       "prefLabel": "threat",
@@ -33,5 +44,11 @@
       "slug": "combat"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0088",
+      "prefLabel": "threat",
+      "slug": "threat"
+    }
+  ]
 }

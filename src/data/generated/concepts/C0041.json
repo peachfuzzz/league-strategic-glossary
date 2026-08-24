@@ -14,6 +14,9 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0062"
+  ],
   "relatedReviewed": false,
   "definition": "The allocation of lanes to laners, particularly once lane phase has ended. Lane assignments after lane phase often differ from the roles selected before the game. Ideally, in determining lane assignments, a team tries to maximize safety, map [pressure](/term/pressure), and suitability for each laner. In conventional lane assignments, the bot laner and support move to mid lane while the solo laners move to side lanes, but moment-to-moment lane assignments are situationally-dependent.",
   "refs": {

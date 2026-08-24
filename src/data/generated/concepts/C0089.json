@@ -14,6 +14,12 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0028",
+    "C0059",
+    "C0040",
+    "C0003"
+  ],
   "relatedReviewed": false,
   "definition": "A [fight](/term/fight) between opposing [players](/term/player) during lane that does not result in a kill. Trades are often evaluated based on the parity of resources exchanged. Trades can be categorized as short or long depending on the length of the fight. Sufficient trading can generate [kill pressure](/term/kill-pressure) or lead to an [all-in](/term/all-in)",
   "refs": {
@@ -40,9 +46,9 @@
   },
   "backlinks": [
     {
-      "id": "C0003",
-      "prefLabel": "all-in",
-      "slug": "all-in"
+      "id": "C0042",
+      "prefLabel": "lane bully",
+      "slug": "lane-bully"
     }
   ]
 }

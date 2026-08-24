@@ -116,6 +116,19 @@
     "truncated": true
   },
   {
+    "id": "C0010",
+    "slug": "camp",
+    "prefLabel": "camp",
+    "altLabel": [],
+    "collection": [
+      "vernacular"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "Frequent ganks or roams around a specific lane.",
+    "truncated": true
+  },
+  {
     "id": "C0011",
     "slug": "cc-buffer",
     "prefLabel": "CC buffer",
@@ -141,6 +154,20 @@
     "active": true,
     "complete": false,
     "summary": "Timing several distinct sources of hard CC on the same target to apply in sequence without allowing the target to act.",
+    "truncated": true
+  },
+  {
+    "id": "C0013",
+    "slug": "cheater-recall",
+    "prefLabel": "cheater recall",
+    "altLabel": [],
+    "collection": [
+      "strategy",
+      "minions"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "Recalling after crashing the first three minion waves of the game such that minimal minions are lost upon returning to lane.",
     "truncated": true
   },
   {
@@ -512,6 +539,47 @@
     "truncated": true
   },
   {
+    "id": "C0042",
+    "slug": "lane-bully",
+    "prefLabel": "lane bully",
+    "altLabel": [],
+    "collection": [
+      "vernacular"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "The label for any champion with a strong lane phase relative to other champions in their role.",
+    "truncated": true
+  },
+  {
+    "id": "C0043",
+    "slug": "lane-priority",
+    "prefLabel": "lane priority",
+    "altLabel": [
+      "prio"
+    ],
+    "collection": [
+      "strategy"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "The state of being able to move from a lane before the opposing laner(s).",
+    "truncated": true
+  },
+  {
+    "id": "C0044",
+    "slug": "lethal",
+    "prefLabel": "lethal",
+    "altLabel": [],
+    "collection": [
+      "strategy"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "The sufficient damage necessary to kill an opponent.",
+    "truncated": true
+  },
+  {
     "id": "C0045",
     "slug": "macro",
     "prefLabel": "macro",
@@ -553,6 +621,21 @@
     "active": true,
     "complete": false,
     "summary": "Skills and strategies that concern in-the-moment decisions and inputs, on the order of seconds or less.",
+    "truncated": true
+  },
+  {
+    "id": "C0048",
+    "slug": "meta",
+    "prefLabel": "meta",
+    "altLabel": [
+      "metagame"
+    ],
+    "collection": [
+      "abstract-concepts"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "The perceived state of strategies for winning a game of League.",
     "truncated": true
   },
   {
@@ -621,6 +704,21 @@
     "truncated": true
   },
   {
+    "id": "C0055",
+    "slug": "parallel-positioning",
+    "prefLabel": "parallel positioning",
+    "altLabel": [
+      "trading triangle"
+    ],
+    "collection": [
+      "strategy"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "As the bot laner or support, standing apart from their lane partner while maintaining approximately the same distance from the enemy laner(s).",
+    "truncated": true
+  },
+  {
     "id": "C0056",
     "slug": "pathing",
     "prefLabel": "pathing",
@@ -673,6 +771,19 @@
     "active": true,
     "complete": false,
     "summary": "A person controlling a champion in-game.",
+    "truncated": true
+  },
+  {
+    "id": "C0060",
+    "slug": "playmaker",
+    "prefLabel": "playmaker",
+    "altLabel": [],
+    "collection": [
+      "vernacular"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "A champion that excels at creating advantageous situations for their team (making plays).",
     "truncated": true
   },
   {
@@ -739,6 +850,19 @@
     "active": true,
     "complete": false,
     "summary": "The amount of variance in a given option.",
+    "truncated": true
+  },
+  {
+    "id": "C0067",
+    "slug": "roam",
+    "prefLabel": "roam",
+    "altLabel": [],
+    "collection": [
+      "strategy"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "Leaving a lane to make a play.",
     "truncated": true
   },
   {
@@ -822,6 +946,19 @@
     "active": true,
     "complete": false,
     "summary": "Killing a minion wave as slowly as possible.",
+    "truncated": true
+  },
+  {
+    "id": "C0074",
+    "slug": "space",
+    "prefLabel": "space",
+    "altLabel": [],
+    "collection": [
+      "abstract-concepts"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "Any area in the game where the player and their team has more influence than the opposing team.",
     "truncated": true
   },
   {
@@ -1066,6 +1203,33 @@
     "active": true,
     "complete": false,
     "summary": "A group of minions.",
+    "truncated": true
+  },
+  {
+    "id": "C0093",
+    "slug": "wave-direction",
+    "prefLabel": "wave direction",
+    "altLabel": [],
+    "collection": [
+      "strategy",
+      "minions"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "The current direction that a wave is pushing.",
+    "truncated": true
+  },
+  {
+    "id": "C0094",
+    "slug": "wave-state",
+    "prefLabel": "wave state",
+    "altLabel": [],
+    "collection": [
+      "strategy"
+    ],
+    "active": true,
+    "complete": false,
+    "summary": "The general conditions of a minion wave.",
     "truncated": true
   },
   {

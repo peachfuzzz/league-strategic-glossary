@@ -296,13 +296,13 @@ Each makes a different claim and must render distinctly.
 | `broader` / `narrower` | directed | solid, arrowhead, `--color-ink-2` |
 | `partOf` / `hasPart` | directed | solid, open diamond at whole end, `--color-ink-3` |
 | `related` | undirected | dotted, `--color-ink-3`, lighter |
-| `dependsOn` | directed | thin, arrowhead, `--color-rule` |
+| `mentions` | directed | thin, arrowhead, `--color-rule` |
 
 Encode with **weight, dash, and terminal** — not hue. The two-color rule holds:
 `--color-ink` for nodes, `--color-signal` for hover and selection.
 
 Each type gets an independent toggle. Default: hierarchy and part relations on,
-`dependsOn` off. `dependsOn` is the densest and drowns the others when everything is
+`mentions` off. `mentions` is the densest and drowns the others when everything is
 visible at once.
 
 `related` edges arrive collapsed — the build merges `A→B` and `B→A` into one
@@ -310,9 +310,15 @@ undirected edge. The other three stay directed.
 
 ### 5.3 Node size encodes betweenness
 
-Radius scales with betweenness centrality computed over the `dependsOn` graph, not
+Radius scales with betweenness centrality computed over the `mentions` graph, not
 with raw degree. Betweenness measures how often a concept sits on a path between
 other concepts — it finds bridges, where degree finds hubs.
+
+Substrate concepts are excluded from the metric. These are terms nearly every
+definition invokes because they name the medium the game is played in — `player`,
+`target` — so their degree measures ubiquity rather than structural importance. The
+list is `SUBSTRATE_CONCEPTS` in `src/config/substrate.config.ts`. The exclusion
+applies to metrics only: the graph still draws every real prose link.
 
 This is not only a layout choice. It is the visual form of a claim about the
 vocabulary, and it must report what the numbers say rather than what would look
@@ -327,10 +333,10 @@ placeholder — a wrong signal reads as a real one.
 The `broader` hierarchy is acyclic by construction and the build enforces it. Lay out
 by hierarchy depth rather than by force.
 
-`dependsOn` is not acyclic. Mutually-defined concepts will exist. Do not error on
-them — collapse each strongly-connected component into a single layer and note it in
-the UI. Mutual definition is an interesting finding about the vocabulary, not a data
-bug.
+`mentions` is not acyclic. Mutually-defined concepts exist — ten such pairs as of
+Phase 2c. Do not error on them — collapse each strongly-connected component into a
+single layer and note it in the UI. Mutual definition is an interesting finding about
+the vocabulary, not a data bug.
 
 Ship force-directed and layered as two toggleable modes.
 

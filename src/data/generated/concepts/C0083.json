@@ -16,6 +16,7 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [],
   "relatedReviewed": false,
   "definition": "The quality of being hard to kill. Tanky champions often have inherently higher defensive stats, build defensively, or have strong defensive outputs.",
   "refs": {
@@ -25,11 +26,5 @@
       "slug": "squishy"
     }
   },
-  "backlinks": [
-    {
-      "id": "C0080",
-      "prefLabel": "squishy",
-      "slug": "squishy"
-    }
-  ]
+  "backlinks": []
 }

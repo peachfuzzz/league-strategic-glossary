@@ -16,6 +16,11 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0059",
+    "C0072",
+    "C0028"
+  ],
   "relatedReviewed": false,
   "definition": "When a [player](/term/player) tries to deceive their opponent to make them take an action. The act of baiting can be done on multiple scales. On a [skirmishing](/term/skirmish) level, a player can bait to try to get an opponent to start a [fight](/term/fight), only to have their teammate(s) join once the opponents have committed to the fight. On a smaller scale, weaving in and out of the maximum range of an opponent's ability can maximize the chances of their opponent wasting a skillshot.",
   "refs": {
@@ -40,5 +45,16 @@
       "slug": "fight"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0049",
+      "prefLabel": "mindgame",
+      "slug": "mindgame"
+    },
+    {
+      "id": "C0054",
+      "prefLabel": "overextend",
+      "slug": "overextend"
+    }
+  ]
 }

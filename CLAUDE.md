@@ -21,24 +21,28 @@ correct and globally wrong because the phase arc was not visible.
 | 0 — Audit | Mostly done. Genus draft remains |
 | 1 — Build from the vault | Done |
 | W — Convert prose to wikilinks | Done |
-| **2 — Render, derive, measure** | **Current.** 2a/2b done; 2c/2d remain |
+| 2 — Render, derive, measure | Done. 2a–2e complete |
 | 3 — Derived relations and metrics | Merged into Phase 2 |
-| 4 — Write hierarchy by hand | Not started |
+| **4 — Write hierarchy by hand** | **Current.** Not started |
 | 5 — Presentation | Not started |
 | 6 — Guardrails | Not started |
 
-97 concepts, `C0001`–`C0097`. 81 active. 12 graph edges.
+97 concepts, `C0001`–`C0097`. 93 active. 229 graph edges — 13 authored, 216 derived.
 
-**The graph is sparse on purpose.** Automatic linking was deleted in Phase 1. Every
-cross-reference is an explicit wikilink — 218 of them across 82 notes, rendered as
-links on term pages since Phase 2a. They do **not** yet produce graph edges; that is
-Phase 2c's `dependsOn`. Until then most nodes are isolated. Do not add derived edges
-to compensate, and do not judge visual work against the current graph.
+**Every cross-reference is explicit.** Automatic linking was deleted in Phase 1. The
+vault holds 218 wikilinks across 82 notes, rendered as links on term pages since
+Phase 2a and, since Phase 2c, derived into `mentions` edges. Three nodes have no edge
+of any type; six have no prose link in or out. Do not add further derived edges.
 
-**What is coming.** Four typed relations — `broader`/`narrower`, `partOf`/`hasPart`,
-`related`, and a computed `dependsOn` from wikilinks. The hierarchy fields are empty
-today and will be written by hand in Phase 4. Do not populate them from existing data;
-the migrated `related` data is unreviewed and does not indicate hierarchy.
+**The authored relations are still sparse, and that is the real gap.** 13 edges come
+from `related`. The hierarchy fields — `broader`/`narrower`, `partOf`/`hasPart` — are
+**empty on every note** and will be written by hand in Phase 4. Do not populate them
+from existing data: neither the migrated `related` data nor the derived `mentions`
+indicates hierarchy. A prose link is usage, not subsumption.
+
+**The graph draws all edge types identically.** Typed rendering and per-type toggles
+are Phase 5d. Until then the global graph looks dense and undifferentiated; that is
+expected, not a regression. Do not judge visual work against it.
 
 ---
 
@@ -70,6 +74,7 @@ The most common failure in this repo is editing a generated file.
 | Tag definitions and colors | `src/config/tags.config.ts` | — |
 | Graph physics | `src/config/graph.config.ts` | constants inlined in `GraphView.tsx` |
 | Shuffle behavior | `src/config/shuffle.config.ts` | — |
+| Substrate concepts (metrics only) | `src/config/substrate.config.ts` | — |
 | Design tokens | `@theme` block in `src/app/globals.css` | — |
 
 `src/data/generated/` is deleted and rewritten on every build. Nothing there survives.
@@ -121,8 +126,9 @@ Each makes a different claim, and they must not be mixed.
   *all A are B* and *some B are A* must both be true.
 - **`partOf` / `hasPart`** — meronymic, directed. A part or phase of something.
 - **`related`** — associative, symmetric, no hierarchy implied.
-- **`dependsOn`** — derived from wikilinks in the prose. Never authored, never stored
-  in frontmatter. Computed at build time.
+- **`mentions`** — the prose of one entry links to another concept. Derived from
+  wikilinks. Never authored, never stored in frontmatter. Computed at build time.
+  It records usage only; it makes no claim that one concept depends on another.
 
 `related` and wikilinks mean different things and will diverge. `related` is an
 editorial assertion. A wikilink is usage. See `docs/adr/ADR0003-four-relation-types.md`.
@@ -133,7 +139,7 @@ editorial assertion. A wikilink is usage. See `docs/adr/ADR0003-four-relation-ty
 
 | Artifact | Contents | Consumer |
 |---|---|---|
-| `concepts/C####.json` | one active concept, plus a `refs` map of the label and slug of everything it references, plus `backlinks` | term page |
+| `concepts/C####.json` | one active concept, plus `mentions`, a `refs` map of the label and slug of everything it references, and `backlinks` | term page |
 | `index.json` | id, slug, labels, first-sentence summary, `truncated` | list view, search |
 | `graph.json` | nodes and typed edges, no prose | graph |
 | `labels.json` | label → array of concept ids | ambiguity check |
@@ -154,9 +160,12 @@ exist.
 - **Slug uniqueness is enforced across active concepts only.** A collision fails the
   build rather than resolving arbitrarily.
 - **`related` edges are collapsed** — `A→B` and `B→A` become one undirected edge.
-  Hierarchy edges stay directed.
-- **`backlinks` preserve asymmetry.** They are not repaired. Eight asymmetric pairs
-  exist from migration and are resolved by hand in Phase 4d.
+  Hierarchy and `mentions` edges stay directed.
+- **`mentions` edges are not collapsed.** Where two entries link to each other, both
+  edges are emitted. Ten such pairs exist. Mutual definition is a finding about the
+  vocabulary, not a duplicate to merge away.
+- **`backlinks` is the exact reverse of `mentions`**, and nothing else. It no longer
+  scans the relation fields. `check-vocab` enforces that the two are true inverses.
 - **Wikilinks are resolved into Markdown links** and never reach a consumer. A link to
   an active concept becomes `[label](/term/slug)` and its target joins `refs`; to an
   inactive concept, plain text plus a report; to an unknown one, a build failure.
@@ -253,14 +262,22 @@ now, which makes its state tracking redundant. Do not invest in it.
 ```bash
 npm run dev
 npm run build-vocab      # rebuild artifacts from the vault
-./scripts/check-vocab.ts # structural validation
-./scripts/check-design.sh
+npm run check-vocab      # structural validation
+npm run metrics          # in-degree and betweenness -> reports/ (gitignored)
+npm run check-design
 ```
 
 `check-vocab.ts` validates identifiers, filenames, registry consistency, slug
 uniqueness, relation targets, and artifact integrity. It has been mutation-tested
 against corrupted copies — it is not passing vacuously. Extend it rather than adding
 parallel checks.
+
+It **fails** on cycles in `broader` or `partOf`. It **reports without failing** three
+things that are Phase 4 judgement calls rather than faults: asymmetric `related` pairs,
+pairs carrying two relation types, and hierarchy edges asserted from one end only.
+
+`metrics.ts` only reports. It never fails and is not part of the build, so a surprising
+number can never block a commit.
 
 ---
 
@@ -286,21 +303,30 @@ superseded by a new ADR, never edited in place.
 | 0013 | Headword form |
 | 0014 | `gray-matter` for frontmatter parsing |
 | 0015 | Wikilinks resolved at build; restricted Markdown rendering |
+| 0016 | The derived relation is `mentions`, not `dependsOn` |
 
 ---
 
 ## Known loose ends
 
 - **`scripts/requirements.txt`** remains with no Python in the repo.
-- **Four inactive concepts are linked from prose** and render as unlinked text:
-  `space` (C0074, 4 links), `roam` (C0067, 3), `wave direction` (C0093, 3), and
-  `lethal` (C0044, 2). `npm run check-vocab` lists them. These are the strongest
-  missing-term candidates for Phase 4.
-- **Every active entry is multi-sentence**, so `truncated` is currently true for all 81.
-  The flag is still correct and will matter as shorter entries are written.
-- **`C0026 Execute (damage)`** is an empty stub, inactive.
-- **`Actor` (C0002) and `Object` (C0051)** may be duplicates of `Player` and `Target`,
-  or may need `prefLabel` updates. Unresolved.
-- **Eight asymmetric `related` pairs** from migration, unreviewed.
+- **No prose links to an inactive concept.** The four former candidates — `space`
+  (C0074), `roam` (C0067), `wave direction` (C0093), `lethal` (C0044) — were all
+  activated in the Phase 1 cleanup. `npm run metrics` regenerates the gap list into
+  `reports/missing.md`, which is currently empty.
+- **Every active entry is multi-sentence**, so `truncated` is true for all 93. The flag
+  is still correct and will matter as shorter entries are written.
+- **Six concepts are isolated** in the `mentions` graph — no prose links in or out:
+  `chain CC`, `flashcast`, `spike`, `squishy`, `tactics`, `tanky`. Most are attribute
+  words rather than strategic concepts, which may be the finding.
+- **`player` (C0059) has in-degree 44**, 2.6× the runner-up. It is a substrate term,
+  not a hierarchy root, and is excluded from metrics via `substrate.config.ts`.
+  **Betweenness ranks differently**: `tension` and `threat` lead, though they sit 10th
+  and 7th by in-degree. Bridges are not hubs. See `reports/metrics.md`.
+- **`C0026 execute (damage)`** is an empty stub, inactive.
+- **`actor` (C0002) and `object` (C0051)** may be duplicates of `player` and `target`,
+  or may need `prefLabel` updates. Both are inactive. Unresolved.
+- **Eight asymmetric `related` pairs** from migration, unreviewed. Reported by
+  `check-vocab` on every run.
 - **`MediaGallery.tsx` was deleted** in Phase 1. Video is the genre standard for game
   glossaries; revisiting it is a post-restructure question.

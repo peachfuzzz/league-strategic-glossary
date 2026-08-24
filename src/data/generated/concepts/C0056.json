@@ -17,6 +17,10 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0032",
+    "C0017"
+  ],
   "relatedReviewed": false,
   "definition": "The route on which a jungler clears jungle camps, [ganks](/term/gank) lanes, and [contests](/term/contest) neutrals. Jungle pathing also encompasses the skill of planning such a route and the decision-making process of deciding where to go and when. “Pathing toward” is sometimes used in a similar context as the prioritization of an area of the map that a jungler paths towards, e.g. “pathing towards bot.”",
   "refs": {
@@ -31,5 +35,11 @@
       "slug": "contest"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0077",
+      "prefLabel": "split map",
+      "slug": "split-map"
+    }
+  ]
 }

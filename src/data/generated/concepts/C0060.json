@@ -1,0 +1,36 @@
+{
+  "id": "C0060",
+  "slug": "playmaker",
+  "prefLabel": "playmaker",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "vernacular"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0058",
+    "C0028"
+  ],
+  "relatedReviewed": false,
+  "definition": "A champion that excels at creating advantageous situations for their team (making [plays](/term/play)). Champions considered playmakers commonly have reliable crowd-control which they use to start a [fight](/term/fight), but rely on their teammates to deal damage and finish a fight. The general capability of making plays is called “playmaking.”",
+  "refs": {
+    "C0058": {
+      "id": "C0058",
+      "prefLabel": "play",
+      "slug": "play"
+    },
+    "C0028": {
+      "id": "C0028",
+      "prefLabel": "fight",
+      "slug": "fight"
+    }
+  },
+  "backlinks": []
+}

@@ -1,0 +1,42 @@
+{
+  "id": "C0094",
+  "slug": "wave-state",
+  "prefLabel": "wave state",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0092",
+    "C0093"
+  ],
+  "relatedReviewed": false,
+  "definition": "The general conditions of a [minion wave](/term/wave). A wave state is composed of a wave position and a [wave direction](/term/wave-direction).",
+  "refs": {
+    "C0092": {
+      "id": "C0092",
+      "prefLabel": "wave",
+      "slug": "wave"
+    },
+    "C0093": {
+      "id": "C0093",
+      "prefLabel": "wave direction",
+      "slug": "wave-direction"
+    }
+  },
+  "backlinks": [
+    {
+      "id": "C0093",
+      "prefLabel": "wave direction",
+      "slug": "wave-direction"
+    }
+  ]
+}

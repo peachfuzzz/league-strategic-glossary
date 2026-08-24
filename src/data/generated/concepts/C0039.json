@@ -14,6 +14,10 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0028",
+    "C0059"
+  ],
   "relatedReviewed": false,
   "definition": "An ability that swings a [fight](/term/fight) heavily in one [player](/term/player)’s favor if used successfully. Most commonly this will be a CC tool but can also be dashes or defensive abilities.",
   "refs": {
@@ -28,5 +32,11 @@
       "slug": "player"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0075",
+      "prefLabel": "spacing",
+      "slug": "spacing"
+    }
+  ]
 }

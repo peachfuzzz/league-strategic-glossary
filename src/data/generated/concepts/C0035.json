@@ -14,6 +14,9 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0084"
+  ],
   "relatedReviewed": false,
   "definition": "An ability that forces a [target](/term/target)’s movement towards the champion who cast it. Hooks are a defining part of a champion’s kit, and champions with hooks are also known as “hook champions.”",
   "refs": {

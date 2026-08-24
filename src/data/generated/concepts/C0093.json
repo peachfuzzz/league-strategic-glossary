@@ -1,0 +1,59 @@
+{
+  "id": "C0093",
+  "slug": "wave-direction",
+  "prefLabel": "wave direction",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "strategy",
+    "minions"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0092",
+    "C0059",
+    "C0094"
+  ],
+  "relatedReviewed": false,
+  "definition": "The current direction that a [wave](/term/wave) is pushing. Wave direction can be described relative to the [player](/term/player), i.e. “away from” and “towards,\" or it can be described relative to the bases, i.e. “towards red/blue.” A wave’s direction is determined by comparing the rate at which both teams’ minions die: the minions that die more quickly is the direction the entire wave will travel over time. Wave direction is one component of an overall [wave state](/term/wave-state).",
+  "refs": {
+    "C0092": {
+      "id": "C0092",
+      "prefLabel": "wave",
+      "slug": "wave"
+    },
+    "C0059": {
+      "id": "C0059",
+      "prefLabel": "player",
+      "slug": "player"
+    },
+    "C0094": {
+      "id": "C0094",
+      "prefLabel": "wave state",
+      "slug": "wave-state"
+    }
+  },
+  "backlinks": [
+    {
+      "id": "C0031",
+      "prefLabel": "freeze",
+      "slug": "freeze"
+    },
+    {
+      "id": "C0094",
+      "prefLabel": "wave state",
+      "slug": "wave-state"
+    },
+    {
+      "id": "C0095",
+      "prefLabel": "wave thinning",
+      "slug": "wave-thinning"
+    }
+  ]
+}

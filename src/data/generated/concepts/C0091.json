@@ -14,6 +14,9 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0059"
+  ],
   "relatedReviewed": false,
   "definition": "The measure of deviation from an expected outcome. Broadly, variance encompasses all the factors the [player](/term/player) cannot directly control in a game. This includes probability-based outcomes, such as crit chance and matchmaking, as well as human variability in decisions and inputs. Variance is difficult to quantify and is most often discussed in terms of changes in variance (positive and negative).\n\nBoth decreasing and increasing variance can be valuable. Decreasing variance benefits a [player](/term/player) with an advantage, since their expected outcome for a situation is positive. This also applies in reverse: for a party at a disadvantage, increased variance can result in more opportunities to obtain an unlikely outcome.",
   "refs": {
@@ -23,5 +26,21 @@
       "slug": "player"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0066",
+      "prefLabel": "reliability",
+      "slug": "reliability"
+    },
+    {
+      "id": "C0085",
+      "prefLabel": "teamfight",
+      "slug": "teamfight"
+    },
+    {
+      "id": "C0087",
+      "prefLabel": "tension",
+      "slug": "tension"
+    }
+  ]
 }

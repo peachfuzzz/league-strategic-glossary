@@ -1,0 +1,42 @@
+{
+  "id": "C0042",
+  "slug": "lane-bully",
+  "prefLabel": "lane bully",
+  "altLabel": [],
+  "hiddenLabel": [],
+  "collection": [
+    "vernacular"
+  ],
+  "active": true,
+  "complete": false,
+  "related": [],
+  "broader": [],
+  "narrower": [],
+  "partOf": [],
+  "hasPart": [],
+  "mentions": [
+    "C0016",
+    "C0089",
+    "C0003"
+  ],
+  "relatedReviewed": false,
+  "definition": "The label for any champion with a strong lane phase relative to other champions in their role. Lane bullies more easily win lane through direct [combat](/term/combat), whether through strong [trades](/term/trade) or [all-ins](/term/all-in). Lane bullies are contextual: the specific lane matchup can swing which champion(s) are considered the bully.",
+  "refs": {
+    "C0016": {
+      "id": "C0016",
+      "prefLabel": "combat",
+      "slug": "combat"
+    },
+    "C0089": {
+      "id": "C0089",
+      "prefLabel": "trade",
+      "slug": "trade"
+    },
+    "C0003": {
+      "id": "C0003",
+      "prefLabel": "all-in",
+      "slug": "all-in"
+    }
+  },
+  "backlinks": []
+}

@@ -14,8 +14,15 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0028",
+    "C0059",
+    "C0087",
+    "C0091",
+    "C0074"
+  ],
   "relatedReviewed": false,
-  "definition": "A large-scale [fight](/term/fight) involving most or all [player](/term/player) on both teams. Teamfighting is chaotic and [tense](/term/tension), being subject to many aspects of [variance](/term/variance) and having high, game-deciding stakes. Teamfights happen more regularly once the laning phase ends and players are less bound to individual lanes. Teamfights tend to favor champions who enjoy the setup and safety offered by teammates to output extreme damage or control large amounts of space.",
+  "definition": "A large-scale [fight](/term/fight) involving most or all [player](/term/player) on both teams. Teamfighting is chaotic and [tense](/term/tension), being subject to many aspects of [variance](/term/variance) and having high, game-deciding stakes. Teamfights happen more regularly once the laning phase ends and players are less bound to individual lanes. Teamfights tend to favor champions who enjoy the setup and safety offered by teammates to output extreme damage or control large amounts of [space](/term/space).",
   "refs": {
     "C0028": {
       "id": "C0028",
@@ -36,7 +43,23 @@
       "id": "C0091",
       "prefLabel": "variance",
       "slug": "variance"
+    },
+    "C0074": {
+      "id": "C0074",
+      "prefLabel": "space",
+      "slug": "space"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0072",
+      "prefLabel": "skirmish",
+      "slug": "skirmish"
+    },
+    {
+      "id": "C0078",
+      "prefLabel": "splitpush",
+      "slug": "splitpush"
+    }
+  ]
 }

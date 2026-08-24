@@ -16,6 +16,13 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0079",
+    "C0062",
+    "C0059",
+    "C0058",
+    "C0085"
+  ],
   "relatedReviewed": false,
   "definition": "Pushing a sidelane while split from the team. A [splitpusher](/term/splitpusher) [pressures](/term/pressure) the opposing team to send one or more [players](/term/player) to respond, giving the splitpusher’s allies time to make a [play](/term/play) on the opposite side of the map. Splitpushing as a strategy is often contrasted with [teamfighting](/term/teamfight).",
   "refs": {
@@ -45,5 +52,11 @@
       "slug": "teamfight"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0079",
+      "prefLabel": "splitpusher",
+      "slug": "splitpusher"
+    }
+  ]
 }

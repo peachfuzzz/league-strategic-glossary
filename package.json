@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "check-vocab": "tsx scripts/check-vocab.ts",
-    "check-design": "bash scripts/check-design.sh"
+    "check-design": "bash scripts/check-design.sh",
+    "metrics": "tsx scripts/metrics.ts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

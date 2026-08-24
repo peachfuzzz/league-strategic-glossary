@@ -14,6 +14,11 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0058",
+    "C0017",
+    "C0045"
+  ],
   "relatedReviewed": false,
   "definition": "The sequence of preparing a [play](/term/play) around a neutral objective. The term objective setup can be used in specific, referring to a prepared, high-coordination sequence a team performs before an objective, or in general, referring to the general situation before a neutral objective is contested. The goal of an objective setup is to make the ensuing [contest](/term/contest) easier, through a mixture of meso and [macro](/term/macro) strategies.",
   "refs": {
@@ -33,5 +38,11 @@
       "slug": "macro"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0068",
+      "prefLabel": "rotate",
+      "slug": "rotate"
+    }
+  ]
 }

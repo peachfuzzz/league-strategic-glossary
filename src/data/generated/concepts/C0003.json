@@ -16,8 +16,15 @@
   "narrower": [],
   "partOf": [],
   "hasPart": [],
+  "mentions": [
+    "C0028",
+    "C0059",
+    "C0040",
+    "C0044",
+    "C0016"
+  ],
   "relatedReviewed": false,
-  "definition": "A [fight](/term/fight) between opposing players with the intention to kill. An all-in is taken either when a [player](/term/player) has sufficient [kill pressure](/term/kill-pressure), either via a calculation of lethal, or as a natural consequence of prior [combat](/term/combat).  All-ins often expend every resource and cooldown available to all champions involved.",
+  "definition": "A [fight](/term/fight) between opposing players with the intention to kill. An all-in is taken either when a [player](/term/player) has sufficient [kill pressure](/term/kill-pressure), either via a calculation of [lethal](/term/lethal), or as a natural consequence of prior [combat](/term/combat).  All-ins often expend every resource and cooldown available to all champions involved.",
   "refs": {
     "C0089": {
       "id": "C0089",
@@ -39,11 +46,27 @@
       "prefLabel": "kill pressure",
       "slug": "kill-pressure"
     },
+    "C0044": {
+      "id": "C0044",
+      "prefLabel": "lethal",
+      "slug": "lethal"
+    },
     "C0016": {
       "id": "C0016",
       "prefLabel": "combat",
       "slug": "combat"
     }
   },
-  "backlinks": []
+  "backlinks": [
+    {
+      "id": "C0042",
+      "prefLabel": "lane bully",
+      "slug": "lane-bully"
+    },
+    {
+      "id": "C0089",
+      "prefLabel": "trade",
+      "slug": "trade"
+    }
+  ]
 }
