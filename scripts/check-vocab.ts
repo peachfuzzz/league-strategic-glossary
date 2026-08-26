@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
+import * as PATHS from './lib/paths';
 
 /**
  * Vocabulary integrity checks for the SKOS-inspired term notes.
@@ -20,9 +21,9 @@ import matter from 'gray-matter';
  */
 
 const ROOT = path.join(__dirname, '..');
-const TERMS_DIR = path.join(ROOT, 'src/data/terms');
+const TERMS_DIR = PATHS.TERMS_DIR;
 const REGISTRY = path.join(ROOT, 'docs/id-registry.csv');
-const GEN = path.join(ROOT, 'src/data/generated');
+const GEN = PATHS.GENERATED_DIR;
 
 const EXPECTED = Number(process.argv[2] ?? 97);
 

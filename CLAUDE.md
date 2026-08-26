@@ -69,7 +69,7 @@ The most common failure in this repo is editing a generated file.
 
 | Concern | Edit this | Never edit |
 |---|---|---|
-| Concept prose and structure | `src/data/terms/C####.md` | anything in `src/data/generated/` |
+| Concept prose and structure | `src/data/vault/terms/C####.md` | anything in `src/data/generated/` |
 | Identifier registry | `docs/id-registry.csv` (append only) | — |
 | Tag definitions and colors | `src/config/tags.config.ts` | — |
 | Graph physics | `src/config/graph.config.ts` | constants inlined in `GraphView.tsx` |
@@ -179,7 +179,9 @@ exist.
 ## Pipeline
 
 ```
-src/data/terms/C####.md          Obsidian vault, also the repo folder
+src/data/vault/                  Obsidian vault root
+  terms/C####.md                 one note, one concept
+  hierarchy/broader.md, partof.md  hand-authored outlines (Phase 4)
    ↓  scripts/build-vocab.ts     (npm run build-vocab; prebuild hook)
 src/data/generated/*.json
    ↓

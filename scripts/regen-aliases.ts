@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
+import * as PATHS from './lib/paths';
 
 /**
  * Regenerates the `aliases` field on every term note.
@@ -24,7 +25,7 @@ import matter from 'gray-matter';
  *   npx tsx scripts/regen-aliases.ts
  */
 
-const TERMS_DIR = path.join(process.cwd(), 'src/data/terms');
+const TERMS_DIR = PATHS.TERMS_DIR;
 const DRY_RUN = process.argv.includes('--dry-run');
 
 /** Field order in the emitted frontmatter, matching normalize-frontmatter.ts. */

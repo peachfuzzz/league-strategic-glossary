@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
 import { SUBSTRATE_CONCEPTS } from '../src/config/substrate.config';
+import * as PATHS from './lib/paths';
 
 /**
  * Graph metrics over the derived `mentions` relation.
@@ -18,10 +19,9 @@ import { SUBSTRATE_CONCEPTS } from '../src/config/substrate.config';
  * why, and ADR0016 for what `mentions` claims.
  */
 
-const ROOT = path.join(__dirname, '..');
-const GEN = path.join(ROOT, 'src/data/generated');
-const TERMS_DIR = path.join(ROOT, 'src/data/terms');
-const REPORTS = path.join(ROOT, 'reports');
+const GEN = PATHS.GENERATED_DIR;
+const TERMS_DIR = PATHS.TERMS_DIR;
+const REPORTS = PATHS.REPORTS_DIR;
 
 interface GraphNode {
   id: string;

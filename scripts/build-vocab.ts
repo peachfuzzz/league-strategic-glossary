@@ -1,11 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
+import * as PATHS from './lib/paths';
 
 /**
  * Builds the vocabulary artifacts from the SKOS-inspired term notes.
  *
- * Reads:  src/data/terms/C####.md
+ * Reads:  src/data/vault/terms/C####.md
  * Writes: src/data/generated/
  *           concepts/C####.json   one file per active concept
  *           index.json            list view + search
@@ -16,8 +17,8 @@ import matter from 'gray-matter';
  * auto-derived - no term is linked because it merely appears in another's text.
  */
 
-const TERMS_DIR = path.join(process.cwd(), 'src/data/terms');
-const OUT_DIR = path.join(process.cwd(), 'src/data/generated');
+const TERMS_DIR = PATHS.TERMS_DIR;
+const OUT_DIR = PATHS.GENERATED_DIR;
 const CONCEPTS_DIR = path.join(OUT_DIR, 'concepts');
 
 /** A sentence this long is a run-on; cut it rather than fill a card with it. */
