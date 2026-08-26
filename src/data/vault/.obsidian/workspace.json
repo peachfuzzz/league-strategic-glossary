@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "C0058.md",
+                "file": "hierarchy/broader.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "C0058"
+              "title": "broader"
             }
           }
         ]
@@ -183,8 +183,12 @@
       "bases:Create new base": false
     }
   },
-  "active": "82436d50157c171f",
+  "active": "845b41f42e44309e",
   "lastOpenFiles": [
+    "hierarchy/partof.md",
+    "terms/C0042.md",
+    "terms/C0002.md",
+    "hierarchy/broader.md",
     "C0052.md",
     "C0016.md",
     "C0087.md",
@@ -207,10 +211,6 @@
     "C0082.md",
     "C0081.md",
     "C0080.md",
-    "C0079.md",
-    "C0078.md",
-    "C0077.md",
-    "C0076.md",
     "Untitled.canvas"
   ]
 }
