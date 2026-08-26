@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
 import * as PATHS from './lib/paths';
+import { readNotes } from './lib/frontmatter';
+import { readOutlines, deriveHierarchy, diffAgainstVault } from './lib/hierarchy';
 
 /**
  * Vocabulary integrity checks for the SKOS-inspired term notes.
@@ -302,6 +304,75 @@ for (const [stem, fm] of notes) {
   }
 }
 
+// ---- hierarchy outline divergence ----------------------------------------
+
+/**
+ * 14. Frontmatter matches the hierarchy outlines.
+ *
+ * The outlines own `broader`, `narrower`, `partOf` and `hasPart` (ADR0018), so
+ * a hand edit to any of the four is overwritten on the next apply. There is no
+ * comment in the note saying so — gray-matter round-trips YAML through js-yaml,
+ * which drops comments, so one could not survive a write.
+ *
+ * This check is therefore the only place the rule is stated at the moment it is
+ * needed, and the message has to teach rather than just report.
+ *
+ * The three states are distinguished on purpose. An outline edited but not yet
+ * applied is the normal mid-session state during Phase 4b; phrasing that as a
+ * hand edit would train the reader to ignore the check.
+ */
+const divergences: Array<{ id: string; field: string; fm: string[]; outline: string[] }> = [];
+let outlineProblem: string | null = null;
+/** Every relation the outlines assert, as `id.field`, whether or not it diverges. */
+const outlineAsserts = new Set<string>();
+
+{
+  const noteList = readNotes();
+  const { outlines, problems } = readOutlines();
+  const parseFail = problems.find((p) => p.severity === 'fail');
+
+  if (parseFail) {
+    outlineProblem = parseFail.message;
+  } else {
+    const { derived } = deriveHierarchy(outlines, noteList);
+    for (const [id, fields] of derived) {
+      for (const [field, targets] of Object.entries(fields)) {
+        if (targets.length > 0) outlineAsserts.add(`${id}.${field}`);
+      }
+    }
+    for (const change of diffAgainstVault(derived, noteList)) {
+      divergences.push({
+        id: change.id,
+        field: change.field,
+        fm: change.before,
+        outline: change.after,
+      });
+    }
+  }
+}
+
+/**
+ * Distinguishes "the outlines were edited and not applied" from a hand edit.
+ *
+ * A genuinely un-applied outline diverges on *every* relation it asserts —
+ * nothing has been written yet, so nothing matches. A hand-cleared field looks
+ * the same in isolation, but leaves the outline's other assertions intact. So
+ * the test is coverage, not direction: anything less than all of them means
+ * some notes were written and one was then edited by hand.
+ */
+const allUnapplied =
+  divergences.length > 0 &&
+  divergences.every((d) => d.fm.length === 0 && d.outline.length > 0) &&
+  divergences.length === outlineAsserts.size;
+
+if (outlineProblem) {
+  fail(`hierarchy outline: ${outlineProblem}`);
+} else if (divergences.length > 0 && !allUnapplied) {
+  fail(
+    `${divergences.length} hierarchy field(s) diverge from the outlines (see below)`
+  );
+}
+
 // ---- generated artifacts -------------------------------------------------
 
 const activeIds = new Set([...notes].filter(([, fm]) => fm.active === true).map(([s]) => s));
@@ -576,6 +647,9 @@ console.log(`  Failures:       ${failures.length}`);
 console.log(`  Asymmetric:     ${asym.length} (reported, not auto-fixed)`);
 console.log(`  Dual-typed:     ${dualTyped.length} (reported, for Phase 4 to judge)`);
 console.log(`  One-sided:      ${oneSided.length} hierarchy edge(s) (reported)`);
+console.log(
+  `  Outlines:       ${divergences.length === 0 ? 'frontmatter matches' : `${divergences.length} divergence(s)`}`
+);
 
 const wikilinkCount = [...bodies.values()]
   .reduce((n, b) => n + [...b.matchAll(WIKILINK)].length, 0);
@@ -647,6 +721,39 @@ if (oneSided.length > 0) {
     console.log(`  ${a} (${la}).${field} -> ${b} (${lb});  ${b} does not answer with ${INVERSE[field]}`);
   }
   console.log();
+}
+
+// Frontmatter against the hierarchy outlines. The message is the only place
+// the ownership rule is stated at the moment someone needs it, so it names the
+// cause and the fix rather than just reporting a mismatch.
+if (divergences.length > 0) {
+  const show = (ids: string[], empty: string) => (ids.length > 0 ? ids.join(', ') : empty);
+
+  if (allUnapplied) {
+    console.log(
+      `The hierarchy outlines assert ${divergences.length} relation(s) not yet in frontmatter:`
+    );
+    for (const d of [...divergences].sort((a, b) => a.id.localeCompare(b.id))) {
+      console.log(`  ${d.id} (${notes.get(d.id)?.prefLabel}).${d.field} -> ${d.outline.join(', ')}`);
+    }
+    console.log('  The outlines were edited and not applied. Run: npm run apply-hierarchy');
+    console.log();
+  } else {
+    console.log('Frontmatter diverges from the hierarchy outlines:');
+    for (const d of [...divergences].sort((a, b) => a.id.localeCompare(b.id))) {
+      const file = d.field === 'broader' || d.field === 'narrower' ? 'broader.md' : 'partof.md';
+      console.log(`  ✗ ${d.id} (${notes.get(d.id)?.prefLabel}): \`${d.field}\` diverges`);
+      console.log(`      frontmatter: ${show(d.fm, '(empty)')}`);
+      console.log(`      outline:     ${show(d.outline, `(absent from ${file})`)}`);
+    }
+    console.log(
+      '    The four hierarchy fields are derived — hierarchy/broader.md and\n' +
+        '    partof.md own them, and apply-hierarchy.ts writes them. A hand edit\n' +
+        '    here is overwritten on the next apply. Edit the outline instead,\n' +
+        '    then: npm run apply-hierarchy'
+    );
+    console.log();
+  }
 }
 
 if (failures.length > 0) {

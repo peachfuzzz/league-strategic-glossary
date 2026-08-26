@@ -1,7 +1,4 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import matter from 'gray-matter';
-import * as PATHS from './lib/paths';
+import { asList, readNotes, writeNote, type Note } from './lib/frontmatter';
 
 /**
  * Regenerates the `aliases` field on every term note.
@@ -25,72 +22,25 @@ import * as PATHS from './lib/paths';
  *   npx tsx scripts/regen-aliases.ts
  */
 
-const TERMS_DIR = PATHS.TERMS_DIR;
 const DRY_RUN = process.argv.includes('--dry-run');
 
-/** Field order in the emitted frontmatter, matching normalize-frontmatter.ts. */
-const FIELD_ORDER = [
-  'id',
-  'prefLabel',
-  'altLabel',
-  'hiddenLabel',
-  'aliases',
-  'collection',
-  'active',
-  'complete',
-  'broader',
-  'narrower',
-  'partOf',
-  'hasPart',
-  'related',
-  'relatedReviewed',
-];
+/** Labels are trimmed and empties dropped, which the shared asList does not do. */
+const labelList = (value: unknown): string[] =>
+  asList(value)
+    .map((v) => v.trim())
+    .filter(Boolean);
 
-function orderFields(data: Record<string, unknown>): Record<string, unknown> {
-  const ordered: Record<string, unknown> = {};
-  for (const key of FIELD_ORDER) {
-    if (key in data) ordered[key] = data[key];
-  }
-  for (const key of Object.keys(data).sort()) {
-    if (!(key in ordered)) ordered[key] = data[key];
-  }
-  return ordered;
-}
-
-/** gray-matter gives back whatever YAML held: a list, a bare scalar, or nothing. */
-function asList(value: unknown): string[] {
-  if (Array.isArray(value)) return value.map((v) => String(v).trim()).filter(Boolean);
-  if (value === undefined || value === null || value === '') return [];
-  return [String(value).trim()];
-}
-
-interface Note {
-  file: string;
-  data: Record<string, unknown>;
-  content: string;
+interface LabelledNote extends Note {
   prefLabel: string;
   altLabel: string[];
 }
 
 function main(): void {
-  const files = fs.readdirSync(TERMS_DIR).filter((f) => f.endsWith('.md')).sort();
-  if (files.length === 0) throw new Error('No term notes found');
-
   // --- pass 1: read every note -----------------------------------------
-  const notes: Note[] = files.map((file) => {
-    const raw = fs.readFileSync(path.join(TERMS_DIR, file), 'utf-8');
-    const parsed = matter(raw);
-
-    const prefLabel = String(parsed.data.prefLabel ?? '').trim();
-    if (!prefLabel) throw new Error(`${file}: empty or missing prefLabel`);
-
-    return {
-      file,
-      data: parsed.data as Record<string, unknown>,
-      content: parsed.content,
-      prefLabel,
-      altLabel: asList(parsed.data.altLabel),
-    };
+  const notes: LabelledNote[] = readNotes().map((note) => {
+    const prefLabel = String(note.data.prefLabel ?? '').trim();
+    if (!prefLabel) throw new Error(`${note.id}: empty or missing prefLabel`);
+    return { ...note, prefLabel, altLabel: labelList(note.data.altLabel) };
   });
 
   // --- pass 2: count label usage across the whole vault -----------------
@@ -99,7 +49,7 @@ function main(): void {
     for (const label of [n.prefLabel, ...n.altLabel]) {
       const key = label.trim();
       if (!key) continue;
-      owners.set(key, [...(owners.get(key) ?? []), n.file]);
+      owners.set(key, [...(owners.get(key) ?? []), n.id]);
     }
   }
 
@@ -116,29 +66,23 @@ function main(): void {
       const key = label.trim();
       if (!key) continue;
       if ((owners.get(key) ?? []).length > 1) {
-        omitted.push({ file: n.file, label: key });
+        omitted.push({ file: n.id, label: key });
         continue;
       }
       if (!aliases.includes(key)) aliases.push(key);
     }
 
-    const before = asList(n.data.aliases);
+    const before = labelList(n.data.aliases);
     const same =
       before.length === aliases.length && before.every((a, i) => a === aliases[i]);
     if (same) continue;
 
-    const filepath = path.join(TERMS_DIR, n.file);
-    const out = matter.stringify(n.content, orderFields({ ...n.data, aliases }));
-
-    // The body must survive. gray-matter guarantees a trailing newline, so a
-    // gained or lost final newline is not drift.
-    if (matter(out).content.trimEnd() !== n.content.trimEnd()) {
-      console.error(`  ! ${n.file}: body would change - skipped`);
+    const result = writeNote(n, { ...n.data, aliases }, { dryRun: DRY_RUN });
+    if (result === 'body-drift') {
+      console.error(`  ! ${n.id}: body would change - skipped`);
       continue;
     }
-
-    changed++;
-    if (!DRY_RUN) fs.writeFileSync(filepath, out, 'utf-8');
+    if (result === 'written') changed++;
   }
 
   // --- report -----------------------------------------------------------

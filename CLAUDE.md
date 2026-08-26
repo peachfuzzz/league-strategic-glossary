@@ -23,7 +23,7 @@ correct and globally wrong because the phase arc was not visible.
 | W — Convert prose to wikilinks | Done |
 | 2 — Render, derive, measure | Done. 2a–2e complete |
 | 3 — Derived relations and metrics | Merged into Phase 2 |
-| **4 — Write hierarchy by hand** | **Current.** Not started |
+| **4 — Write hierarchy by hand** | **Current.** 4a done. 4b next |
 | 5 — Presentation | Not started |
 | 6 — Guardrails | Not started |
 
@@ -36,9 +36,17 @@ of any type; six have no prose link in or out. Do not add further derived edges.
 
 **The authored relations are still sparse, and that is the real gap.** 13 edges come
 from `related`. The hierarchy fields — `broader`/`narrower`, `partOf`/`hasPart` — are
-**empty on every note** and will be written by hand in Phase 4. Do not populate them
+**empty on every note** and are being written by hand in Phase 4b. Do not populate them
 from existing data: neither the migrated `related` data nor the derived `mentions`
 indicates hierarchy. A prose link is usage, not subsumption.
+
+**The four hierarchy fields are derived. Never edit them in a note.** They are written
+by `npm run apply-hierarchy` from two hand-authored outlines in the vault —
+`src/data/vault/hierarchy/broader.md` and `partof.md` — where indentation is the
+relation. A hand edit to `broader`, `narrower`, `partOf` or `hasPart` is overwritten on
+the next apply; `check-vocab` fails on the divergence before that happens. Only
+`broader` and `partOf` are authored, by nesting; `narrower` and `hasPart` are computed
+as the inverse. See `docs/adr/ADR0018-hierarchy-outlines-own-derived-fields.md`.
 
 **The graph draws all edge types identically.** Typed rendering and per-type toggles
 are Phase 5d. Until then the global graph looks dense and undifferentiated; that is
@@ -70,6 +78,7 @@ The most common failure in this repo is editing a generated file.
 | Concern | Edit this | Never edit |
 |---|---|---|
 | Concept prose and structure | `src/data/vault/terms/C####.md` | anything in `src/data/generated/` |
+| Hierarchy | `src/data/vault/hierarchy/broader.md`, `partof.md` | `broader`/`narrower`/`partOf`/`hasPart` in any note |
 | Identifier registry | `docs/id-registry.csv` (append only) | — |
 | Tag definitions and colors | `src/config/tags.config.ts` | — |
 | Graph physics | `src/config/graph.config.ts` | constants inlined in `GraphView.tsx` |
@@ -102,10 +111,10 @@ aliases: [Economy]     # read by Obsidian's quick switcher, not by the build
 collection: [abstract] # ids must exist in tags.config.ts
 active: true           # controls whether the concept appears on the site
 complete: false        # author's judgement on whether the prose is finished
-broader: []            # hierarchical. written by hand in Phase 4
-narrower: []
-partOf: []             # meronymic. written by hand in Phase 4
-hasPart: []
+broader: []            # DERIVED from hierarchy/broader.md. never edit here
+narrower: []           # DERIVED, as the inverse of broader
+partOf: []             # DERIVED from hierarchy/partof.md. never edit here
+hasPart: []            # DERIVED, as the inverse of partOf
 related: [C0031]       # associative, symmetric
 relatedReviewed: false # migration artifact. cleared per note during Phase 4d
 ---
@@ -267,12 +276,24 @@ npm run build-vocab      # rebuild artifacts from the vault
 npm run check-vocab      # structural validation
 npm run metrics          # in-degree and betweenness -> reports/ (gitignored)
 npm run check-design
+
+npm run apply-hierarchy -- --dry-run   # outlines -> the four hierarchy fields
+npm run apply-hierarchy
+npm run check-roundtrip  # proves the outline round trip changes nothing else
 ```
 
 `check-vocab.ts` validates identifiers, filenames, registry consistency, slug
-uniqueness, relation targets, and artifact integrity. It has been mutation-tested
-against corrupted copies — it is not passing vacuously. Extend it rather than adding
-parallel checks.
+uniqueness, relation targets, artifact integrity, and agreement between the hierarchy
+outlines and frontmatter. It has been mutation-tested against corrupted copies — it is
+not passing vacuously. Extend it rather than adding parallel checks.
+
+`check-roundtrip.ts` is the Phase 4 guard, not part of the build. Layer 1 asserts that
+outlines describing the current vault apply to zero changes; layer 2 mutates them in
+memory and asserts the mutation and only the mutation survives. Layer 1 would pass
+vacuously on its own while the fields are empty, which is why layer 2 exists.
+
+`bootstrap-hierarchy.ts` wrote the starting outlines once and refuses to overwrite
+them. It is finished work; `--force` discards hand-written hierarchy.
 
 It **fails** on cycles in `broader` or `partOf`. It **reports without failing** three
 things that are Phase 4 judgement calls rather than faults: asymmetric `related` pairs,
@@ -306,6 +327,8 @@ superseded by a new ADR, never edited in place.
 | 0014 | `gray-matter` for frontmatter parsing |
 | 0015 | Wikilinks resolved at build; restricted Markdown rendering |
 | 0016 | The derived relation is `mentions`, not `dependsOn` |
+| 0017 | Substrate terms excluded from metrics |
+| 0018 | The hierarchy outlines own the four hierarchy fields |
 
 ---
 

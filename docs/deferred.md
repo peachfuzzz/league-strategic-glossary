@@ -24,6 +24,8 @@ General editing pass. I don't have time for this right now lol, a strict readthr
 
 Backtick handling. stripBackticks in build-vocab.ts removes markers and keeps the text. It previously created autolinks; that mechanism is gone and no entry uses backticks. Harmless, but it is dead code with a misleading name.
 
+An undeclared collection. C0061 (power budget) carries `collection: design`, which is not among the nine ids in `src/config/tags.config.ts`. Nothing catches it: the note is inactive, so the build excludes it before any collection is read. Three of the nine declared ids — `economy`, `vision`, `item` — are meanwhile unused by any note. Resolve alongside the open question below on whether collections survive at all.
+
 ## Open questions
 
 Do collections survive at all? collection currently carries the seven old tag values. They encode little and the category label on an entry is being reduced to mono uppercase text. The options are: keep as a filing shelf, delete entirely, or replace with something derived from the hierarchy. Decide during the presentation phase.
@@ -82,3 +84,4 @@ Real small caps. Newsreader and Spectral do not ship smcp. EB Garamond and Cormo
 - agency
 - push
 - wave position
+- income (gold and exp)

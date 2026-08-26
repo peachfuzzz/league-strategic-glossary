@@ -14,7 +14,7 @@ Version 2. This version uses Obsidian instead of Google Docs.
 | 1 — Build from the vault | Done |
 | W — Convert prose to wikilinks | Done |
 | 2 — Render, derive, measure | Done |
-| **4 — Hierarchy** | **Current** |
+| **4 — Hierarchy** | **Current.** 4a done; 4b next |
 | 5 — Presentation | Not started |
 | 6 — Guardrails | Not started |
 
@@ -740,18 +740,62 @@ design.
 Goal: write the structure by hand.
 This phase is yours. Little code.
 
-#### 4a. Build the review file
+#### 4a. Build the hierarchy outlines (DONE)
 
-Block style YAML makes hand editing a single note easier than inline arrays did.
-The review file is still worth building. Assigning parents across 95 concepts is
-faster in one file than in 95 notes.
+**The review file was rejected and replaced by an outline.** A stanza file with a
+`broader:` line per concept treats hierarchy as 93 independent decisions. It is one
+structure. A form cannot show that `fight` has eleven children and `value` has none;
+an outline can, because indentation is the relation. See ADR0018.
 
-- [ ] Write a script that dumps all relations into one file. (1 hr)
-- [ ] Write a script that reads the file and writes changes back. (2 hr)
-- [ ] Test the round trip on five concepts. (30 min)
-- [ ] Add a check that the round trip changes nothing else. (1 hr)
+Most of the machinery the review file needed disappeared with it: the stanza parser,
+the vault fingerprint, stale-clear detection, the unapplied-edit guard, and the
+dump → edit → apply → re-dump cycle. **There is no dump step.** The outline is
+authored, not generated.
+
+- [x] Move the vault to `src/data/vault/` so the outlines live inside it. (Step 0)
+- [x] ~~Write a script that dumps all relations into one file.~~ Replaced by
+      `bootstrap-hierarchy.ts`, a one-shot seed.
+- [x] Write a script that reads the outlines and writes changes back.
+- [x] Test the round trip on five concepts.
+- [x] Add a check that the round trip changes nothing else.
+
+Built:
+
+- `src/data/vault/hierarchy/broader.md` and `partof.md` — two outlines, two regions
+  each. `## Hierarchy` is a claim; `## Unplaced` is undecided. Unplaced emptying to
+  zero is the Phase 4b progress indicator.
+- `scripts/apply-hierarchy.ts` — derives all four hierarchy fields. The author writes
+  only `broader` and `partOf`, by nesting; the inverses are recomputed from scratch on
+  every apply, so deletion propagates.
+- `scripts/check-roundtrip.ts` — 14 checks across two layers, mutation-tested.
+- `scripts/lib/` — `paths`, `frontmatter`, `relations`, `outline`, `hierarchy`.
+  `FIELD_ORDER` had been copy-pasted across three scripts, kept in sync by a comment.
+- `check-vocab` fails when frontmatter diverges from the outlines, and its message is
+  the only place the ownership rule appears at the moment it is needed — an in-note
+  comment cannot survive, since gray-matter drops YAML comments on write.
+
+#### What this phase found
+
+**One parent, enforced.** No genuine two-parent case could be constructed. A duplicate
+item is a parse error naming both line numbers rather than a merge.
+
+**A cycle cannot be written as nesting.** Nesting is structurally a tree, so a cycle can
+only arise through duplication, which the duplicate check catches first. `findCycle`
+remains as the backstop and is what `check-vocab` runs against frontmatter.
+
+**The un-applied outline is a normal state, not an error.** During 4b the outlines will
+routinely sit ahead of the notes. `check-vocab` distinguishes that from a hand edit by
+coverage — every asserted relation diverging, not merely all in the same direction —
+and reports it without failing. A check that reads as an accusation on every save is a
+check you learn to ignore.
 
 #### 4b. Assign broader and narrower
+
+Work in `src/data/vault/hierarchy/broader.md`. Drag items out of `## Unplaced` and nest
+them. Type `[[fig` and Obsidian's autocomplete inserts `[[C0028|fight]]`. Run
+`npm run apply-hierarchy` at the end of each batch, then `npm run check-vocab`.
+
+Write only the nesting. `narrower` is computed.
 
 - [ ] Start with the eight asymmetric pairs from Phase 0. (1 hr)
 

@@ -10,7 +10,12 @@
     "lint": "eslint",
     "check-vocab": "tsx scripts/check-vocab.ts",
     "check-design": "bash scripts/check-design.sh",
-    "metrics": "tsx scripts/metrics.ts"
+    "check-roundtrip": "tsx scripts/check-roundtrip.ts",
+    "metrics": "tsx scripts/metrics.ts",
+    "bootstrap-hierarchy": "tsx scripts/bootstrap-hierarchy.ts",
+    "apply-hierarchy": "tsx scripts/apply-hierarchy.ts",
+    "normalize-frontmatter": "tsx scripts/normalize-frontmatter.ts",
+    "regen-aliases": "tsx scripts/regen-aliases.ts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
