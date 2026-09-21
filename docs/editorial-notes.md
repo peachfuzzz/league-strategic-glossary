@@ -4,3 +4,4 @@ This is where I document the style, scope, and structure of the glossary prose. 
 
 - The League Strategic Glossary's primary focus is to formalize ideas around the game League of Legends. It is not a place for documentation.
 - The League Strategic Glossary uses the League of Legends Wiki as an assumed glossary. Most things that exist and are well-documented on the wiki do not need to be defined here.
+- Plays are verbs, fights are nouns. When determining if something is a play or a fight, consider if it's the plan itself or the thing that occurs once the plan is implemented. The former is a play, the latter is a whatever.

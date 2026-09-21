@@ -13,5 +13,7 @@ An item at the top level of Hierarchy is a claim: this concept has nothing
 above it. An item under Unplaced is undecided. They are not the same.
 
 ## Hierarchy
+- [[C0094|wave state]]
+	- [[C0093|wave direction]]
 
 ## Unplaced

@@ -85,3 +85,7 @@ Real small caps. Newsreader and Spectral do not ship smcp. EB Garamond and Cormo
 - push
 - wave position
 - income (gold and exp)
+- commit (the point after which you can no longer decrease your stake)
+- shadow
+- wave cycle (natural life cycle of a wave, crash and bounceback should be children)
+- bet (any situation that requires decision-making on incomplete information)
